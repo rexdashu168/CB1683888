@@ -3,149 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rex大叔168 CB系統 v5.2完整版</title>
+    <title>Rex大叔168 CB系統 v6.0</title>
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Microsoft JhengHei', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-        }
-        .rex-home {
-            max-width: 800px;
-            margin: 0 auto;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-        .rex-header {
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            padding: 40px 20px;
-            text-align: center;
-            color: white;
-        }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Microsoft JhengHei', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; }
+        .rex-home { max-width: 800px; margin: 0 auto; min-height: 100vh; display: flex; flex-direction: column; }
+        .rex-header { background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); padding: 40px 20px 30px; text-align: center; color: white; }
         .rex-logo { font-size: 4em; margin-bottom: 15px; }
         .rex-title { font-size: 1.8em; font-weight: 700; margin-bottom: 10px; }
         .rex-subtitle { font-size: 1em; opacity: 0.95; margin-bottom: 15px; }
-        .rex-badge {
-            display: inline-block;
-            background: rgba(255,255,255,0.2);
-            padding: 8px 20px;
-            border-radius: 20px;
-        }
-        .stats-row { display: flex; gap: 10px; padding: 20px; overflow-x: auto; }
-        .stat-card {
-            flex: 1;
-            min-width: 160px;
-            background: white;
-            border-radius: 15px;
-            padding: 20px 15px;
-            text-align: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-        .stat-icon { font-size: 2.5em; margin-bottom: 10px; }
-        .stat-label { font-size: 0.85em; color: #666; margin-bottom: 8px; }
-        .stat-value { font-size: 1.6em; font-weight: 700; color: #667eea; }
+        .rex-badge { display: inline-block; background: rgba(255,255,255,0.2); padding: 8px 20px; border-radius: 20px; }
+        .stats-container { background: white; margin: 0 20px 20px; border-radius: 15px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .stats-title { font-size: 1.2em; font-weight: 600; color: #1e3c72; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 3px solid #667eea; }
+        .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+        .stat-item { background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); padding: 15px; border-radius: 10px; display: flex; align-items: center; gap: 12px; }
+        .stat-icon { font-size: 2em; }
+        .stat-info { flex: 1; }
+        .stat-label { font-size: 0.85em; color: #666; margin-bottom: 5px; }
+        .stat-value { font-size: 1.5em; font-weight: 700; color: #667eea; }
         .search-area { padding: 0 20px 20px; }
-        .search-card {
-            background: white;
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-        .search-card-title { font-size: 1.3em; font-weight: 600; color: #1e3c72; margin-bottom: 20px; }
-        .search-input-group { position: relative; margin-bottom: 20px; }
-        .search-input {
-            width: 100%;
-            padding: 15px 60px 15px 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 12px;
-            font-size: 1.05em;
-        }
-        .search-btn {
-            position: absolute;
-            right: 8px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-        .chip {
-            background: white;
-            padding: 10px 18px;
-            border-radius: 20px;
-            display: inline-block;
-            margin: 5px;
-            cursor: pointer;
-            border: 1px solid #e0e0e0;
-        }
+        .search-card { background: white; border-radius: 15px; padding: 25px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .search-card-title { font-size: 1.2em; font-weight: 600; color: #1e3c72; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 3px solid #667eea; }
+        .search-input-group { position: relative; margin-bottom: 15px; }
+        .search-input { width: 100%; padding: 15px 60px 15px 15px; border: 2px solid #e0e0e0; border-radius: 12px; font-size: 1.05em; }
+        .search-input:focus { outline: none; border-color: #667eea; box-shadow: 0 0 0 3px rgba(102,126,234,0.1); }
+        .search-btn { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; }
+        .search-hint { font-size: 0.85em; color: #999; margin-bottom: 15px; }
+        .quick-examples { background: #f8f9fa; padding: 15px; border-radius: 10px; }
+        .quick-title { font-size: 0.9em; font-weight: 600; color: #555; margin-bottom: 10px; }
+        .chip-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+        .chip { background: white; padding: 10px; border-radius: 8px; cursor: pointer; border: 1px solid #e0e0e0; transition: all 0.3s; text-align: center; font-size: 0.9em; }
+        .chip:hover { background: #667eea; color: white; transform: translateY(-2px); }
+        .chip-label { font-size: 0.75em; color: #999; display: block; }
+        .chip:hover .chip-label { color: rgba(255,255,255,0.8); }
         .rex-footer { margin-top: auto; padding: 30px 20px; text-align: center; color: white; opacity: 0.9; }
         .detail-screen { display: none; max-width: 800px; margin: 0 auto; background: #f5f5f5; min-height: 100vh; }
         .detail-screen.active { display: block; }
-        .detail-header {
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            color: white;
-            padding: 20px;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        .detail-back {
-            background: rgba(255,255,255,0.2);
-            border: none;
-            color: white;
-            padding: 8px 15px;
-            border-radius: 8px;
-            cursor: pointer;
-            margin-bottom: 15px;
-        }
+        .detail-header { background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); color: white; padding: 20px; position: sticky; top: 0; z-index: 100; }
+        .detail-back { background: rgba(255,255,255,0.2); border: none; color: white; padding: 8px 15px; border-radius: 8px; cursor: pointer; margin-bottom: 15px; }
         .detail-title-area { display: flex; justify-content: space-between; align-items: center; }
         .detail-main-title { font-size: 1.6em; font-weight: 700; }
         .detail-subtitle { font-size: 0.9em; opacity: 0.9; margin-top: 5px; }
         .detail-price { font-size: 1.8em; font-weight: 700; }
         .detail-content { padding: 15px; }
-        .tab-nav { background: white; display: flex; border-radius: 12px; margin-bottom: 15px; }
-        .tab-btn {
-            flex: 1;
-            padding: 15px;
-            border: none;
-            background: white;
-            font-weight: 600;
-            cursor: pointer;
-            color: #666;
-            font-size: 0.95em;
-        }
+        .tab-nav { background: white; display: flex; border-radius: 12px; margin-bottom: 15px; overflow-x: auto; }
+        .tab-btn { flex: 1; min-width: 80px; padding: 15px 10px; border: none; background: white; font-weight: 600; cursor: pointer; color: #666; font-size: 0.9em; white-space: nowrap; }
         .tab-btn.active { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
         .tab-content { display: none; }
         .tab-content.active { display: block; }
         .info-card { background: white; border-radius: 12px; padding: 20px; margin-bottom: 15px; }
-        .card-title {
-            font-size: 1.2em;
-            font-weight: 600;
-            color: #1e3c72;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 3px solid #667eea;
-        }
+        .card-title { font-size: 1.2em; font-weight: 600; color: #1e3c72; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 3px solid #667eea; }
         .info-row { display: flex; padding: 12px 0; border-bottom: 1px solid #f0f0f0; }
         .info-row:last-child { border-bottom: none; }
         .info-label { flex: 0 0 120px; font-weight: 600; color: #555; font-size: 0.95em; }
         .info-value { flex: 1; color: #333; font-size: 0.95em; }
         .time-range-btns { display: flex; gap: 8px; margin-bottom: 15px; flex-wrap: wrap; }
-        .time-btn {
-            padding: 8px 15px;
-            border: 1px solid #e0e0e0;
-            border-radius: 6px;
-            background: white;
-            cursor: pointer;
-            font-size: 0.9em;
-        }
+        .time-btn { padding: 8px 15px; border: 1px solid #e0e0e0; border-radius: 6px; background: white; cursor: pointer; font-size: 0.9em; }
         .time-btn.active { background: #667eea; color: white; border-color: #667eea; }
         .chart-container { width: 100%; height: 450px; position: relative; }
         .chart-box { width: 100% !important; height: 100% !important; }
@@ -153,14 +67,18 @@
         .highlight-blue { color: #1890ff; font-weight: 600; }
         .highlight-orange { color: #ff9800; font-weight: 600; }
         .highlight-purple { color: #9c27b0; font-weight: 600; }
-        .info-highlight {
-            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
-            padding: 15px;
-            border-radius: 8px;
-            margin: 15px 0;
-            border-left: 4px solid #ffc107;
-        }
+        .info-highlight { background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%); padding: 15px; border-radius: 8px; margin: 15px 0; border-left: 4px solid #ffc107; }
         .info-highlight-title { font-weight: 600; color: #856404; margin-bottom: 8px; font-size: 1.05em; }
+        .auction-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-top: 15px; }
+        .auction-metric { background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); padding: 15px; border-radius: 10px; text-align: center; }
+        .metric-label { font-size: 0.85em; color: #666; margin-bottom: 8px; }
+        .metric-value { font-size: 1.8em; font-weight: 700; color: #667eea; }
+        .metric-unit { font-size: 0.6em; color: #999; }
+        @media (max-width: 768px) {
+            .stats-grid { grid-template-columns: 1fr; }
+            .chip-grid { grid-template-columns: 1fr; }
+            .auction-grid { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
@@ -169,26 +87,35 @@
             <div class="rex-logo">📈</div>
             <h1 class="rex-title">Rex大叔168<br>CB智能查詢系統</h1>
             <p class="rex-subtitle">專注風險 • 數據驅動 • 智能分析<br>整合13年+歷史 • 2,232檔完整資料庫</p>
-            <div class="rex-badge">🎯 v5.2 完整版</div>
+            <div class="rex-badge">🎯 v6.0 終極版</div>
         </div>
         
-        <div class="stats-row">
-            <div class="stat-card"><div class="stat-icon">📊</div><div class="stat-label">歷史資料期間</div><div class="stat-value">13年+</div></div>
-            <div class="stat-card"><div class="stat-icon">💎</div><div class="stat-label">CBAS資料站</div><div class="stat-value">174月</div></div>
-            <div class="stat-card"><div class="stat-icon">🎯</div><div class="stat-label">可查詢CB</div><div class="stat-value">2,232檔</div></div>
-            <div class="stat-card"><div class="stat-icon">🔨</div><div class="stat-label">競拍統計</div><div class="stat-value">297檔</div></div>
+        <div class="stats-container">
+            <div class="stats-title">📊 資料庫統計</div>
+            <div class="stats-grid">
+                <div class="stat-item"><div class="stat-icon">📊</div><div class="stat-info"><div class="stat-label">歷史資料期間</div><div class="stat-value">13年+</div></div></div>
+                <div class="stat-item"><div class="stat-icon">💎</div><div class="stat-info"><div class="stat-label">CBAS資料站</div><div class="stat-value">174月</div></div></div>
+                <div class="stat-item"><div class="stat-icon">🎯</div><div class="stat-info"><div class="stat-label">可查詢CB</div><div class="stat-value">2,232檔</div></div></div>
+                <div class="stat-item"><div class="stat-icon">🔨</div><div class="stat-info"><div class="stat-label">競拍統計</div><div class="stat-value">297檔</div></div></div>
+            </div>
         </div>
         
         <div class="search-area">
             <div class="search-card">
-                <div class="search-card-title">🔍 輸入CB代號查詢</div>
+                <div class="search-card-title">🔍 智能搜尋</div>
                 <div class="search-input-group">
-                    <input type="text" class="search-input" id="cbInput" placeholder="請輸入CB代號，例如: 37074" onkeypress="if(event.key==='Enter') searchCB()">
-                    <button class="search-btn" onclick="searchCB()">查詢</button>
+                    <input type="text" class="search-input" id="cbInput" placeholder="輸入CB代號、股票代號或公司名稱..." onkeypress="if(event.key==='Enter') smartSearch()">
+                    <button class="search-btn" onclick="smartSearch()">搜尋</button>
                 </div>
-                <div style="background:#f8f9fa;padding:15px;border-radius:10px;">
-                    <div style="font-size:0.9em;font-weight:600;color:#555;margin-bottom:10px;">💡 快速範例</div>
-                    <div class="chip" onclick="quickSearch('37074')">37074 漢磊四</div>
+                <div class="search-hint">💡 支援: 11011 / 1101 / 台泥</div>
+                <div class="quick-examples">
+                    <div class="quick-title">⚡ 快速測試 (10檔真實資料)</div>
+                    <div class="chip-grid">
+                        <div class="chip" onclick="quickSearch('11011')"><strong>11011</strong><br><span class="chip-label">台泥一永(詢圈)</span></div>
+                        <div class="chip" onclick="quickSearch('12101')"><strong>12101</strong><br><span class="chip-label">大成一(詢圈)</span></div>
+                        <div class="chip" onclick="quickSearch('13166')"><strong>13166</strong><br><span class="chip-label">上曜六(競拍)</span></div>
+                        <div class="chip" onclick="quickSearch('13411')"><strong>13411</strong><br><span class="chip-label">富林一K(競拍)</span></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -196,7 +123,7 @@
         <div class="rex-footer">
             <strong>Rex大叔的投資理念</strong><br>
             <small style="margin-top:10px;display:block;">專注於風險，不追求報酬<br>從數據中學習，用智慧投資</small>
-            <small style="margin-top:15px;display:block;opacity:0.8;">© 2025 Rex大叔168 • v5.2</small>
+            <small style="margin-top:15px;display:block;opacity:0.8;">© 2025 Rex大叔168 • v6.0</small>
         </div>
     </div>
     
@@ -204,71 +131,21 @@
         <div class="detail-header">
             <button class="detail-back" onclick="backToHome()">← 返回</button>
             <div class="detail-title-area">
-                <div><div class="detail-main-title">漢磊四 (37074)</div><div class="detail-subtitle">標的: 漢磊 (3707) • 半導體業</div></div>
-                <div class="detail-price">101.47</div>
+                <div><div class="detail-main-title" id="detailTitle">載入中...</div><div class="detail-subtitle" id="detailSubtitle">...</div></div>
+                <div class="detail-price" id="detailPrice">--</div>
             </div>
         </div>
-        
         <div class="detail-content">
             <div class="tab-nav">
                 <button class="tab-btn active" onclick="switchTab('basic')">基本資料</button>
                 <button class="tab-btn" onclick="switchTab('chart')">CB走勢</button>
                 <button class="tab-btn" onclick="switchTab('cbas')">CBAS走勢</button>
+                <button class="tab-btn" onclick="switchTab('auction')">CB競拍</button>
             </div>
-            
-            <div id="tab-basic" class="tab-content active">
-                <!-- 產業定位 -->
-                <div class="info-highlight">
-                    <div class="info-highlight-title">🏭 產業定位</div>
-                    <div style="color:#555;line-height:1.6;">中小型晶圓代工與磊晶供應商</div>
-                </div>
-                
-                <!-- 基本資訊 -->
-                <div class="info-card">
-                    <div class="card-title">📋 基本資訊</div>
-                    <div class="info-row"><div class="info-label">CB代號</div><div class="info-value"><span class="highlight-blue">37074</span></div></div>
-                    <div class="info-row"><div class="info-label">股票代號</div><div class="info-value">3707 漢磊</div></div>
-                    <div class="info-row"><div class="info-label">產業分類</div><div class="info-value">半導體業</div></div>
-                    <div class="info-row"><div class="info-label">股本規模</div><div class="info-value"><span class="highlight-orange">33.3億元</span></div></div>
-                    <div class="info-row"><div class="info-label">發行方式</div><div class="info-value"><span class="highlight-purple">競拍</span></div></div>
-                    <div class="info-row"><div class="info-label">承銷券商</div><div class="info-value">凱基證券</div></div>
-                </div>
-                
-                <!-- 發行條件 -->
-                <div class="info-card">
-                    <div class="card-title">💰 發行條件</div>
-                    <div class="info-row"><div class="info-label">發行規模</div><div class="info-value"><span class="highlight-blue">10億元</span></div></div>
-                    <div class="info-row"><div class="info-label">發行價格</div><div class="info-value"><span class="highlight-orange">124.85元</span></div></div>
-                    <div class="info-row"><div class="info-label">轉換價格</div><div class="info-value"><span class="highlight-blue">118.8元</span></div></div>
-                    <div class="info-row"><div class="info-label">訂價溢價率</div><div class="info-value"><span class="highlight-green">+2.5%</span></div></div>
-                    <div class="info-row"><div class="info-label">發行年期</div><div class="info-value">3年</div></div>
-                    <div class="info-row"><div class="info-label">到期還本</div><div class="info-value">100元</div></div>
-                    <div class="info-row"><div class="info-label">擔保銀行</div><div class="info-value"><span class="highlight-green">✓ 第一銀行</span></div></div>
-                </div>
-                
-                <!-- 重要日期 -->
-                <div class="info-card">
-                    <div class="card-title">📅 重要日期</div>
-                    <div class="info-row"><div class="info-label">董事會公告</div><div class="info-value">2022-02-14</div></div>
-                    <div class="info-row"><div class="info-label">代收價款公告</div><div class="info-value">2022-03-16</div></div>
-                    <div class="info-row"><div class="info-label">競拍日期</div><div class="info-value"><span class="highlight-purple">3/21-3/23</span></div></div>
-                    <div class="info-row"><div class="info-label">掛牌日期</div><div class="info-value">2022-04-07</div></div>
-                    <div class="info-row"><div class="info-label">CBAS拆解</div><div class="info-value">2022-04-14</div></div>
-                    <div class="info-row"><div class="info-label">到期日期</div><div class="info-value"><span class="highlight-orange">2025-04-07</span></div></div>
-                </div>
-                
-                <!-- 賣回條款 -->
-                <div class="info-card">
-                    <div class="card-title">🔄 賣回條款</div>
-                    <div class="info-row"><div class="info-label">賣回日期</div><div class="info-value"><span class="highlight-green">2025-04-07</span></div></div>
-                    <div class="info-row"><div class="info-label">投資人權利</div><div class="info-value">2022-04-14起可提前賣回</div></div>
-                    <div class="info-row"><div class="info-label">賣回條件</div><div class="info-value">YTM(3)=(0%)</div></div>
-                </div>
-            </div>
-            
+            <div id="tab-basic" class="tab-content active"><div id="basicContent"></div></div>
             <div id="tab-chart" class="tab-content">
                 <div class="info-card">
-                    <div class="card-title">📈 CB價格走勢 (含成交量)</div>
+                    <div class="card-title">📈 CB價格走勢</div>
                     <div class="time-range-btns">
                         <button class="time-btn" onclick="changeRange('cb', 3)">3個月</button>
                         <button class="time-btn" onclick="changeRange('cb', 6)">6個月</button>
@@ -278,10 +155,9 @@
                     <div class="chart-container"><div id="chartCB" class="chart-box"></div></div>
                 </div>
             </div>
-            
             <div id="tab-cbas" class="tab-content">
                 <div class="info-card">
-                    <div class="card-title">💎 CBAS權利金走勢 (含成交量)</div>
+                    <div class="card-title">💎 CBAS權利金走勢</div>
                     <div class="time-range-btns">
                         <button class="time-btn" onclick="changeRange('cbas', 3)">3個月</button>
                         <button class="time-btn" onclick="changeRange('cbas', 6)">6個月</button>
@@ -291,116 +167,17 @@
                     <div class="chart-container"><div id="chartCBAS" class="chart-box"></div></div>
                 </div>
             </div>
+            <div id="tab-auction" class="tab-content"><div id="auctionContent"></div></div>
         </div>
     </div>
-
     <script>
-        const cbData = [
-            {date: "22-04", price: 107.65, vol: 16},{date: "22-05", price: 105.72, vol: 85},{date: "22-06", price: 106.04, vol: 51},{date: "22-07", price: 106.82, vol: 60},
-            {date: "22-08", price: 108.81, vol: 242},{date: "22-09", price: 110.64, vol: 262},{date: "22-10", price: 109.12, vol: 126},{date: "22-11", price: 104.11, vol: 88},
-            {date: "22-12", price: 102.17, vol: 123},{date: "23-01", price: 100.53, vol: 97},{date: "23-02", price: 100.58, vol: 143},{date: "23-03", price: 102.13, vol: 198},
-            {date: "23-04", price: 102.88, vol: 156},{date: "23-05", price: 105.43, vol: 287},{date: "23-06", price: 107.92, vol: 324},{date: "23-07", price: 111.28, vol: 456},
-            {date: "23-08", price: 116.44, vol: 589},{date: "23-09", price: 122.18, vol: 723},{date: "23-10", price: 129.4, vol: 891},{date: "23-11", price: 125.67, vol: 645},
-            {date: "23-12", price: 118.92, vol: 478},{date: "24-01", price: 112.35, vol: 567},{date: "24-02", price: 105.78, vol: 432},{date: "24-03", price: 99.45, vol: 389},
-            {date: "24-04", price: 95.23, vol: 312},{date: "24-05", price: 96.87, vol: 245},{date: "24-06", price: 98.56, vol: 198},{date: "24-07", price: 99.78, vol: 167},
-            {date: "24-08", price: 100.45, vol: 134},{date: "24-09", price: 100.89, vol: 112},{date: "24-10", price: 101.23, vol: 89},{date: "24-11", price: 101.56, vol: 67},
-            {date: "24-12", price: 101.34, vol: 45},{date: "25-01", price: 101.47, vol: 284},{date: "25-02", price: 99.91, vol: 24},{date: "25-03", price: 99.62, vol: 2}
-        ];
-
-        const cbasData = [
-            {date: "22-04", premium: 12.45, vol: 50},{date: "22-05", premium: 15.32, vol: 85},{date: "22-06", premium: 18.76, vol: 51},{date: "22-07", premium: 22.45, vol: 60},
-            {date: "22-08", premium: 26.89, vol: 242},{date: "22-09", premium: 31.56, vol: 262},{date: "22-10", premium: 28.34, vol: 126},{date: "22-11", premium: 24.67, vol: 88},
-            {date: "22-12", premium: 21.45, vol: 123},{date: "23-01", premium: 18.23, vol: 97},{date: "23-02", premium: 16.78, vol: 143},{date: "23-03", premium: 19.34, vol: 198},
-            {date: "23-04", premium: 20.12, vol: 156},{date: "23-05", premium: 23.56, vol: 287},{date: "23-06", premium: 26.78, vol: 324},{date: "23-07", premium: 30.45, vol: 456},
-            {date: "23-08", premium: 35.67, vol: 589},{date: "23-09", premium: 42.89, vol: 723},{date: "23-10", premium: 38.45, vol: 891},{date: "23-11", premium: 32.78, vol: 645},
-            {date: "23-12", premium: 28.56, vol: 478},{date: "24-01", premium: 24.34, vol: 567},{date: "24-02", premium: 20.12, vol: 432},{date: "24-03", premium: 16.78, vol: 389},
-            {date: "24-04", premium: 14.56, vol: 312},{date: "24-05", premium: 12.34, vol: 245},{date: "24-06", premium: 10.89, vol: 198},{date: "24-07", premium: 9.45, vol: 167},
-            {date: "24-08", premium: 8.23, vol: 134},{date: "24-09", premium: 7.12, vol: 112},{date: "24-10", premium: 5.89, vol: 89},{date: "24-11", premium: 4.56, vol: 67},
-            {date: "24-12", premium: 3.45, vol: 45},{date: "25-01", premium: 2.34, vol: 284},{date: "25-02", premium: 1.23, vol: 24},{date: "25-03", premium: 0.56, vol: 2}
-        ];
-
-        let cbChart, cbasChart;
-
-        function backToHome() {
-            document.getElementById('home').style.display = 'flex';
-            document.getElementById('detail').classList.remove('active');
-        }
-
-        function quickSearch(code) {
-            document.getElementById('cbInput').value = code;
-            searchCB();
-        }
-
-        function searchCB() {
-            document.getElementById('home').style.display = 'none';
-            document.getElementById('detail').classList.add('active');
-        }
-
-        function switchTab(tab) {
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            event.target.classList.add('active');
-            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-            document.getElementById(`tab-${tab}`).classList.add('active');
-            if (tab === 'chart' && !cbChart) initCBChart();
-            if (tab === 'cbas' && !cbasChart) initCBASChart();
-        }
-
-        function changeRange(type, months) {
-            const btns = event.target.parentElement.querySelectorAll('.time-btn');
-            btns.forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            if (type === 'cb') updateCBChart(months);
-            else updateCBASChart(months);
-        }
-
-        function initCBChart() {
-            cbChart = echarts.init(document.getElementById('chartCB'));
-            updateCBChart(12);
-        }
-
-        function updateCBChart(months) {
-            const data = cbData.slice(-months);
-            cbChart.setOption({
-                tooltip: { trigger: 'axis', axisPointer: { type: 'cross' } },
-                grid: { left: 50, right: 40, bottom: 80, top: 40, containLabel: false },
-                xAxis: { type: 'category', data: data.map(d => d.date), axisLabel: { interval: 0, rotate: 45, fontSize: 9 } },
-                yAxis: [
-                    { type: 'value', name: '價格', nameTextStyle: { fontSize: 11 }, axisLabel: { fontSize: 10 } },
-                    { type: 'value', name: '成交量', position: 'right', nameTextStyle: { fontSize: 11 }, axisLabel: { fontSize: 10 } }
-                ],
-                series: [
-                    { name: '價格', type: 'line', data: data.map(d => d.price), smooth: true, lineStyle: { width: 2, color: '#667eea' }, symbol: 'circle', symbolSize: 4 },
-                    { name: '成交量', type: 'bar', yAxisIndex: 1, data: data.map(d => d.vol), itemStyle: { color: 'rgba(102,126,234,0.3)' } }
-                ]
-            });
-        }
-
-        function initCBASChart() {
-            cbasChart = echarts.init(document.getElementById('chartCBAS'));
-            updateCBASChart(12);
-        }
-
-        function updateCBASChart(months) {
-            const data = cbasData.slice(-months);
-            cbasChart.setOption({
-                tooltip: { trigger: 'axis', axisPointer: { type: 'cross' } },
-                grid: { left: 50, right: 40, bottom: 80, top: 40, containLabel: false },
-                xAxis: { type: 'category', data: data.map(d => d.date), axisLabel: { interval: 0, rotate: 45, fontSize: 9 } },
-                yAxis: [
-                    { type: 'value', name: '權利金', nameTextStyle: { fontSize: 11 }, axisLabel: { fontSize: 10 } },
-                    { type: 'value', name: 'CBAS成交量', position: 'right', nameTextStyle: { fontSize: 11 }, axisLabel: { fontSize: 10 } }
-                ],
-                series: [
-                    { name: '權利金', type: 'line', data: data.map(d => d.premium), smooth: true, lineStyle: { width: 3, color: '#ff9800' }, symbol: 'circle', symbolSize: 6 },
-                    { name: 'CBAS成交量', type: 'bar', yAxisIndex: 1, data: data.map(d => d.vol), itemStyle: { color: 'rgba(255,152,0,0.3)' } }
-                ]
-            });
-        }
-
-        window.addEventListener('resize', () => {
-            if (cbChart) cbChart.resize();
-            if (cbasChart) cbasChart.resize();
-        });
+const fullCBDatabase={"11011":{cb_code:"11011",stock_code:"1101",name:"台泥一永",security:"TCRI4",has_security:"無擔保",issue_amount:80,conversion_price:36.5,issue_years:5,method:"詢圈",underwriter:"元大證券",industry:"水泥工業",industry_position:"台灣最大水泥廠",stock_capital:775,issue_price:100,maturity_price:100,premium_rate:1.0918,board_date:"2024-09-13",payment_date:"2024-11-25",auction_date:"11/26-11/28",listing_date:"2024-12-10",cbas_date:"2024-12-17",maturity_date:"2029/12/10",put_date1:"2027-12-10",put_date2:"2029-12-10",put_right:"發行滿三年",put_condition:"YTP(3)=(0%)"},"12101":{cb_code:"12101",stock_code:"1210",name:"大成一",security:"無",has_security:"無擔保",issue_amount:10,conversion_price:33.59,issue_years:5,method:"詢圈",underwriter:"",industry:"食品工業",industry_position:"兩岸最大白肉雞電宰加工廠及飼料大廠",stock_capital:0,issue_price:0,maturity_price:100,premium_rate:0},"12161":{cb_code:"12161",stock_code:"1216",name:"統一一",method:"詢圈",industry:"食品工業",issue_amount:50,conversion_price:48.6},"12171":{cb_code:"12171",stock_code:"1217",name:"愛之味一",method:"詢圈",industry:"食品工業",issue_amount:11,conversion_price:13.9},"12172":{cb_code:"12172",stock_code:"1217",name:"愛之味二",method:"詢圈",industry:"食品工業",issue_amount:3,conversion_price:13.9},"13166":{cb_code:"13166",stock_code:"1316",name:"上曜六",method:"競拍",industry:"半導體業",issue_amount:4,conversion_price:14.7,auction_info:{theoretical_price:98.5,min_bid:105.2,min_premium:0.068,avg_bid:107.8,avg_premium:0.094,valid_bids:245,total_bids:2450,bid_multiple:3.2,avg_bid_volume:10,auction_date:"2020-05-15"}},"13411":{cb_code:"13411",stock_code:"1341",name:"富林一K",method:"競拍",industry:"塑膠工業",issue_amount:1.5,conversion_price:12.3},"13421":{cb_code:"13421",stock_code:"1342",name:"八貫一",method:"競拍",industry:"其他業",issue_amount:2,conversion_price:15.8},"14361":{cb_code:"14361",stock_code:"1436",name:"華友聯一",method:"競拍",industry:"建材營造業",issue_amount:3,conversion_price:20.5},"14381":{cb_code:"14381",stock_code:"1438",name:"三地開發一",method:"競拍",industry:"建材營造業",issue_amount:10,conversion_price:35.2}};
+let cbChart,cbasChart,currentCB=null;function backToHome(){document.getElementById("home").style.display="flex",document.getElementById("detail").classList.remove("active")}function quickSearch(e){document.getElementById("cbInput").value=e,smartSearch()}function smartSearch(){const e=document.getElementById("cbInput").value.trim();if(!e)return void alert("請輸入查詢條件");let t=null;if(fullCBDatabase[e])t=e;else if(/^\d{4}$/.test(e))for(let a in fullCBDatabase){if(fullCBDatabase[a].stock_code===e){t=a;break}}else for(let a in fullCBDatabase){if(fullCBDatabase[a].name.includes(e)){t=a;break}}t?loadCBDetail(t):alert("查無資料\n\n可測試:\n詢圈: 11011, 12101, 12161\n競拍: 13166, 13411, 14361")}function loadCBDetail(e){const t=fullCBDatabase[e];if(!t)return;currentCB=e,document.getElementById("detailTitle").textContent=`${t.name} (${e})`,document.getElementById("detailSubtitle").textContent=`標的: ${t.stock_code} • ${t.industry||"產業待補"}`,document.getElementById("detailPrice").textContent="101.47";let a="";t.industry_position&&(a+=`<div class="info-highlight"><div class="info-highlight-title">🏭 產業定位</div><div style="color:#555;line-height:1.6;">${t.industry_position}</div></div>`),a+=`<div class="info-card"><div class="card-title">📋 基本資訊</div><div class="info-row"><div class="info-label">CB代號</div><div class="info-value"><span class="highlight-blue">${e}</span></div></div><div class="info-row"><div class="info-label">股票代號</div><div class="info-value">${t.stock_code}</div></div><div class="info-row"><div class="info-label">產業分類</div><div class="info-value">${t.industry||"待補充"}</div></div><div class="info-row"><div class="info-label">股本規模</div><div class="info-value"><span class="highlight-orange">${t.stock_capital||0}億元</span></div></div><div class="info-row"><div class="info-label">發行方式</div><div class="info-value"><span class="highlight-${"競拍"===t.method?"purple":"orange"}">${t.method}</span></div></div><div class="info-row"><div class="info-label">承銷券商</div><div class="info-value">${t.underwriter||"待補充"}</div></div></div>`,a+=`<div class="info-card"><div class="card-title">💰 發行條件</div><div class="info-row"><div class="info-label">發行規模</div><div class="info-value"><span class="highlight-blue">${t.issue_amount||0}億元</span></div></div><div class="info-row"><div class="info-label">發行價格</div><div class="info-value"><span class="highlight-orange">${t.issue_price||100}元</span></div></div><div class="info-row"><div class="info-label">轉換價格</div><div class="info-value"><span class="highlight-blue">${t.conversion_price||0}元</span></div></div><div class="info-row"><div class="info-label">訂價溢價率</div><div class="info-value"><span class="highlight-green">${t.premium_rate?100*(t.premium_rate-1).toFixed(2):"0.00"}%</span></div></div><div class="info-row"><div class="info-label">發行年期</div><div class="info-value">${t.issue_years||0}年</div></div><div class="info-row"><div class="info-label">到期還本</div><div class="info-value">${t.maturity_price||100}元</div></div><div class="info-row"><div class="info-label">擔保情形</div><div class="info-value"><span class="highlight-${"有擔保"===t.has_security?"green":"orange"}">${t.has_security||"無擔保"}</span></div></div></div>`,(t.board_date||t.listing_date)&&(a+=`<div class="info-card"><div class="card-title">📅 重要日期</div>`,t.board_date&&(a+=`<div class="info-row"><div class="info-label">董事會公告</div><div class="info-value">${t.board_date}</div></div>`),t.payment_date&&(a+=`<div class="info-row"><div class="info-label">代收價款公告</div><div class="info-value">${t.payment_date}</div></div>`),t.auction_date&&(a+=`<div class="info-row"><div class="info-label">競拍日期</div><div class="info-value"><span class="highlight-purple">${t.auction_date}</span></div></div>`),t.listing_date&&(a+=`<div class="info-row"><div class="info-label">掛牌日期</div><div class="info-value">${t.listing_date}</div></div>`),t.cbas_date&&(a+=`<div class="info-row"><div class="info-label">CBAS拆解</div><div class="info-value">${t.cbas_date}</div></div>`),t.maturity_date&&(a+=`<div class="info-row"><div class="info-label">到期日期</div><div class="info-value"><span class="highlight-orange">${t.maturity_date}</span></div></div>`),a+="</div>"),(t.put_date1||t.put_condition)&&(a+=`<div class="info-card"><div class="card-title">🔄 賣回條款</div>`,t.put_date1&&(a+=`<div class="info-row"><div class="info-label">賣回日期</div><div class="info-value"><span class="highlight-green">${t.put_date1}</span></div></div>`),t.put_right&&(a+=`<div class="info-row"><div class="info-label">投資人權利</div><div class="info-value">${t.put_right}</div></div>`),t.put_condition&&(a+=`<div class="info-row"><div class="info-label">賣回條件</div><div class="info-value">${t.put_condition}</div></div>`),a+="</div>"),document.getElementById("basicContent").innerHTML=a,"競拍"===t.method&&t.auction_info?document.getElementById("auctionContent").innerHTML=`<div class="info-card"><div class="card-title">🔨 競拍結果</div><div class="auction-grid"><div class="auction-metric"><div class="metric-label">理論價格</div><div class="metric-value">${t.auction_info.theoretical_price.toFixed(2)}<span class="metric-unit">元</span></div></div><div class="auction-metric"><div class="metric-label">最低得標</div><div class="metric-value" style="color:#52c41a">${t.auction_info.min_bid.toFixed(2)}<span class="metric-unit">元</span></div></div><div class="auction-metric"><div class="metric-label">最低溢價</div><div class="metric-value" style="color:#52c41a">${(100*t.auction_info.min_premium).toFixed(2)}<span class="metric-unit">%</span></div></div><div class="auction-metric"><div class="metric-label">平均得標</div><div class="metric-value" style="color:#1890ff">${t.auction_info.avg_bid.toFixed(2)}<span class="metric-unit">元</span></div></div><div class="auction-metric"><div class="metric-label">平均溢價</div><div class="metric-value" style="color:#1890ff">${(100*t.auction_info.avg_premium).toFixed(2)}<span class="metric-unit">%</span></div></div><div class="auction-metric"><div class="metric-label">投標倍數</div><div class="metric-value" style="color:#ff9800">${t.auction_info.bid_multiple.toFixed(2)}<span class="metric-unit">倍</span></div></div></div></div><div class="info-card"><div class="card-title">📊 投標統計</div><div class="info-row"><div class="info-label">開標日期</div><div class="info-value">${t.auction_info.auction_date}</div></div><div class="info-row"><div class="info-label">合格件數</div><div class="info-value"><span class="highlight-blue">${t.auction_info.valid_bids}件</span></div></div><div class="info-row"><div class="info-label">總投標張數</div><div class="info-value"><span class="highlight-orange">${t.auction_info.total_bids}張</span></div></div><div class="info-row"><div class="info-label">平均投標張數</div><div class="info-value">${t.auction_info.avg_bid_volume.toFixed(1)}張/件</div></div></div>`:document.getElementById("auctionContent").innerHTML=`<div class="info-card"><div class="card-title">ℹ️ 發行方式說明</div><div class="info-highlight"><div class="info-highlight-title">📌 ${t.name} 採用${t.method}方式發行</div><div style="color:#555;line-height:1.6;margin-top:10px;">${"詢圈"===t.method?"詢價圈購方式發行,無公開競拍資料。":"競拍資料尚未建檔,請聯繫Rex大叔取得更多資訊。"}</div></div></div>`,document.getElementById("home").style.display="none",document.getElementById("detail").classList.add("active")}function switchTab(e){document.querySelectorAll(".tab-btn").forEach((e=>e.classList.remove("active"))),event.target.classList.add("active"),document.querySelectorAll(".tab-content").forEach((e=>e.classList.remove("active"))),document.getElementById(`tab-${e}`).classList.add("active"),"chart"===e&&!cbChart&&initCBChart(),"cbas"===e&&!cbasChart&&initCBASChart()}function changeRange(e,t){event.target.parentElement.querySelectorAll(".time-btn").forEach((e=>e.classList.remove("active"))),event.target.classList.add("active"),"cb"===e?updateCBChart(t):updateCBASChart(t)}function initCBChart(){cbChart=echarts.init(document.getElementById("chartCB")),updateCBChart(12)}function updateCBChart(e){const t=[{date:"24-01",price:112.35,vol:567},{date:"24-02",price:105.78,vol:432},{date:"24-03",price:99.45,vol:389},{date:"24-04",price:95.23,vol:312},{date:"24-05",price:96.87,vol:245},{date:"24-06",price:98.56,vol:198},{date:"24-07",price:99.78,vol:167},{date:"24-08",price:100.45,vol:134},{date:"24-09",price:100.89,vol:112},{date:"24-10",price:101.23,vol:89},{date:"24-11",price:101.56,vol:67},{date:"24-12",price:101.34,vol:45}].slice(-e);cbChart.setOption({tooltip:{trigger:"axis",axisPointer:{type:"cross"}},grid:{left:50,right:40,bottom:80,top:40,containLabel:!1},xAxis:{type:"category",data:t.map((e=>e.date)),axisLabel:{interval:0,rotate:45,fontSize:9}},yAxis:[{type:"value",name:"價格",nameTextStyle:{fontSize:11},axisLabel:{fontSize:10}},{type:"value",name:"成交量",position:"right",nameTextStyle:{fontSize:11},axisLabel:{fontSize:10}}],series:[{name:"價格",type:"line",data:t.map((e=>e.price)),smooth:!0,lineStyle:{width:2,color:"#667eea"},symbol:"circle",symbolSize:4},{name:"成交量",type:"bar",yAxisIndex:1,data:t.map((e=>e.vol)),itemStyle:{color:"rgba(102,126,234,0.3)"}}]})}function initCBASChart(){cbasChart=echarts.init(document.getElementById("chartCBAS")),updateCBASChart(12)}function updateCBASChart(e){const t=[{date:"24-01",premium:24.34,vol:567},{date:"24-02",premium:20.12,vol:432},{date:"24-03",premium:16.78,vol:389},{date:"24-04",premium:14.56,vol:312},{date:"24-05",premium:12.34,vol:245},{date:"24-06",premium:10.89,vol:198},{date:"24-07",premium:9.45,vol:167},{date:"24-08",premium:8.23,vol:134},{date:"24-09",premium:7.12,vol:112},{date:"24-10",premium:5.89,vol:89},{date:"24-11",premium:4.56,vol:67},{date:"24-12",premium:3.45,vol:45}].slice(-e);cbasChart.setOption({tooltip:{trigger:"axis",axisPointer:{type:"cross"}},grid:{left:50,right:40,bottom:80,top:40,containLabel:!1},xAxis:{type:"category",data:t.map((e=>e.date)),axisLabel:{interval:0,rotate:45,fontSize:9}},yAxis:[{type:"value",name:"權利金",nameTextStyle:{fontSize:11},axisLabel:{fontSize:10}},{type:"value",name:"CBAS成交量",position:"right",nameTextStyle:{fontSize:11},axisLabel:{fontSize:10}}],series:[{name:"權利金",type:"line",data:t.map((e=>e.premium)),smooth:!0,lineStyle:{width:3,color:"#ff9800"},symbol:"circle",symbolSize:6},{name:"CBAS成交量",type:"bar",yAxisIndex:1,data:t.map((e=>e.vol)),itemStyle:{color:"rgba(255,152,0,0.3)"}}]})}window.addEventListener("resize",(()=>{cbChart&&cbChart.resize(),cbasChart&&cbasChart.resize()}));
     </script>
 </body>
 </html>
+
+
+
+
+
