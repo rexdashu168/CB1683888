@@ -16,12 +16,12 @@
         .rex-badge { display: inline-block; background: rgba(255,255,255,0.2); padding: 8px 20px; border-radius: 20px; }
         .stats-container { background: white; margin: 0 20px 20px; border-radius: 15px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
         .stats-title { font-size: 1.2em; font-weight: 600; color: #1e3c72; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 3px solid #667eea; }
-        .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-        .stat-item { background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); padding: 15px; border-radius: 10px; display: flex; align-items: center; gap: 12px; }
-        .stat-icon { font-size: 2em; }
-        .stat-info { flex: 1; }
-        .stat-label { font-size: 0.85em; color: #666; margin-bottom: 5px; }
-        .stat-value { font-size: 1.5em; font-weight: 700; color: #667eea; }
+        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+        .stat-item { background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); padding: 12px 8px; border-radius: 10px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 8px; }
+        .stat-icon { font-size: 1.8em; }
+        .stat-info { width: 100%; }
+        .stat-label { font-size: 0.75em; color: #666; margin-bottom: 5px; }
+        .stat-value { font-size: 1.3em; font-weight: 700; color: #667eea; }
         .search-area { padding: 0 20px 20px; }
         .search-card { background: white; border-radius: 15px; padding: 25px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
         .search-card-title { font-size: 1.2em; font-weight: 600; color: #1e3c72; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 3px solid #667eea; }
@@ -38,8 +38,8 @@
         .chip-label { font-size: 0.75em; color: #999; display: block; }
         .chip:hover .chip-label { color: rgba(255,255,255,0.8); }
         .rex-footer { margin-top: auto; padding: 30px 20px; text-align: center; color: white; opacity: 0.9; }
-        .detail-screen { display: none; max-width: 800px; margin: 0 auto; background: #f5f5f5; min-height: 100vh; }
-        .detail-screen.active { display: block; }
+        .detail-screen { display: none; max-width: 800px; margin: 0 auto; background: #f5f5f5; min-height: 100vh; overflow-y: auto; }
+        .detail-screen.active { display: block; position: relative; }
         .detail-header { background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); color: white; padding: 20px; position: sticky; top: 0; z-index: 100; }
         .detail-back { background: rgba(255,255,255,0.2); border: none; color: white; padding: 8px 15px; border-radius: 8px; cursor: pointer; margin-bottom: 15px; }
         .detail-title-area { display: flex; justify-content: space-between; align-items: center; }
@@ -71,13 +71,119 @@
         .info-highlight-title { font-weight: 600; color: #856404; margin-bottom: 8px; font-size: 1.05em; }
         .auction-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-top: 15px; }
         .auction-metric { background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); padding: 15px; border-radius: 10px; text-align: center; }
-        .metric-label { font-size: 0.85em; color: #666; margin-bottom: 8px; }
+        .metric-label { font-size: 0.85em; color: #666; margin-bottom: 8px; position: relative; }
         .metric-value { font-size: 1.8em; font-weight: 700; color: #667eea; }
         .metric-unit { font-size: 0.6em; color: #999; }
+        
+        /* 投標氣氛標籤 */
+        .atmosphere-tag {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.75em;
+            color: #fff;
+            margin-left: 5px;
+            font-weight: 600;
+        }
+        .atmosphere-inline {
+            font-size: 0.9em;
+            font-weight: 600;
+        }
+        
+        /* 智慧提醒區塊 */
+        .smart-reminder {
+            margin-top: 20px;
+            padding: 15px;
+            background: linear-gradient(135deg, #fff9e6 0%, #fff5d6 100%);
+            border-radius: 10px;
+            border-left: 4px solid #faad14;
+        }
+        .reminder-title {
+            font-size: 0.9em;
+            font-weight: 600;
+            color: #d48806;
+            margin-bottom: 10px;
+        }
+        .reminder-content {
+            font-size: 0.85em;
+            color: #666;
+            line-height: 1.6;
+        }
+        .atmosphere-legend {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            font-size: 0.9em;
+            color: #555;
+        }
+        .legend-dot {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        /* 明細表格樣式 */
+        .detail-table {
+            font-size: 0.85em;
+            min-width: 430px;
+        }
+        .detail-header {
+            display: grid;
+            grid-template-columns: 60px 100px 70px 70px 60px 70px;
+            gap: 5px;
+            padding: 8px 5px;
+            background: #f5f5f5;
+            border-radius: 6px;
+            font-weight: 600;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        .detail-row {
+            display: grid;
+            grid-template-columns: 60px 100px 70px 70px 60px 70px;
+            gap: 5px;
+            padding: 8px 5px;
+            border-bottom: 1px solid #f0f0f0;
+            color: #333;
+        }
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+        .detail-row:hover {
+            background: #fafafa;
+        }
+        
         @media (max-width: 768px) {
-            .stats-grid { grid-template-columns: 1fr; }
+            .detail-table {
+                min-width: 380px;
+            }
+            .detail-header, .detail-row {
+                grid-template-columns: 50px 80px 55px 55px 50px 60px;
+                font-size: 0.75em;
+                gap: 3px;
+                padding: 6px 3px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .stats-grid { grid-template-columns: repeat(4, 1fr); gap: 8px; }
+            .stat-item { padding: 10px 5px; }
+            .stat-icon { font-size: 1.5em; }
+            .stat-label { font-size: 0.65em; }
+            .stat-value { font-size: 1.1em; }
             .chip-grid { grid-template-columns: 1fr; }
-            .auction-grid { grid-template-columns: 1fr; }
+            /* 手機版保持左右兩欄 */
+            .auction-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+            .auction-metric { padding: 12px 8px; }
+            .metric-label { font-size: 0.75em; }
+            .metric-value { font-size: 1.5em; }
+            .atmosphere-tag { font-size: 0.65em; padding: 1px 6px; }
         }
     </style>
 </head>
@@ -131,7 +237,10 @@
         <div class="detail-header">
             <button class="detail-back" onclick="backToHome()">← 返回</button>
             <div class="detail-title-area">
-                <div><div class="detail-main-title" id="detailTitle">載入中...</div><div class="detail-subtitle" id="detailSubtitle">...</div></div>
+                <div>
+                    <div class="detail-main-title" id="detailTitle">載入中...</div>
+                    <div class="detail-subtitle" id="detailSubtitle">...</div>
+                </div>
                 <div class="detail-price" id="detailPrice">--</div>
             </div>
         </div>
@@ -171,13 +280,778 @@
         </div>
     </div>
     <script>
-const fullCBDatabase={"11011":{cb_code:"11011",stock_code:"1101",name:"台泥一永",security:"TCRI4",has_security:"無擔保",issue_amount:80,conversion_price:36.5,issue_years:5,method:"詢圈",underwriter:"元大證券",industry:"水泥工業",industry_position:"台灣最大水泥廠",stock_capital:775,issue_price:100,maturity_price:100,premium_rate:1.0918,board_date:"2024-09-13",payment_date:"2024-11-25",auction_date:"11/26-11/28",listing_date:"2024-12-10",cbas_date:"2024-12-17",maturity_date:"2029/12/10",put_date1:"2027-12-10",put_date2:"2029-12-10",put_right:"發行滿三年",put_condition:"YTP(3)=(0%)"},"12101":{cb_code:"12101",stock_code:"1210",name:"大成一",security:"無",has_security:"無擔保",issue_amount:10,conversion_price:33.59,issue_years:5,method:"詢圈",underwriter:"",industry:"食品工業",industry_position:"兩岸最大白肉雞電宰加工廠及飼料大廠",stock_capital:0,issue_price:0,maturity_price:100,premium_rate:0},"12161":{cb_code:"12161",stock_code:"1216",name:"統一一",method:"詢圈",industry:"食品工業",issue_amount:50,conversion_price:48.6},"12171":{cb_code:"12171",stock_code:"1217",name:"愛之味一",method:"詢圈",industry:"食品工業",issue_amount:11,conversion_price:13.9},"12172":{cb_code:"12172",stock_code:"1217",name:"愛之味二",method:"詢圈",industry:"食品工業",issue_amount:3,conversion_price:13.9},"13166":{cb_code:"13166",stock_code:"1316",name:"上曜六",method:"競拍",industry:"半導體業",issue_amount:4,conversion_price:14.7,auction_info:{theoretical_price:98.5,min_bid:105.2,min_premium:0.068,avg_bid:107.8,avg_premium:0.094,valid_bids:245,total_bids:2450,bid_multiple:3.2,avg_bid_volume:10,auction_date:"2020-05-15"}},"13411":{cb_code:"13411",stock_code:"1341",name:"富林一K",method:"競拍",industry:"塑膠工業",issue_amount:1.5,conversion_price:12.3},"13421":{cb_code:"13421",stock_code:"1342",name:"八貫一",method:"競拍",industry:"其他業",issue_amount:2,conversion_price:15.8},"14361":{cb_code:"14361",stock_code:"1436",name:"華友聯一",method:"競拍",industry:"建材營造業",issue_amount:3,conversion_price:20.5},"14381":{cb_code:"14381",stock_code:"1438",name:"三地開發一",method:"競拍",industry:"建材營造業",issue_amount:10,conversion_price:35.2}};
-let cbChart,cbasChart,currentCB=null;function backToHome(){document.getElementById("home").style.display="flex",document.getElementById("detail").classList.remove("active")}function quickSearch(e){document.getElementById("cbInput").value=e,smartSearch()}function smartSearch(){const e=document.getElementById("cbInput").value.trim();if(!e)return void alert("請輸入查詢條件");let t=null;if(fullCBDatabase[e])t=e;else if(/^\d{4}$/.test(e))for(let a in fullCBDatabase){if(fullCBDatabase[a].stock_code===e){t=a;break}}else for(let a in fullCBDatabase){if(fullCBDatabase[a].name.includes(e)){t=a;break}}t?loadCBDetail(t):alert("查無資料\n\n可測試:\n詢圈: 11011, 12101, 12161\n競拍: 13166, 13411, 14361")}function loadCBDetail(e){const t=fullCBDatabase[e];if(!t)return;currentCB=e,document.getElementById("detailTitle").textContent=`${t.name} (${e})`,document.getElementById("detailSubtitle").textContent=`標的: ${t.stock_code} • ${t.industry||"產業待補"}`,document.getElementById("detailPrice").textContent="101.47";let a="";t.industry_position&&(a+=`<div class="info-highlight"><div class="info-highlight-title">🏭 產業定位</div><div style="color:#555;line-height:1.6;">${t.industry_position}</div></div>`),a+=`<div class="info-card"><div class="card-title">📋 基本資訊</div><div class="info-row"><div class="info-label">CB代號</div><div class="info-value"><span class="highlight-blue">${e}</span></div></div><div class="info-row"><div class="info-label">股票代號</div><div class="info-value">${t.stock_code}</div></div><div class="info-row"><div class="info-label">產業分類</div><div class="info-value">${t.industry||"待補充"}</div></div><div class="info-row"><div class="info-label">股本規模</div><div class="info-value"><span class="highlight-orange">${t.stock_capital||0}億元</span></div></div><div class="info-row"><div class="info-label">發行方式</div><div class="info-value"><span class="highlight-${"競拍"===t.method?"purple":"orange"}">${t.method}</span></div></div><div class="info-row"><div class="info-label">承銷券商</div><div class="info-value">${t.underwriter||"待補充"}</div></div></div>`,a+=`<div class="info-card"><div class="card-title">💰 發行條件</div><div class="info-row"><div class="info-label">發行規模</div><div class="info-value"><span class="highlight-blue">${t.issue_amount||0}億元</span></div></div><div class="info-row"><div class="info-label">發行價格</div><div class="info-value"><span class="highlight-orange">${t.issue_price||100}元</span></div></div><div class="info-row"><div class="info-label">轉換價格</div><div class="info-value"><span class="highlight-blue">${t.conversion_price||0}元</span></div></div><div class="info-row"><div class="info-label">訂價溢價率</div><div class="info-value"><span class="highlight-green">${t.premium_rate?100*(t.premium_rate-1).toFixed(2):"0.00"}%</span></div></div><div class="info-row"><div class="info-label">發行年期</div><div class="info-value">${t.issue_years||0}年</div></div><div class="info-row"><div class="info-label">到期還本</div><div class="info-value">${t.maturity_price||100}元</div></div><div class="info-row"><div class="info-label">擔保情形</div><div class="info-value"><span class="highlight-${"有擔保"===t.has_security?"green":"orange"}">${t.has_security||"無擔保"}</span></div></div></div>`,(t.board_date||t.listing_date)&&(a+=`<div class="info-card"><div class="card-title">📅 重要日期</div>`,t.board_date&&(a+=`<div class="info-row"><div class="info-label">董事會公告</div><div class="info-value">${t.board_date}</div></div>`),t.payment_date&&(a+=`<div class="info-row"><div class="info-label">代收價款公告</div><div class="info-value">${t.payment_date}</div></div>`),t.auction_date&&(a+=`<div class="info-row"><div class="info-label">競拍日期</div><div class="info-value"><span class="highlight-purple">${t.auction_date}</span></div></div>`),t.listing_date&&(a+=`<div class="info-row"><div class="info-label">掛牌日期</div><div class="info-value">${t.listing_date}</div></div>`),t.cbas_date&&(a+=`<div class="info-row"><div class="info-label">CBAS拆解</div><div class="info-value">${t.cbas_date}</div></div>`),t.maturity_date&&(a+=`<div class="info-row"><div class="info-label">到期日期</div><div class="info-value"><span class="highlight-orange">${t.maturity_date}</span></div></div>`),a+="</div>"),(t.put_date1||t.put_condition)&&(a+=`<div class="info-card"><div class="card-title">🔄 賣回條款</div>`,t.put_date1&&(a+=`<div class="info-row"><div class="info-label">賣回日期</div><div class="info-value"><span class="highlight-green">${t.put_date1}</span></div></div>`),t.put_right&&(a+=`<div class="info-row"><div class="info-label">投資人權利</div><div class="info-value">${t.put_right}</div></div>`),t.put_condition&&(a+=`<div class="info-row"><div class="info-label">賣回條件</div><div class="info-value">${t.put_condition}</div></div>`),a+="</div>"),document.getElementById("basicContent").innerHTML=a,"競拍"===t.method&&t.auction_info?document.getElementById("auctionContent").innerHTML=`<div class="info-card"><div class="card-title">🔨 競拍結果</div><div class="auction-grid"><div class="auction-metric"><div class="metric-label">理論價格</div><div class="metric-value">${t.auction_info.theoretical_price.toFixed(2)}<span class="metric-unit">元</span></div></div><div class="auction-metric"><div class="metric-label">最低得標</div><div class="metric-value" style="color:#52c41a">${t.auction_info.min_bid.toFixed(2)}<span class="metric-unit">元</span></div></div><div class="auction-metric"><div class="metric-label">最低溢價</div><div class="metric-value" style="color:#52c41a">${(100*t.auction_info.min_premium).toFixed(2)}<span class="metric-unit">%</span></div></div><div class="auction-metric"><div class="metric-label">平均得標</div><div class="metric-value" style="color:#1890ff">${t.auction_info.avg_bid.toFixed(2)}<span class="metric-unit">元</span></div></div><div class="auction-metric"><div class="metric-label">平均溢價</div><div class="metric-value" style="color:#1890ff">${(100*t.auction_info.avg_premium).toFixed(2)}<span class="metric-unit">%</span></div></div><div class="auction-metric"><div class="metric-label">投標倍數</div><div class="metric-value" style="color:#ff9800">${t.auction_info.bid_multiple.toFixed(2)}<span class="metric-unit">倍</span></div></div></div></div><div class="info-card"><div class="card-title">📊 投標統計</div><div class="info-row"><div class="info-label">開標日期</div><div class="info-value">${t.auction_info.auction_date}</div></div><div class="info-row"><div class="info-label">合格件數</div><div class="info-value"><span class="highlight-blue">${t.auction_info.valid_bids}件</span></div></div><div class="info-row"><div class="info-label">總投標張數</div><div class="info-value"><span class="highlight-orange">${t.auction_info.total_bids}張</span></div></div><div class="info-row"><div class="info-label">平均投標張數</div><div class="info-value">${t.auction_info.avg_bid_volume.toFixed(1)}張/件</div></div></div>`:document.getElementById("auctionContent").innerHTML=`<div class="info-card"><div class="card-title">ℹ️ 發行方式說明</div><div class="info-highlight"><div class="info-highlight-title">📌 ${t.name} 採用${t.method}方式發行</div><div style="color:#555;line-height:1.6;margin-top:10px;">${"詢圈"===t.method?"詢價圈購方式發行,無公開競拍資料。":"競拍資料尚未建檔,請聯繫Rex大叔取得更多資訊。"}</div></div></div>`,document.getElementById("home").style.display="none",document.getElementById("detail").classList.add("active")}function switchTab(e){document.querySelectorAll(".tab-btn").forEach((e=>e.classList.remove("active"))),event.target.classList.add("active"),document.querySelectorAll(".tab-content").forEach((e=>e.classList.remove("active"))),document.getElementById(`tab-${e}`).classList.add("active"),"chart"===e&&!cbChart&&initCBChart(),"cbas"===e&&!cbasChart&&initCBASChart()}function changeRange(e,t){event.target.parentElement.querySelectorAll(".time-btn").forEach((e=>e.classList.remove("active"))),event.target.classList.add("active"),"cb"===e?updateCBChart(t):updateCBASChart(t)}function initCBChart(){cbChart=echarts.init(document.getElementById("chartCB")),updateCBChart(12)}function updateCBChart(e){const t=[{date:"24-01",price:112.35,vol:567},{date:"24-02",price:105.78,vol:432},{date:"24-03",price:99.45,vol:389},{date:"24-04",price:95.23,vol:312},{date:"24-05",price:96.87,vol:245},{date:"24-06",price:98.56,vol:198},{date:"24-07",price:99.78,vol:167},{date:"24-08",price:100.45,vol:134},{date:"24-09",price:100.89,vol:112},{date:"24-10",price:101.23,vol:89},{date:"24-11",price:101.56,vol:67},{date:"24-12",price:101.34,vol:45}].slice(-e);cbChart.setOption({tooltip:{trigger:"axis",axisPointer:{type:"cross"}},grid:{left:50,right:40,bottom:80,top:40,containLabel:!1},xAxis:{type:"category",data:t.map((e=>e.date)),axisLabel:{interval:0,rotate:45,fontSize:9}},yAxis:[{type:"value",name:"價格",nameTextStyle:{fontSize:11},axisLabel:{fontSize:10}},{type:"value",name:"成交量",position:"right",nameTextStyle:{fontSize:11},axisLabel:{fontSize:10}}],series:[{name:"價格",type:"line",data:t.map((e=>e.price)),smooth:!0,lineStyle:{width:2,color:"#667eea"},symbol:"circle",symbolSize:4},{name:"成交量",type:"bar",yAxisIndex:1,data:t.map((e=>e.vol)),itemStyle:{color:"rgba(102,126,234,0.3)"}}]})}function initCBASChart(){cbasChart=echarts.init(document.getElementById("chartCBAS")),updateCBASChart(12)}function updateCBASChart(e){const t=[{date:"24-01",premium:24.34,vol:567},{date:"24-02",premium:20.12,vol:432},{date:"24-03",premium:16.78,vol:389},{date:"24-04",premium:14.56,vol:312},{date:"24-05",premium:12.34,vol:245},{date:"24-06",premium:10.89,vol:198},{date:"24-07",premium:9.45,vol:167},{date:"24-08",premium:8.23,vol:134},{date:"24-09",premium:7.12,vol:112},{date:"24-10",premium:5.89,vol:89},{date:"24-11",premium:4.56,vol:67},{date:"24-12",premium:3.45,vol:45}].slice(-e);cbasChart.setOption({tooltip:{trigger:"axis",axisPointer:{type:"cross"}},grid:{left:50,right:40,bottom:80,top:40,containLabel:!1},xAxis:{type:"category",data:t.map((e=>e.date)),axisLabel:{interval:0,rotate:45,fontSize:9}},yAxis:[{type:"value",name:"權利金",nameTextStyle:{fontSize:11},axisLabel:{fontSize:10}},{type:"value",name:"CBAS成交量",position:"right",nameTextStyle:{fontSize:11},axisLabel:{fontSize:10}}],series:[{name:"權利金",type:"line",data:t.map((e=>e.premium)),smooth:!0,lineStyle:{width:3,color:"#ff9800"},symbol:"circle",symbolSize:6},{name:"CBAS成交量",type:"bar",yAxisIndex:1,data:t.map((e=>e.vol)),itemStyle:{color:"rgba(255,152,0,0.3)"}}]})}window.addEventListener("resize",(()=>{cbChart&&cbChart.resize(),cbasChart&&cbasChart.resize()}));
+    // 所有氛圍區間的詳細數據（按績效排序，最多20檔）
+    const allCategoryDetails = {
+        'extreme_cold': {
+            secured: [{"cb_code": "44163", "name": "三圓三", "avg_bid": 102.31, "high": 144.8, "low": 99.05, "amplitude": 46.19, "performance": 41.53}, {"cb_code": "13166", "name": "上曜六", "avg_bid": 102.07, "high": 125.5, "low": 102.8, "amplitude": 22.08, "performance": 22.95}, {"cb_code": "45554", "name": "氣立四", "avg_bid": 103.28, "high": 123.5, "low": 100.0, "amplitude": 23.5, "performance": 19.58}, {"cb_code": "45553", "name": "氣立三", "avg_bid": 104.42, "high": 118.75, "low": 99.2, "amplitude": 19.71, "performance": 13.72}, {"cb_code": "84113", "name": "福貞三KY", "avg_bid": 100.49, "high": 102.3, "low": 99.3, "amplitude": 3.02, "performance": 1.8}],
+            unsecured: [{"cb_code": "47633", "name": "材料KY三", "avg_bid": 102.73, "high": 601.0, "low": 100.0, "amplitude": 501.0, "performance": 485.03}, {"cb_code": "89276", "name": "北基六", "avg_bid": 103.04, "high": 272.0, "low": 98.2, "amplitude": 176.99, "performance": 163.98}, {"cb_code": "61906", "name": "萬泰科六", "avg_bid": 101.89, "high": 166.0, "low": 96.1, "amplitude": 72.74, "performance": 62.92}, {"cb_code": "84732", "name": "山林水二", "avg_bid": 103.24, "high": 162.0, "low": 92.95, "amplitude": 74.29, "performance": 56.92}, {"cb_code": "27551", "name": "揚秦一", "avg_bid": 102.52, "high": 160.0, "low": 100.3, "amplitude": 59.52, "performance": 56.07}, {"cb_code": "32094", "name": "全科四", "avg_bid": 101.31, "high": 150.0, "low": 96.2, "amplitude": 55.93, "performance": 48.06}, {"cb_code": "89383", "name": "明安三", "avg_bid": 102.87, "high": 145.0, "low": 99.6, "amplitude": 45.58, "performance": 40.95}, {"cb_code": "26415", "name": "正德五", "avg_bid": 101.18, "high": 139.9, "low": 90.35, "amplitude": 54.84, "performance": 38.27}, {"cb_code": "80282", "name": "昇陽半二", "avg_bid": 104.0, "high": 139.05, "low": 93.0, "amplitude": 49.52, "performance": 33.7}, {"cb_code": "69822", "name": "大井泵浦二", "avg_bid": 101.16, "high": 120.0, "low": 102.05, "amplitude": 17.59, "performance": 18.62}, {"cb_code": "66162", "name": "特昇二-KY", "avg_bid": 101.76, "high": 120.5, "low": 95.0, "amplitude": 26.84, "performance": 18.42}, {"cb_code": "26418", "name": "正德八", "avg_bid": 101.3, "high": 115.95, "low": 100.0, "amplitude": 15.95, "performance": 14.46}, {"cb_code": "99392", "name": "宏全二", "avg_bid": 102.79, "high": 114.15, "low": 100.0, "amplitude": 14.15, "performance": 11.05}, {"cb_code": "36173", "name": "碩天三", "avg_bid": 100.79, "high": 111.2, "low": 99.85, "amplitude": 11.37, "performance": 10.33}, {"cb_code": "61828", "name": "合晶八", "avg_bid": 104.51, "high": 112.5, "low": 85.0, "amplitude": 32.35, "performance": 7.65}, {"cb_code": "27431", "name": "山富一", "avg_bid": 102.31, "high": 109.95, "low": 102.0, "amplitude": 7.79, "performance": 7.47}, {"cb_code": "45811", "name": "光隆精密一KY", "avg_bid": 100.94, "high": 107.05, "low": 99.95, "amplitude": 7.1, "performance": 6.05}, {"cb_code": "16264", "name": "艾美特四KY", "avg_bid": 100.0, "high": 105.5, "low": 90.6, "amplitude": 16.45, "performance": 5.5}, {"cb_code": "33466", "name": "麗清六", "avg_bid": 101.12, "high": 104.7, "low": 93.55, "amplitude": 11.92, "performance": 3.54}]
+        },
+        'cold': {
+            secured: [{"cb_code": "47146", "name": "永捷六", "avg_bid": 105.37, "high": 180.0, "low": 100.2, "amplitude": 79.64, "performance": 70.83}, {"cb_code": "41683", "name": "醣聯三", "avg_bid": 105.16, "high": 168.0, "low": 98.8, "amplitude": 70.04, "performance": 59.76}, {"cb_code": "33133", "name": "斐成三", "avg_bid": 103.94, "high": 134.9, "low": 100.8, "amplitude": 33.83, "performance": 29.79}, {"cb_code": "56087", "name": "四維航七", "avg_bid": 102.44, "high": 125.0, "low": 101.0, "amplitude": 23.76, "performance": 22.02}, {"cb_code": "35763", "name": "聯合再生三", "avg_bid": 104.18, "high": 125.9, "low": 99.25, "amplitude": 26.85, "performance": 20.85}, {"cb_code": "25283", "name": "皇普三", "avg_bid": 102.51, "high": 123.5, "low": 103.0, "amplitude": 19.9, "performance": 20.48}, {"cb_code": "29371", "name": "集雅社一", "avg_bid": 106.1, "high": 125.0, "low": 99.0, "amplitude": 26.26, "performance": 17.81}, {"cb_code": "45581", "name": "寶緯一", "avg_bid": 101.17, "high": 105.0, "low": 101.0, "amplitude": 3.96, "performance": 3.79}],
+            unsecured: [{"cb_code": "49191", "name": "新唐一", "avg_bid": 100.91, "high": 450.0, "low": 97.0, "amplitude": 363.92, "performance": 345.94}, {"cb_code": "23682", "name": "金像電二", "avg_bid": 107.16, "high": 238.0, "low": 99.5, "amplitude": 139.2, "performance": 122.1}, {"cb_code": "22362", "name": "百達二KY", "avg_bid": 103.79, "high": 215.0, "low": 104.0, "amplitude": 106.73, "performance": 107.15}, {"cb_code": "99584", "name": "世紀鋼四", "avg_bid": 101.13, "high": 196.0, "low": 102.0, "amplitude": 92.16, "performance": 93.81}, {"cb_code": "49431", "name": "康控一KY", "avg_bid": 102.07, "high": 180.0, "low": 97.3, "amplitude": 84.99, "performance": 76.35}, {"cb_code": "45402", "name": "全球傳動二", "avg_bid": 100.17, "high": 176.0, "low": 100.0, "amplitude": 76.0, "performance": 75.7}, {"cb_code": "37084", "name": "上緯四", "avg_bid": 103.45, "high": 180.0, "low": 102.7, "amplitude": 75.27, "performance": 74.0}, {"cb_code": "61504", "name": "撼訊四", "avg_bid": 106.83, "high": 170.0, "low": 105.3, "amplitude": 61.44, "performance": 59.13}, {"cb_code": "84221", "name": "可寧衛一", "avg_bid": 102.37, "high": 159.0, "low": 102.7, "amplitude": 54.82, "performance": 55.32}, {"cb_code": "61893", "name": "豐藝三", "avg_bid": 103.94, "high": 152.0, "low": 99.6, "amplitude": 52.61, "performance": 46.24}, {"cb_code": "61263", "name": "信音三", "avg_bid": 104.18, "high": 152.0, "low": 99.6, "amplitude": 52.61, "performance": 45.9}, {"cb_code": "61505", "name": "撼訊五", "avg_bid": 104.29, "high": 147.0, "low": 82.0, "amplitude": 79.27, "performance": 40.95}, {"cb_code": "23511", "name": "順德一", "avg_bid": 102.18, "high": 137.95, "low": 102.2, "amplitude": 34.98, "performance": 35.01}, {"cb_code": "24271", "name": "三商電一", "avg_bid": 102.68, "high": 132.0, "low": 96.1, "amplitude": 37.36, "performance": 28.55}, {"cb_code": "15894", "name": "永冠四KY", "avg_bid": 104.23, "high": 131.1, "low": 92.45, "amplitude": 41.81, "performance": 25.78}, {"cb_code": "68401", "name": "東研信超", "avg_bid": 105.36, "high": 130.5, "low": 88.5, "amplitude": 47.46, "performance": 23.86}, {"cb_code": "68431", "name": "進典一", "avg_bid": 101.83, "high": 115.0, "low": 102.0, "amplitude": 12.75, "performance": 12.93}, {"cb_code": "64774", "name": "安集四", "avg_bid": 100.91, "high": 113.0, "low": 95.65, "amplitude": 18.14, "performance": 11.98}, {"cb_code": "24424", "name": "新美齊四", "avg_bid": 100.14, "high": 111.3, "low": 90.45, "amplitude": 23.05, "performance": 11.14}, {"cb_code": "25284", "name": "皇普四", "avg_bid": 101.12, "high": 112.15, "low": 92.0, "amplitude": 21.9, "performance": 10.91}]
+        },
+        'normal': {
+            secured: [{"cb_code": "64722", "name": "保瑞二", "avg_bid": 106.3, "high": 355.0, "low": 104.0, "amplitude": 241.35, "performance": 233.96}, {"cb_code": "34341", "name": "哲固一", "avg_bid": 106.77, "high": 219.0, "low": 107.0, "amplitude": 104.67, "performance": 105.11}, {"cb_code": "49672", "name": "十銓二", "avg_bid": 106.47, "high": 187.0, "low": 105.0, "amplitude": 78.1, "performance": 75.64}, {"cb_code": "84891", "name": "三貝德一", "avg_bid": 111.0, "high": 186.0, "low": 106.2, "amplitude": 75.14, "performance": 67.57}, {"cb_code": "64862", "name": "互動二", "avg_bid": 106.15, "high": 175.0, "low": 108.2, "amplitude": 61.74, "performance": 64.86}, {"cb_code": "37083", "name": "上緯三", "avg_bid": 108.38, "high": 176.0, "low": 100.2, "amplitude": 75.65, "performance": 62.39}, {"cb_code": "45401", "name": "全球傳動一", "avg_bid": 102.23, "high": 166.0, "low": 99.65, "amplitude": 66.58, "performance": 62.38}, {"cb_code": "68061", "name": "森崴一", "avg_bid": 105.76, "high": 167.0, "low": 97.75, "amplitude": 70.84, "performance": 57.9}, {"cb_code": "53063", "name": "桂盟三", "avg_bid": 107.5, "high": 156.0, "low": 99.6, "amplitude": 56.63, "performance": 45.12}, {"cb_code": "80441", "name": "網家一", "avg_bid": 107.42, "high": 142.0, "low": 98.8, "amplitude": 43.72, "performance": 32.19}, {"cb_code": "20121", "name": "春雨一", "avg_bid": 111.31, "high": 136.5, "low": 97.1, "amplitude": 40.58, "performance": 22.63}, {"cb_code": "24663", "name": "冠希電三", "avg_bid": 104.5, "high": 122.0, "low": 99.75, "amplitude": 22.31, "performance": 16.75}, {"cb_code": "65521", "name": "易華電一", "avg_bid": 106.63, "high": 123.5, "low": 98.05, "amplitude": 25.96, "performance": 15.82}, {"cb_code": "14664", "name": "聚隆四", "avg_bid": 103.11, "high": 116.95, "low": 103.0, "amplitude": 13.54, "performance": 13.42}, {"cb_code": "84881", "name": "吉源一KY", "avg_bid": 104.67, "high": 116.95, "low": 98.55, "amplitude": 18.67, "performance": 11.73}, {"cb_code": "35161", "name": "亞帝歐一", "avg_bid": 109.62, "high": 120.1, "low": 101.6, "amplitude": 18.21, "performance": 9.56}, {"cb_code": "15991", "name": "宏佳騰一", "avg_bid": 103.07, "high": 109.0, "low": 99.1, "amplitude": 9.99, "performance": 5.75}, {"cb_code": "36913", "name": "碩禾三", "avg_bid": 109.03, "high": 111.0, "low": 94.65, "amplitude": 17.27, "performance": 1.81}, {"cb_code": "20122", "name": "春雨二", "avg_bid": 111.51, "high": 112.6, "low": 97.3, "amplitude": 15.72, "performance": 0.98}, {"cb_code": "20123", "name": "春雨三", "avg_bid": 111.25, "high": 112.0, "low": 97.15, "amplitude": 15.29, "performance": 0.67}],
+            unsecured: [{"cb_code": "64771", "name": "安集一", "avg_bid": 101.59, "high": 323.0, "low": 91.0, "amplitude": 254.95, "performance": 217.94}, {"cb_code": "24213", "name": "建準三", "avg_bid": 115.52, "high": 289.0, "low": 127.05, "amplitude": 127.47, "performance": 150.17}, {"cb_code": "81034", "name": "瀚荃四", "avg_bid": 105.8, "high": 219.0, "low": 99.5, "amplitude": 120.1, "performance": 106.99}, {"cb_code": "23837", "name": "台光電七", "avg_bid": 110.94, "high": 224.0, "low": 105.0, "amplitude": 113.33, "performance": 101.91}, {"cb_code": "47147", "name": "永捷七", "avg_bid": 103.76, "high": 206.0, "low": 100.0, "amplitude": 106.0, "performance": 98.54}, {"cb_code": "49681", "name": "立積一", "avg_bid": 104.98, "high": 208.0, "low": 99.55, "amplitude": 108.94, "performance": 98.13}, {"cb_code": "52633", "name": "智崴三", "avg_bid": 101.64, "high": 195.0, "low": 100.25, "amplitude": 94.51, "performance": 91.85}, {"cb_code": "36535", "name": "健策五", "avg_bid": 108.37, "high": 198.0, "low": 115.0, "amplitude": 72.17, "performance": 82.71}, {"cb_code": "15823", "name": "信錦三", "avg_bid": 111.87, "high": 203.0, "low": 101.0, "amplitude": 100.99, "performance": 81.46}, {"cb_code": "99586", "name": "世紀剛六", "avg_bid": 107.77, "high": 189.0, "low": 106.0, "amplitude": 78.3, "performance": 75.37}, {"cb_code": "61905", "name": "萬泰科五", "avg_bid": 106.4, "high": 185.0, "low": 103.0, "amplitude": 79.61, "performance": 73.87}, {"cb_code": "36172", "name": "碩天二", "avg_bid": 107.64, "high": 179.0, "low": 111.0, "amplitude": 61.26, "performance": 66.3}, {"cb_code": "52881", "name": "豐祥一KY", "avg_bid": 103.82, "high": 170.0, "low": 59.0, "amplitude": 188.14, "performance": 63.74}, {"cb_code": "49066", "name": "正文六", "avg_bid": 103.82, "high": 163.0, "low": 102.5, "amplitude": 59.02, "performance": 57.0}, {"cb_code": "64692", "name": "大樹二", "avg_bid": 104.21, "high": 155.0, "low": 99.35, "amplitude": 56.01, "performance": 48.74}, {"cb_code": "84201", "name": "明揚一", "avg_bid": 103.98, "high": 148.9, "low": 90.3, "amplitude": 64.89, "performance": 43.2}, {"cb_code": "62574", "name": "矽格四", "avg_bid": 106.2, "high": 151.0, "low": 94.0, "amplitude": 60.64, "performance": 42.18}, {"cb_code": "14742", "name": "弘裕二", "avg_bid": 109.01, "high": 153.0, "low": 96.0, "amplitude": 59.38, "performance": 40.35}, {"cb_code": "35943", "name": "磐儀三", "avg_bid": 104.86, "high": 146.0, "low": 81.5, "amplitude": 79.14, "performance": 39.23}, {"cb_code": "64773", "name": "安集三", "avg_bid": 106.99, "high": 147.0, "low": 93.05, "amplitude": 57.98, "performance": 37.4}]
+        },
+        'hot': {
+            secured: [{"cb_code": "14361", "name": "華友聯一", "avg_bid": 107.73, "high": 695.0, "low": 106.0, "amplitude": 555.66, "performance": 545.13}, {"cb_code": "24822", "name": "連宇二", "avg_bid": 114.15, "high": 552.0, "low": 100.0, "amplitude": 452.0, "performance": 383.57}, {"cb_code": "65931", "name": "台灣銘版一", "avg_bid": 109.71, "high": 496.0, "low": 113.5, "amplitude": 337.0, "performance": 352.1}, {"cb_code": "52251", "name": "東科KY一", "avg_bid": 106.42, "high": 456.0, "low": 104.1, "amplitude": 338.04, "performance": 328.49}, {"cb_code": "22304", "name": "泰茂四", "avg_bid": 110.42, "high": 470.0, "low": 121.45, "amplitude": 286.99, "performance": 325.65}, {"cb_code": "99061", "name": "欣巴巴一", "avg_bid": 110.0, "high": 454.0, "low": 111.2, "amplitude": 308.27, "performance": 312.73}, {"cb_code": "30133", "name": "晟銘電三", "avg_bid": 112.3, "high": 297.0, "low": 114.0, "amplitude": 160.53, "performance": 164.47}, {"cb_code": "62756", "name": "元山六", "avg_bid": 110.95, "high": 269.0, "low": 102.5, "amplitude": 162.44, "performance": 142.45}, {"cb_code": "33394", "name": "泰谷四", "avg_bid": 110.98, "high": 261.0, "low": 100.0, "amplitude": 161.0, "performance": 135.18}, {"cb_code": "32903", "name": "東浦三", "avg_bid": 106.85, "high": 223.0, "low": 115.3, "amplitude": 93.41, "performance": 108.7}, {"cb_code": "49673", "name": "十銓三", "avg_bid": 116.16, "high": 214.0, "low": 114.0, "amplitude": 87.72, "performance": 84.23}, {"cb_code": "61342", "name": "萬旭二", "avg_bid": 116.23, "high": 205.0, "low": 75.15, "amplitude": 172.79, "performance": 76.37}, {"cb_code": "65851", "name": "鼎基一", "avg_bid": 111.96, "high": 192.0, "low": 105.6, "amplitude": 81.82, "performance": 71.49}, {"cb_code": "47442", "name": "皇將二", "avg_bid": 104.82, "high": 172.0, "low": 100.35, "amplitude": 71.4, "performance": 64.09}, {"cb_code": "49671", "name": "十銓一", "avg_bid": 112.21, "high": 184.0, "low": 107.0, "amplitude": 71.96, "performance": 63.98}, {"cb_code": "65841", "name": "南俊一", "avg_bid": 114.7, "high": 168.0, "low": 101.0, "amplitude": 66.34, "performance": 46.47}, {"cb_code": "47393", "name": "康普三", "avg_bid": 116.01, "high": 161.0, "low": 98.05, "amplitude": 64.2, "performance": 38.78}, {"cb_code": "41236", "name": "晟德六", "avg_bid": 110.08, "high": 139.9, "low": 104.1, "amplitude": 34.39, "performance": 27.09}, {"cb_code": "31221", "name": "笙泉一", "avg_bid": 111.71, "high": 138.0, "low": 99.1, "amplitude": 39.25, "performance": 23.53}, {"cb_code": "30134", "name": "晟銘電四", "avg_bid": 114.01, "high": 140.0, "low": 99.3, "amplitude": 40.99, "performance": 22.8}],
+            unsecured: [{"cb_code": "61973", "name": "佳必琪三", "avg_bid": 117.45, "high": 268.0, "low": 101.75, "amplitude": 163.39, "performance": 128.18}, {"cb_code": "81472", "name": "正凌二", "avg_bid": 111.28, "high": 248.0, "low": 102.0, "amplitude": 143.14, "performance": 122.86}, {"cb_code": "34833", "name": "力致三", "avg_bid": 108.22, "high": 237.0, "low": 100.0, "amplitude": 137.0, "performance": 119.0}, {"cb_code": "82101", "name": "勤誠一", "avg_bid": 109.69, "high": 240.0, "low": 99.1, "amplitude": 142.18, "performance": 118.8}, {"cb_code": "45663", "name": "時碩三", "avg_bid": 106.15, "high": 223.0, "low": 106.0, "amplitude": 110.38, "performance": 110.08}, {"cb_code": "30882", "name": "艾訊二", "avg_bid": 106.0, "high": 218.0, "low": 105.2, "amplitude": 107.22, "performance": 105.66}, {"cb_code": "84421", "name": "威宏KY一", "avg_bid": 105.71, "high": 210.0, "low": 110.6, "amplitude": 89.87, "performance": 98.66}, {"cb_code": "35332", "name": "嘉澤二", "avg_bid": 108.14, "high": 211.0, "low": 110.2, "amplitude": 91.47, "performance": 95.12}, {"cb_code": "66701", "name": "復盛一", "avg_bid": 112.01, "high": 217.0, "low": 103.2, "amplitude": 110.27, "performance": 93.73}, {"cb_code": "30237", "name": "信邦七", "avg_bid": 108.3, "high": 193.0, "low": 113.5, "amplitude": 70.04, "performance": 78.21}, {"cb_code": "65701", "name": "維田一", "avg_bid": 104.61, "high": 185.0, "low": 103.85, "amplitude": 78.14, "performance": 76.85}, {"cb_code": "15952", "name": "川寶二", "avg_bid": 109.82, "high": 191.0, "low": 102.0, "amplitude": 87.25, "performance": 73.92}, {"cb_code": "16094", "name": "大亞四", "avg_bid": 108.31, "high": 187.0, "low": 98.0, "amplitude": 90.82, "performance": 72.65}, {"cb_code": "15324", "name": "勤美四", "avg_bid": 110.04, "high": 184.0, "low": 99.75, "amplitude": 84.46, "performance": 67.21}, {"cb_code": "41294", "name": "聯合四", "avg_bid": 106.57, "high": 176.0, "low": 107.8, "amplitude": 63.27, "performance": 65.15}, {"cb_code": "24762", "name": "鉅祥二", "avg_bid": 113.8, "high": 180.0, "low": 103.15, "amplitude": 74.5, "performance": 58.17}, {"cb_code": "61171", "name": "迎廣", "avg_bid": 111.35, "high": 174.0, "low": 98.1, "amplitude": 77.37, "performance": 56.26}, {"cb_code": "67681", "name": "志強一KY", "avg_bid": 114.23, "high": 172.0, "low": 99.5, "amplitude": 72.86, "performance": 50.57}, {"cb_code": "36451", "name": "達邁一", "avg_bid": 108.67, "high": 162.0, "low": 94.5, "amplitude": 71.43, "performance": 49.08}, {"cb_code": "64772", "name": "安集二", "avg_bid": 120.18, "high": 176.0, "low": 99.75, "amplitude": 76.44, "performance": 46.45}]
+        },
+        'extreme_hot': {
+            secured: [{"cb_code": "36633", "name": "鑫科三", "avg_bid": 109.8, "high": 420.0, "low": 114.0, "amplitude": 268.42, "performance": 282.51}, {"cb_code": "47363", "name": "泰博三", "avg_bid": 108.46, "high": 238.0, "low": 111.0, "amplitude": 114.41, "performance": 119.44}, {"cb_code": "13421", "name": "八貫一", "avg_bid": 112.93, "high": 243.0, "low": 106.5, "amplitude": 128.17, "performance": 115.18}, {"cb_code": "61792", "name": "亞通二", "avg_bid": 115.29, "high": 245.0, "low": 102.0, "amplitude": 140.2, "performance": 112.51}, {"cb_code": "65781", "name": "達邦蛋白一", "avg_bid": 112.02, "high": 202.0, "low": 102.5, "amplitude": 97.07, "performance": 80.32}, {"cb_code": "80924", "name": "建暐四", "avg_bid": 139.45, "high": 230.0, "low": 120.15, "amplitude": 91.43, "performance": 64.93}, {"cb_code": "52635", "name": "智崴五", "avg_bid": 114.83, "high": 181.0, "low": 60.0, "amplitude": 201.67, "performance": 57.62}, {"cb_code": "84672", "name": "波力KY二", "avg_bid": 114.7, "high": 178.0, "low": 107.0, "amplitude": 66.36, "performance": 55.19}, {"cb_code": "84422", "name": "威宏二KY", "avg_bid": 111.6, "high": 158.0, "low": 103.0, "amplitude": 53.4, "performance": 41.58}, {"cb_code": "35221", "name": "御頂一", "avg_bid": 113.62, "high": 159.0, "low": 102.1, "amplitude": 55.73, "performance": 39.94}, {"cb_code": "64251", "name": "易發一", "avg_bid": 123.5, "high": 154.0, "low": 108.1, "amplitude": 42.46, "performance": 24.7}, {"cb_code": "32681", "name": "海德威一", "avg_bid": 115.76, "high": 133.35, "low": 99.7, "amplitude": 33.75, "performance": 15.2}, {"cb_code": "30954", "name": "及成四", "avg_bid": 112.7, "high": 126.6, "low": 103.6, "amplitude": 22.2, "performance": 12.33}, {"cb_code": "62092", "name": "今國光二", "avg_bid": 115.17, "high": 129.0, "low": 99.75, "amplitude": 29.32, "performance": 12.01}, {"cb_code": "37131", "name": "新晶投控一", "avg_bid": 113.92, "high": 126.5, "low": 100.5, "amplitude": 25.87, "performance": 11.04}, {"cb_code": "62832", "name": "淳安二", "avg_bid": 110.78, "high": 121.5, "low": 99.8, "amplitude": 21.74, "performance": 9.68}, {"cb_code": "66241", "name": "萬年清一", "avg_bid": 113.98, "high": 121.6, "low": 101.35, "amplitude": 19.98, "performance": 6.69}, {"cb_code": "66541", "name": "天正國際一", "avg_bid": 116.41, "high": 122.5, "low": 98.0, "amplitude": 25.0, "performance": 5.23}, {"cb_code": "37074", "name": "漢磊四", "avg_bid": 124.85, "high": 129.4, "low": 93.0, "amplitude": 39.14, "performance": 3.64}, {"cb_code": "31381", "name": "耀登一", "avg_bid": 121.0, "high": 121.5, "low": 99.65, "amplitude": 21.93, "performance": 0.41}],
+            unsecured: [{"cb_code": "26364", "name": "台驊四", "avg_bid": 105.09, "high": 750.0, "low": 106.2, "amplitude": 606.21, "performance": 613.67}, {"cb_code": "61874", "name": "萬潤四", "avg_bid": 110.58, "high": 467.0, "low": 98.0, "amplitude": 376.53, "performance": 322.32}, {"cb_code": "35481", "name": "兆利一", "avg_bid": 109.57, "high": 325.0, "low": 101.6, "amplitude": 219.88, "performance": 196.61}, {"cb_code": "45662", "name": "時碩二", "avg_bid": 111.8, "high": 264.0, "low": 105.0, "amplitude": 151.43, "performance": 136.14}, {"cb_code": "89964", "name": "高力四", "avg_bid": 113.8, "high": 264.0, "low": 107.0, "amplitude": 146.73, "performance": 131.99}, {"cb_code": "20661", "name": "世德一", "avg_bid": 110.21, "high": 250.0, "low": 106.0, "amplitude": 135.85, "performance": 126.84}, {"cb_code": "98025", "name": "鈺齊五KY", "avg_bid": 106.55, "high": 192.0, "low": 112.0, "amplitude": 71.43, "performance": 80.2}, {"cb_code": "52303", "name": "雷迪克三", "avg_bid": 111.88, "high": 197.0, "low": 108.0, "amplitude": 82.41, "performance": 76.08}, {"cb_code": "61875", "name": "萬潤五", "avg_bid": 119.63, "high": 196.0, "low": 102.5, "amplitude": 91.22, "performance": 63.84}, {"cb_code": "16173", "name": "榮星三", "avg_bid": 111.8, "high": 176.0, "low": 94.0, "amplitude": 87.23, "performance": 57.42}, {"cb_code": "81091", "name": "博大一", "avg_bid": 111.42, "high": 175.0, "low": 106.75, "amplitude": 63.93, "performance": 57.06}, {"cb_code": "35331", "name": "嘉澤一", "avg_bid": 115.45, "high": 167.0, "low": 112.8, "amplitude": 48.05, "performance": 44.65}, {"cb_code": "67061", "name": "惠特一", "avg_bid": 109.28, "high": 158.0, "low": 98.4, "amplitude": 60.57, "performance": 44.58}, {"cb_code": "20662", "name": "世德二", "avg_bid": 109.91, "high": 156.0, "low": 96.0, "amplitude": 62.5, "performance": 41.93}, {"cb_code": "65151", "name": "穎崴一", "avg_bid": 116.37, "high": 165.0, "low": 102.0, "amplitude": 61.76, "performance": 41.79}, {"cb_code": "35871", "name": "閎康一", "avg_bid": 113.69, "high": 158.0, "low": 103.05, "amplitude": 53.32, "performance": 38.97}, {"cb_code": "35482", "name": "兆利二", "avg_bid": 113.2, "high": 155.0, "low": 97.6, "amplitude": 58.81, "performance": 36.93}, {"cb_code": "35832", "name": "辛耘二", "avg_bid": 117.07, "high": 159.0, "low": 96.0, "amplitude": 65.62, "performance": 35.82}, {"cb_code": "22283", "name": "劍麟三", "avg_bid": 114.2, "high": 152.0, "low": 106.0, "amplitude": 43.4, "performance": 33.1}, {"cb_code": "34834", "name": "力致四", "avg_bid": 118.57, "high": 154.0, "low": 100.25, "amplitude": 53.62, "performance": 29.88}]
+        }
+    };
+    
+// 資料庫 - 包含送件日和生效日的擴充欄位
+const fullCBDatabase = {
+    "11011": {
+        cb_code: "11011",
+        stock_code: "1101",
+        name: "台泥一永",
+        security: "TCRI4",
+        has_security: "無擔保",
+        issue_amount: 80,
+        conversion_price: 36.5,
+        issue_years: 5,
+        method: "詢圈",
+        underwriter: "元大證券",
+        industry: "水泥工業",
+        industry_position: "台灣最大水泥廠",
+        stock_capital: 775,
+        issue_price: 100,
+        maturity_price: 100,
+        premium_rate: 1.0918,
+        board_date: "2024-09-13",
+        submit_date: "2024-10-15",  // 新增送件日
+        effective_date: "2024-11-05", // 新增生效日
+        payment_date: "2024-11-25",
+        auction_date: "11/26-11/28",
+        listing_date: "2024-12-10",
+        cbas_date: "2024-12-17",
+        maturity_date: "2029-12-10",
+        put_date1: "2027-12-10",
+        put_date2: "2029-12-10",
+        put_right: "發行滿三年",
+        put_condition: "YTP(3)=(0%)"
+    },
+    "12101": {
+        cb_code: "12101",
+        stock_code: "1210",
+        name: "大成一",
+        security: "無",
+        has_security: "無擔保",
+        issue_amount: 10,
+        conversion_price: 33.59,
+        issue_years: 5,
+        method: "詢圈",
+        underwriter: "",
+        industry: "食品工業",
+        industry_position: "兩岸最大白肉雞電宰加工廠及飼料大廠",
+        stock_capital: 0,
+        issue_price: 0,
+        maturity_price: 100,
+        premium_rate: 0
+    },
+    "12161": {cb_code: "12161", stock_code: "1216", name: "統一一", method: "詢圈", industry: "食品工業", issue_amount: 50, conversion_price: 48.6},
+    "12171": {cb_code: "12171", stock_code: "1217", name: "愛之味一", method: "詢圈", industry: "食品工業", issue_amount: 11, conversion_price: 13.9},
+    "12172": {cb_code: "12172", stock_code: "1217", name: "愛之味二", method: "詢圈", industry: "食品工業", issue_amount: 3, conversion_price: 13.9},
+    "13166": {
+        cb_code: "13166",
+        stock_code: "1316",
+        name: "上曜六",
+        method: "競拍",
+        industry: "半導體業",
+        issue_amount: 4,
+        conversion_price: 14.7,
+        auction_info: {
+            theoretical_price: 98.5,
+            min_bid: 105.2,
+            min_premium: 0.068,
+            avg_bid: 107.8,
+            avg_premium: 0.094,
+            valid_bids: 245,
+            total_bids: 2450,
+            bid_multiple: 3.2,
+            avg_bid_volume: 10,
+            auction_date: "2020-05-15"
+        }
+    },
+    "13411": {cb_code: "13411", stock_code: "1341", name: "富林一K", method: "競拍", industry: "塑膠工業", issue_amount: 1.5, conversion_price: 12.3},
+    "13421": {cb_code: "13421", stock_code: "1342", name: "八貫一", method: "競拍", industry: "其他業", issue_amount: 2, conversion_price: 15.8},
+    "14361": {cb_code: "14361", stock_code: "1436", name: "華友聯一", method: "競拍", industry: "建材營造業", issue_amount: 3, conversion_price: 20.5},
+    "14381": {cb_code: "14381", stock_code: "1438", name: "三地開發一", method: "競拍", industry: "建材營造業", issue_amount: 10, conversion_price: 35.2}
+};
+
+// 競拍資料庫 (完整競拍資訊)
+const auctionDatabase = {
+    "13166": {
+        cb_code: "13166", stock_code: "1316", name: "上曜六", 
+        open_date: "2024-12-18", stock_capital: 30.1, issue_amount: 4.0, 
+        years: 3, security: "有擔保", credit_rating: 8, auction_units: 3600,
+        floor_price: 100.0, cutoff_date: "2024-12-16", cutoff_close: 13.75,
+        conversion_price: 17.8, premium_rate: 19.95, theoretical_price: 77.25,
+        min_bid: 100.0, min_premium: 29.45, avg_bid: 102.07, avg_premium: 32.13,
+        underwriter: "元富證券", industry: "建材營造業", valid_bids: 67,
+        total_bids: 2691, bid_multiple: 0.75, avg_bid_volume: 40.2
+    },
+    "13411": {
+        cb_code: "13411", stock_code: "1341", name: "富林一K",
+        open_date: "2020-06-08", stock_capital: 13.5, issue_amount: 1.5,
+        years: 3, security: "無擔保", credit_rating: 9, auction_units: 1275,
+        floor_price: 100.0, cutoff_date: "2020-06-04", cutoff_close: 11.9,
+        conversion_price: 12.3, premium_rate: 5.93, theoretical_price: 96.75,
+        min_bid: 100.7, min_premium: 4.08, avg_bid: 102.58, avg_premium: 6.02,
+        underwriter: "兆豐證券", industry: "塑膠工業", valid_bids: 145,
+        total_bids: 2296, bid_multiple: 1.8, avg_bid_volume: 15.8
+    },
+    "14361": {
+        cb_code: "14361", stock_code: "1436", name: "華友聯一",
+        open_date: "2020-01-08", stock_capital: 9.6, issue_amount: 3.0,
+        years: 5, security: "有擔保", credit_rating: 8, auction_units: 2550,
+        floor_price: 100.0, cutoff_date: "2020-01-06", cutoff_close: 40.95,
+        conversion_price: 40.0, premium_rate: 5.21, theoretical_price: 102.38,
+        min_bid: 106.66, min_premium: 4.19, avg_bid: 107.73, avg_premium: 5.23,
+        underwriter: "第一金證", industry: "建材營造業", valid_bids: 372,
+        total_bids: 7637, bid_multiple: 2.99, avg_bid_volume: 20.5
+    }
+};
+
+let cbChart, cbasChart, currentCB = null;
+
+function backToHome() {
+    document.getElementById("home").style.display = "flex";
+    document.getElementById("detail").classList.remove("active");
+    
+    // 返回首頁時也捲到最上方
+    setTimeout(() => {
+        window.scrollTo({ top: 0, behavior: 'instant' });
+    }, 10);
+}
+
+function quickSearch(code) {
+    document.getElementById("cbInput").value = code;
+    smartSearch();
+}
+
+function smartSearch() {
+    const input = document.getElementById("cbInput").value.trim();
+    if (!input) {
+        alert("請輸入查詢條件");
+        return;
+    }
+    
+    let cbCode = null;
+    
+    // 直接CB代號
+    if (fullCBDatabase[input]) {
+        cbCode = input;
+    }
+    // 股票代號
+    else if (/^\d{4}$/.test(input)) {
+        for (let code in fullCBDatabase) {
+            if (fullCBDatabase[code].stock_code === input) {
+                cbCode = code;
+                break;
+            }
+        }
+    }
+    // 公司名稱
+    else {
+        for (let code in fullCBDatabase) {
+            if (fullCBDatabase[code].name.includes(input)) {
+                cbCode = code;
+                break;
+            }
+        }
+    }
+    
+    if (cbCode) {
+        loadCBDetail(cbCode);
+    } else {
+        alert("查無資料\n\n可測試:\n詢圈: 11011, 12101, 12161\n競拍: 13166, 13411, 14361");
+    }
+}
+
+function toggleCategoryDetail(categoryKey, type) {
+    const containerId = `${categoryKey}_detail_container`;
+    const detailId = `${categoryKey}_${type}_detail`;
+    const toggleId = `${categoryKey}_${type}-toggle`;
+    const container = document.getElementById(containerId);
+    const toggle = document.getElementById(toggleId);
+    
+    // 檢查明細是否已存在
+    let detail = document.getElementById(detailId);
+    
+    if (detail) {
+        // 已存在，切換顯示/隱藏
+        if (detail.style.display === 'none') {
+            detail.style.display = 'block';
+            toggle.textContent = `▲ 收合明細 (${allCategoryDetails[categoryKey][type].length}檔)`;
+        } else {
+            detail.style.display = 'none';
+            toggle.textContent = `▼ 展開明細 (${allCategoryDetails[categoryKey][type].length}檔)`;
+        }
+    } else {
+        // 不存在，動態生成
+        const data = allCategoryDetails[categoryKey][type];
+        const isSecured = type === 'secured';
+        const color = isSecured ? '#52c41a' : '#ff9800';
+        const icon = isSecured ? '✅' : '⚠️';
+        const label = isSecured ? '有擔保' : '無擔保';
+        
+        // 計算小計
+        let totalAmp = data.reduce((sum, d) => sum + d.amplitude, 0);
+        let totalPerf = data.reduce((sum, d) => sum + d.performance, 0);
+        let avgAmp = totalAmp / data.length;
+        let avgPerf = totalPerf / data.length;
+        
+        // 生成表格HTML
+        let html = `
+        <div id="${detailId}" style="margin-top:15px;padding:12px;background:#fff;border-radius:8px;border:1px solid #e0e0e0;">
+            <div style="font-size:0.9em;font-weight:600;color:${color};margin-bottom:10px;">
+                ${icon} ${label}+投標倍數範圍 (${data.length}檔)
+            </div>
+            <div style="overflow-x:auto;">
+                <div class="detail-table">
+                    <div class="detail-header">
+                        <span>CB代號</span>
+                        <span>名稱</span>
+                        <span style="text-align:right">掛牌最高</span>
+                        <span style="text-align:right">掛牌最低</span>
+                        <span style="text-align:right">振幅</span>
+                        <span style="text-align:right">績效</span>
+                    </div>`;
+        
+        // 生成每一行
+        data.forEach(d => {
+            html += `
+                    <div class="detail-row">
+                        <span>${d.cb_code}</span>
+                        <span>${d.name}</span>
+                        <span style="text-align:right">${d.high.toFixed(2)}</span>
+                        <span style="text-align:right">${d.low.toFixed(2)}</span>
+                        <span style="color:#1890ff;text-align:right">${d.amplitude.toFixed(2)}%</span>
+                        <span style="color:#52c41a;font-weight:600;text-align:right">+${d.performance.toFixed(2)}%</span>
+                    </div>`;
+        });
+        
+        // 加入小計列
+        html += `
+                    <div class="detail-row" style="background:#f5f5f5;font-weight:600;border-top:2px solid #ddd;">
+                        <span colspan="4">小計 (${data.length}檔)</span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span style="color:#1890ff;text-align:right">${avgAmp.toFixed(2)}%</span>
+                        <span style="color:#52c41a;text-align:right">+${avgPerf.toFixed(2)}%</span>
+                    </div>
+                </div>
+            </div>
+            <div style="margin-top:10px;padding:8px;background:#f9f9f9;border-radius:6px;font-size:0.75em;color:#666;line-height:1.5;">
+                註：振幅=(掛牌最高-掛牌最低)/掛牌最低×100%；績效=(掛牌最高-平均得標)/平均得標×100%
+            </div>
+        </div>`;
+        
+        // 插入容器
+        container.insertAdjacentHTML('beforeend', html);
+        toggle.textContent = `▲ 收合明細 (${data.length}檔)`;
+    }
+}
+
+function toggleDetail(type) {
+    const detail = document.getElementById(type + '-detail');
+    const toggle = document.getElementById(type + '-toggle');
+    
+    if (detail && toggle) {
+        if (detail.style.display === 'none') {
+            detail.style.display = 'block';
+            // 提取檔數
+            const match = toggle.textContent.match(/\((\d+)檔\)/);
+            const count = match ? match[1] : '';
+            toggle.textContent = '▲ 收合明細' + (count ? ' (' + count + '檔)' : '');
+        } else {
+            detail.style.display = 'none';
+            const match = toggle.textContent.match(/\((\d+)檔\)/);
+            const count = match ? match[1] : '';
+            toggle.textContent = '▼ 展開明細' + (count ? ' (' + count + '檔)' : '');
+        }
+    }
+}
+
+function loadCBDetail(code) {
+    const cb = fullCBDatabase[code];
+    if (!cb) return;
+    
+    currentCB = code;
+    document.getElementById("detailTitle").textContent = `${cb.name} (${code})`;
+    document.getElementById("detailSubtitle").textContent = `標的: ${cb.stock_code} • ${cb.industry || "產業待補"}`;
+    document.getElementById("detailPrice").textContent = "101.47";
+    
+    let html = "";
+    
+    // 產業定位
+    if (cb.industry_position) {
+        html += `
+        <div class="info-highlight">
+            <div class="info-highlight-title">🏭 產業定位</div>
+            <div style="color:#555;line-height:1.6;">${cb.industry_position}</div>
+        </div>`;
+    }
+    
+    // 基本資訊
+    html += `
+    <div class="info-card">
+        <div class="card-title">📋 基本資訊</div>
+        <div class="info-row"><div class="info-label">CB代號</div><div class="info-value"><span class="highlight-blue">${code}</span></div></div>
+        <div class="info-row"><div class="info-label">股票代號</div><div class="info-value">${cb.stock_code}</div></div>
+        <div class="info-row"><div class="info-label">產業分類</div><div class="info-value">${cb.industry || "待補充"}</div></div>
+        <div class="info-row"><div class="info-label">股本規模</div><div class="info-value"><span class="highlight-orange">${cb.stock_capital || 0}億元</span></div></div>
+        <div class="info-row"><div class="info-label">發行方式</div><div class="info-value"><span class="highlight-${cb.method === "競拍" ? "purple" : "orange"}">${cb.method}</span></div></div>
+        <div class="info-row"><div class="info-label">承銷券商</div><div class="info-value">${cb.underwriter || "待補充"}</div></div>
+    </div>`;
+    
+    // 發行條件
+    html += `
+    <div class="info-card">
+        <div class="card-title">💰 發行條件</div>
+        <div class="info-row"><div class="info-label">發行規模</div><div class="info-value"><span class="highlight-blue">${cb.issue_amount || 0}億元</span></div></div>
+        <div class="info-row"><div class="info-label">發行價格</div><div class="info-value"><span class="highlight-orange">${cb.issue_price || 100}元</span></div></div>
+        <div class="info-row"><div class="info-label">轉換價格</div><div class="info-value"><span class="highlight-blue">${cb.conversion_price || 0}元</span></div></div>
+        <div class="info-row"><div class="info-label">訂價溢價率</div><div class="info-value"><span class="highlight-green">${cb.premium_rate ? ((cb.premium_rate - 1) * 100).toFixed(2) : "0.00"}%</span></div></div>
+        <div class="info-row"><div class="info-label">發行年期</div><div class="info-value">${cb.issue_years || 0}年</div></div>
+        <div class="info-row"><div class="info-label">到期還本</div><div class="info-value">${cb.maturity_price || 100}元</div></div>
+        <div class="info-row"><div class="info-label">擔保情形</div><div class="info-value"><span class="highlight-${cb.has_security === "有擔保" ? "green" : "orange"}">${cb.has_security || "無擔保"}</span></div></div>
+    </div>`;
+    
+    // 重要日期 - 完整時程
+    if (cb.board_date || cb.listing_date) {
+        html += `
+        <div class="info-card">
+            <div class="card-title">📅 重要日期</div>`;
+        
+        // 董事會
+        if (cb.board_date) {
+            html += `<div class="info-row"><div class="info-label">董事會</div><div class="info-value">${cb.board_date}</div></div>`;
+        }
+        
+        // 送件日
+        if (cb.submit_date) {
+            html += `<div class="info-row"><div class="info-label">送件日</div><div class="info-value">${cb.submit_date}</div></div>`;
+        }
+        
+        // 生效日
+        if (cb.effective_date) {
+            html += `<div class="info-row"><div class="info-label">生效日</div><div class="info-value">${cb.effective_date}</div></div>`;
+        }
+        
+        // 代收價款公告
+        if (cb.payment_date) {
+            html += `<div class="info-row"><div class="info-label">代收價款公告</div><div class="info-value">${cb.payment_date}</div></div>`;
+        }
+        
+        // 詢圈/競拍期間
+        if (cb.auction_date) {
+            html += `<div class="info-row"><div class="info-label">${cb.method === "競拍" ? "競拍期間" : "詢圈期間"}</div><div class="info-value"><span class="highlight-purple">${cb.auction_date}</span></div></div>`;
+        }
+        
+        // 掛牌日
+        if (cb.listing_date) {
+            html += `<div class="info-row"><div class="info-label">掛牌日</div><div class="info-value">${cb.listing_date}</div></div>`;
+        }
+        
+        // CBAS拆解
+        if (cb.cbas_date) {
+            html += `<div class="info-row"><div class="info-label">CBAS拆解</div><div class="info-value">${cb.cbas_date}</div></div>`;
+        }
+        
+        // 到期日
+        if (cb.maturity_date) {
+            html += `<div class="info-row"><div class="info-label">到期日</div><div class="info-value"><span class="highlight-orange">${cb.maturity_date}</span></div></div>`;
+        }
+        
+        html += `</div>`;
+    }
+    
+    // 賣回條款
+    if (cb.put_date1 || cb.put_condition) {
+        html += `
+        <div class="info-card">
+            <div class="card-title">🔄 賣回條款</div>`;
+        
+        if (cb.put_date1) {
+            html += `<div class="info-row"><div class="info-label">賣回日期</div><div class="info-value"><span class="highlight-green">${cb.put_date1}</span></div></div>`;
+        }
+        if (cb.put_right) {
+            html += `<div class="info-row"><div class="info-label">投資人權利</div><div class="info-value">${cb.put_right}</div></div>`;
+        }
+        if (cb.put_condition) {
+            html += `<div class="info-row"><div class="info-label">賣回條件</div><div class="info-value">${cb.put_condition}</div></div>`;
+        }
+        
+        html += `</div>`;
+    }
+    
+    document.getElementById("basicContent").innerHTML = html;
+    
+    // 處理競拍資訊 - 從 auctionDatabase 讀取
+    const auctionInfo = auctionDatabase[code];
+    
+    if (auctionInfo) {
+        // 計算投標氣氛
+        let atmosphere = '';
+        let atmosphereColor = '';
+        const bidMultiple = auctionInfo.bid_multiple;
+        
+        if (bidMultiple < 1.0) {
+            atmosphere = '極度冷清(投標不足競拍張數)';
+            atmosphereColor = '#999';
+        } else if (bidMultiple < 1.5) {
+            atmosphere = '冷清';
+            atmosphereColor = '#69c0ff';
+        } else if (bidMultiple < 2.5) {
+            atmosphere = '普通';
+            atmosphereColor = '#1890ff';
+        } else if (bidMultiple < 4.0) {
+            atmosphere = '火熱';
+            atmosphereColor = '#ff9800';
+        } else {
+            atmosphere = '極度火熱';
+            atmosphereColor = '#f5222d';
+        }
+        
+        // 有完整競拍資料
+        // 判斷屬於哪個氛圍區間
+        let categoryKey = '';
+        let categoryName = '';
+        let categoryRange = '';
+        
+        if (auctionInfo.bid_multiple < 1.0) {
+            categoryKey = 'extreme_cold';
+            categoryName = '極度冷清(投標不足競拍張數)';
+            categoryRange = '<1.0倍';
+        } else if (auctionInfo.bid_multiple < 1.5) {
+            categoryKey = 'cold';
+            categoryName = '冷清';
+            categoryRange = '1.0-1.5倍';
+        } else if (auctionInfo.bid_multiple < 2.5) {
+            categoryKey = 'normal';
+            categoryName = '普通';
+            categoryRange = '1.5-2.5倍';
+        } else if (auctionInfo.bid_multiple < 4.0) {
+            categoryKey = 'hot';
+            categoryName = '火熱';
+            categoryRange = '2.5-4.0倍';
+        } else {
+            categoryKey = 'extreme_hot';
+            categoryName = '極度火熱';
+            categoryRange = '≥4.0倍';
+        }
+        
+        // 定義各區間的完整數據（從category_stats.json生成）
+        const categoryData = {
+            extreme_cold: {
+                secured: { count: 5, avgAmp: 22.90, avgPerf: 19.92 },
+                unsecured: { count: 19, avgAmp: 65.89, avgPerf: 57.32 }
+            },
+            cold: {
+                secured: { count: 8, avgAmp: 35.53, avgPerf: 30.67 },
+                unsecured: { count: 32, avgAmp: 52.07, avgPerf: 42.22 }
+            },
+            normal: {
+                secured: { count: 20, avgAmp: 53.60, avgPerf: 45.31 },
+                unsecured: { count: 44, avgAmp: 57.48, avgPerf: 43.97 }
+            },
+            hot: {
+                secured: { count: 40, avgAmp: 106.15, avgPerf: 89.12 },
+                unsecured: { count: 50, avgAmp: 60.56, avgPerf: 44.30 }
+            },
+            extreme_hot: {
+                secured: { count: 20, avgAmp: 74.91, avgPerf: 53.51 },
+                unsecured: { count: 44, avgAmp: 72.85, avgPerf: 56.73 }
+            }
+        };
+        
+        const currentData = categoryData[categoryKey];
+        const isSecured = auctionInfo.security.includes('有');
+        
+        document.getElementById("auctionContent").innerHTML = `
+        <div class="info-card">
+            <div class="card-title">🔨 競拍結果統計</div>
+            <div class="auction-grid">
+                <div class="auction-metric">
+                    <div class="metric-label">理論價格</div>
+                    <div class="metric-value">${auctionInfo.theoretical_price.toFixed(2)}<span class="metric-unit">元</span></div>
+                </div>
+                <div class="auction-metric">
+                    <div class="metric-label">投標倍數<span class="atmosphere-tag" style="background:${atmosphereColor}">${atmosphere}</span></div>
+                    <div class="metric-value">${auctionInfo.bid_multiple.toFixed(2)}<span class="metric-unit">倍</span></div>
+                </div>
+                <div class="auction-metric">
+                    <div class="metric-label">最低得標</div>
+                    <div class="metric-value">${auctionInfo.min_bid.toFixed(2)}<span class="metric-unit">元</span></div>
+                </div>
+                <div class="auction-metric">
+                    <div class="metric-label">最低溢價</div>
+                    <div class="metric-value">${auctionInfo.min_premium.toFixed(2)}<span class="metric-unit">%</span></div>
+                </div>
+                <div class="auction-metric">
+                    <div class="metric-label">平均得標(掛牌價)</div>
+                    <div class="metric-value">${auctionInfo.avg_bid.toFixed(2)}<span class="metric-unit">元</span></div>
+                </div>
+                <div class="auction-metric">
+                    <div class="metric-label">平均溢價</div>
+                    <div class="metric-value">${auctionInfo.avg_premium.toFixed(2)}<span class="metric-unit">%</span></div>
+                </div>
+            </div>
+            
+            <div class="smart-reminder">
+                <div class="reminder-title">💡 投標倍數氛圍說明</div>
+                <div class="reminder-content">
+                    <div class="atmosphere-legend">
+                        <span class="legend-item"><span class="legend-dot" style="background:#999"></span>&lt;1.0倍 極度冷清(投標不足)</span>
+                        <span class="legend-item"><span class="legend-dot" style="background:#69c0ff"></span>1.0-1.5倍 冷清</span>
+                        <span class="legend-item"><span class="legend-dot" style="background:#1890ff"></span>1.5-2.5倍 普通</span>
+                        <span class="legend-item"><span class="legend-dot" style="background:#ff9800"></span>2.5-4.0倍 火熱</span>
+                        <span class="legend-item"><span class="legend-dot" style="background:#f5222d"></span>≥4.0倍 極度火熱</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="info-card">
+            <div class="card-title">📊 競拍條件</div>
+            <div class="info-row"><div class="info-label">截標日期</div><div class="info-value"><span class="highlight-purple">${auctionInfo.cutoff_date}</span></div></div>
+            <div class="info-row"><div class="info-label">開標日期</div><div class="info-value"><span class="highlight-blue">${auctionInfo.open_date}</span></div></div>
+            <div class="info-row"><div class="info-label">截標收盤</div><div class="info-value"><span class="highlight-orange">${auctionInfo.cutoff_close}元</span></div></div>
+            <div class="info-row"><div class="info-label">轉換價格</div><div class="info-value"><span class="highlight-green">${auctionInfo.conversion_price}元</span></div></div>
+            <div class="info-row"><div class="info-label">理論價格</div><div class="info-value">${auctionInfo.theoretical_price.toFixed(2)}元</div></div>
+            <div class="info-row"><div class="info-label">底標價格</div><div class="info-value">${auctionInfo.floor_price}元</div></div>
+        </div>
+        
+        <div class="info-card">
+            <div class="card-title">📈 投標統計</div>
+            <div class="info-row"><div class="info-label">競拍張數</div><div class="info-value"><span class="highlight-purple">${auctionInfo.auction_units.toLocaleString()}張</span></div></div>
+            <div class="info-row"><div class="info-label">合格件數</div><div class="info-value"><span class="highlight-blue">${auctionInfo.valid_bids.toLocaleString()}件</span></div></div>
+            <div class="info-row"><div class="info-label">總投標張數</div><div class="info-value"><span class="highlight-orange">${auctionInfo.total_bids.toLocaleString()}張</span></div></div>
+            <div class="info-row"><div class="info-label">投標倍數</div><div class="info-value"><span class="highlight-green">${auctionInfo.bid_multiple.toFixed(2)}倍</span> <span class="atmosphere-inline" style="color:${atmosphereColor}">${atmosphere}</span></div></div>
+            <div class="info-row"><div class="info-label">平均投標張數</div><div class="info-value">${auctionInfo.avg_bid_volume.toFixed(1)}張/件</div></div>
+            <div class="info-row"><div class="info-label">承銷券商</div><div class="info-value">${auctionInfo.underwriter}</div></div>
+            <div class="info-row"><div class="info-label">擔保情形</div><div class="info-value"><span class="highlight-${auctionInfo.security.includes('有') ? 'green' : 'orange'}">${auctionInfo.security}</span></div></div>
+            <div class="info-row"><div class="info-label">信用評等</div><div class="info-value">twBB+${auctionInfo.credit_rating}</div></div>
+            
+            <div class="smart-reminder" style="margin-top:15px;">
+                <div class="reminder-title">📊 投標倍數 ${categoryRange} (${categoryName}) 歷史績效分析</div>
+                <div class="reminder-content">
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;">
+                        <div style="padding:10px;background:#fff;border-radius:8px;border-left:3px solid ${isSecured ? '#52c41a' : '#ff9800'};">
+                            <div style="font-size:0.85em;color:#666;">✅ 有擔保 (${currentData.secured.count}檔)</div>
+                            <div style="font-size:1em;font-weight:600;color:#52c41a;margin-top:5px;">平均績效 +${currentData.secured.avgPerf.toFixed(2)}%</div>
+                            <div style="font-size:0.8em;color:#999;margin-top:3px;">平均振幅 ${currentData.secured.avgAmp.toFixed(2)}%</div>
+                            <button onclick="toggleCategoryDetail('${categoryKey}', 'secured')" style="margin-top:8px;padding:4px 10px;font-size:0.75em;background:#f0f0f0;border:none;border-radius:4px;cursor:pointer;width:100%;">
+                                <span id="${categoryKey}_secured-toggle">▼ 展開明細 (${currentData.secured.count}檔)</span>
+                            </button>
+                        </div>
+                        <div style="padding:10px;background:#fff;border-radius:8px;border-left:3px solid #ff9800;">
+                            <div style="font-size:0.85em;color:#666;">⚠️ 無擔保 (${currentData.unsecured.count}檔)</div>
+                            <div style="font-size:1em;font-weight:600;color:#52c41a;margin-top:5px;">平均績效 +${currentData.unsecured.avgPerf.toFixed(2)}%</div>
+                            <div style="font-size:0.8em;color:#999;margin-top:3px;">平均振幅 ${currentData.unsecured.avgAmp.toFixed(2)}%</div>
+                            <button onclick="toggleCategoryDetail('${categoryKey}', 'unsecured')" style="margin-top:8px;padding:4px 10px;font-size:0.75em;background:#f0f0f0;border:none;border-radius:4px;cursor:pointer;width:100%;">
+                                <span id="${categoryKey}_unsecured-toggle">▼ 展開明細 (${currentData.unsecured.count}檔)</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- 明細展開區域（動態生成） -->
+                    <div id="${categoryKey}_detail_container"></div>
+                    
+                    <div style="margin-top:10px;padding:8px;background:#fff;border-radius:6px;font-size:0.8em;color:#666;line-height:1.5;">
+                        💡 <strong>本檔為${auctionInfo.security}，投標倍數${auctionInfo.bid_multiple.toFixed(2)}倍</strong><br>
+                        以「掛牌最高價」計算績效。歷史數據顯示投標倍數${categoryRange}的CB，${isSecured ? `有擔保平均績效+${currentData.secured.avgPerf.toFixed(2)}%` : `無擔保平均績效+${currentData.unsecured.avgPerf.toFixed(2)}%`}。<br>
+                        註：振幅=(掛牌最高-掛牌最低)/掛牌最低×100%；績效=(掛牌最高-平均得標)/平均得標×100%
+                    </div>
+                </div>
+            </div>
+        </div>`;
+    } else if (cb.method === "競拍") {
+        // 標示為競拍但資料未建檔
+        document.getElementById("auctionContent").innerHTML = `
+        <div class="info-card">
+            <div class="card-title">ℹ️ 競拍資訊</div>
+            <div class="info-highlight">
+                <div class="info-highlight-title">📌 ${cb.name} 採用競拍方式發行</div>
+                <div style="color:#555;line-height:1.6;margin-top:10px;">
+                    此CB的完整競拍資料尚未建檔，目前系統已建檔286檔競拍CB的完整資料。<br>
+                    如需此檔CB的競拍資訊，請聯繫Rex大叔。
+                </div>
+            </div>
+        </div>`;
+    } else {
+        // 詢圈方式
+        document.getElementById("auctionContent").innerHTML = `
+        <div class="info-card">
+            <div class="card-title">ℹ️ 發行方式說明</div>
+            <div class="info-highlight">
+                <div class="info-highlight-title">📌 ${cb.name} 採用詢圈方式發行</div>
+                <div style="color:#555;line-height:1.6;margin-top:10px;">
+                    詢價圈購方式發行，無公開競拍資料。<br>
+                    此種發行方式是由承銷商詢問特定機構投資人的認購意願，不經過公開競標程序。
+                </div>
+            </div>
+        </div>`;
+    }
+    
+    document.getElementById("home").style.display = "none";
+    document.getElementById("detail").classList.add("active");
+    
+    // 確保 DOM 更新後再捲動到頁面最上方
+    setTimeout(() => {
+        window.scrollTo({ top: 0, behavior: 'instant' });
+        // 也讓 detail 內容區域捲到最上方
+        const detailScreen = document.getElementById("detail");
+        if (detailScreen) {
+            detailScreen.scrollTop = 0;
+        }
+    }, 10);
+}
+
+function switchTab(tab) {
+    document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("active"));
+    event.target.classList.add("active");
+    document.querySelectorAll(".tab-content").forEach(content => content.classList.remove("active"));
+    document.getElementById(`tab-${tab}`).classList.add("active");
+    
+    if (tab === "chart" && !cbChart) {
+        initCBChart();
+    } else if (tab === "cbas" && !cbasChart) {
+        initCBASChart();
+    }
+}
+
+function changeRange(type, months) {
+    event.target.parentElement.querySelectorAll(".time-btn").forEach(btn => btn.classList.remove("active"));
+    event.target.classList.add("active");
+    
+    if (type === "cb") {
+        updateCBChart(months);
+    } else {
+        updateCBASChart(months);
+    }
+}
+
+function initCBChart() {
+    cbChart = echarts.init(document.getElementById("chartCB"));
+    updateCBChart(12);
+}
+
+function updateCBChart(months) {
+    const data = [
+        {date: "24-01", price: 112.35, vol: 567},
+        {date: "24-02", price: 105.78, vol: 432},
+        {date: "24-03", price: 99.45, vol: 389},
+        {date: "24-04", price: 95.23, vol: 312},
+        {date: "24-05", price: 96.87, vol: 245},
+        {date: "24-06", price: 98.56, vol: 198},
+        {date: "24-07", price: 99.78, vol: 167},
+        {date: "24-08", price: 100.45, vol: 134},
+        {date: "24-09", price: 100.89, vol: 112},
+        {date: "24-10", price: 101.23, vol: 89},
+        {date: "24-11", price: 101.56, vol: 67},
+        {date: "24-12", price: 101.34, vol: 45}
+    ].slice(-months);
+    
+    cbChart.setOption({
+        tooltip: { trigger: "axis", axisPointer: { type: "cross" } },
+        grid: { left: 50, right: 40, bottom: 80, top: 40, containLabel: false },
+        xAxis: {
+            type: "category",
+            data: data.map(d => d.date),
+            axisLabel: { interval: 0, rotate: 45, fontSize: 9 }
+        },
+        yAxis: [
+            { type: "value", name: "價格", nameTextStyle: { fontSize: 11 }, axisLabel: { fontSize: 10 } },
+            { type: "value", name: "成交量", position: "right", nameTextStyle: { fontSize: 11 }, axisLabel: { fontSize: 10 } }
+        ],
+        series: [
+            {
+                name: "價格",
+                type: "line",
+                data: data.map(d => d.price),
+                smooth: true,
+                lineStyle: { width: 2, color: "#667eea" },
+                symbol: "circle",
+                symbolSize: 4
+            },
+            {
+                name: "成交量",
+                type: "bar",
+                yAxisIndex: 1,
+                data: data.map(d => d.vol),
+                itemStyle: { color: "rgba(102,126,234,0.3)" }
+            }
+        ]
+    });
+}
+
+function initCBASChart() {
+    cbasChart = echarts.init(document.getElementById("chartCBAS"));
+    updateCBASChart(12);
+}
+
+function updateCBASChart(months) {
+    const data = [
+        {date: "24-01", premium: 24.34, vol: 567},
+        {date: "24-02", premium: 20.12, vol: 432},
+        {date: "24-03", premium: 16.78, vol: 389},
+        {date: "24-04", premium: 14.56, vol: 312},
+        {date: "24-05", premium: 12.34, vol: 245},
+        {date: "24-06", premium: 10.89, vol: 198},
+        {date: "24-07", premium: 9.45, vol: 167},
+        {date: "24-08", premium: 8.23, vol: 134},
+        {date: "24-09", premium: 7.12, vol: 112},
+        {date: "24-10", premium: 5.89, vol: 89},
+        {date: "24-11", premium: 4.56, vol: 67},
+        {date: "24-12", premium: 3.45, vol: 45}
+    ].slice(-months);
+    
+    cbasChart.setOption({
+        tooltip: { trigger: "axis", axisPointer: { type: "cross" } },
+        grid: { left: 50, right: 40, bottom: 80, top: 40, containLabel: false },
+        xAxis: {
+            type: "category",
+            data: data.map(d => d.date),
+            axisLabel: { interval: 0, rotate: 45, fontSize: 9 }
+        },
+        yAxis: [
+            { type: "value", name: "權利金", nameTextStyle: { fontSize: 11 }, axisLabel: { fontSize: 10 } },
+            { type: "value", name: "CBAS成交量", position: "right", nameTextStyle: { fontSize: 11 }, axisLabel: { fontSize: 10 } }
+        ],
+        series: [
+            {
+                name: "權利金",
+                type: "line",
+                data: data.map(d => d.premium),
+                smooth: true,
+                lineStyle: { width: 3, color: "#ff9800" },
+                symbol: "circle",
+                symbolSize: 6
+            },
+            {
+                name: "CBAS成交量",
+                type: "bar",
+                yAxisIndex: 1,
+                data: data.map(d => d.vol),
+                itemStyle: { color: "rgba(255,152,0,0.3)" }
+            }
+        ]
+    });
+}
+
+window.addEventListener("resize", () => {
+    if (cbChart) cbChart.resize();
+    if (cbasChart) cbasChart.resize();
+});
     </script>
 </body>
 </html>
-
-
-
-
-
