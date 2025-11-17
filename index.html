@@ -133,7 +133,7 @@
             font-size: 0.85em;
             min-width: 430px;
         }
-        .detail-header {
+        .detail-table-header {
             display: grid;
             grid-template-columns: 60px 100px 70px 70px 60px 70px;
             gap: 5px;
@@ -163,7 +163,7 @@
             .detail-table {
                 min-width: 380px;
             }
-            .detail-header, .detail-row {
+            .detail-table-header, .detail-row {
                 grid-template-columns: 50px 80px 55px 55px 50px 60px;
                 font-size: 0.75em;
                 gap: 3px;
@@ -515,7 +515,7 @@ function toggleCategoryDetail(categoryKey, type) {
             </div>
             <div style="overflow-x:auto;">
                 <div class="detail-table">
-                    <div class="detail-header">
+                    <div class="detail-table-header">
                         <span>CB代號</span>
                         <span>名稱</span>
                         <span style="text-align:right">掛牌最高</span>
