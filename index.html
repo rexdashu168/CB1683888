@@ -9,68 +9,78 @@
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios@1.6.2/dist/axios.min.js"></script>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { 
-            font-family: -apple-system, BlinkMacSystemFont, 'Microsoft JhengHei', sans-serif; 
-            background: #f5f5f5; 
-            min-height: 100vh;
-            overflow-x: hidden;
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            -webkit-tap-highlight-color: transparent;
         }
 
 ```
-    /* 頂部導航列 */
-    .mobile-header {
+    body { 
+        font-family: -apple-system, BlinkMacSystemFont, 'Microsoft JhengHei', 'Helvetica Neue', sans-serif; 
+        background: #f5f7fa;
+        min-height: 100vh;
+        overflow-x: hidden;
+        color: #333;
+    }
+    
+    /* 頂部導航 - 保持原始風格 */
+    .header {
+        background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+        color: white;
+        padding: 0 15px;
+        height: 55px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         position: fixed;
         top: 0;
         left: 0;
         right: 0;
-        height: 60px;
-        background: #1e3c72;
+        z-index: 1000;
+    }
+    
+    .header-left {
         display: flex;
         align-items: center;
-        justify-content: space-between;
-        padding: 0 15px;
-        z-index: 1000;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        gap: 12px;
     }
     
     .menu-btn {
         background: none;
         border: none;
         color: white;
-        font-size: 24px;
+        font-size: 20px;
+        padding: 8px;
         cursor: pointer;
-        padding: 10px;
     }
     
     .header-title {
-        color: white;
-        font-size: 18px;
+        font-size: 17px;
         font-weight: 600;
-        flex: 1;
-        text-align: center;
     }
     
     .header-badge {
-        background: rgba(255,255,255,0.2);
-        color: white;
+        background: rgba(255,255,255,0.25);
         padding: 4px 12px;
-        border-radius: 12px;
+        border-radius: 15px;
         font-size: 12px;
     }
     
-    /* 側邊選單 */
+    /* 側邊選單 - 簡潔風格 */
     .sidebar {
         position: fixed;
-        left: -280px;
+        left: -300px;
         top: 0;
-        width: 280px;
+        width: 300px;
         height: 100vh;
         background: white;
-        box-shadow: 2px 0 10px rgba(0,0,0,0.1);
         transition: left 0.3s ease;
         z-index: 2000;
         overflow-y: auto;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.1);
     }
     
     .sidebar.active {
@@ -78,13 +88,13 @@
     }
     
     .sidebar-header {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        padding: 20px;
+        background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+        padding: 25px 20px;
         color: white;
     }
     
     .sidebar-logo {
-        font-size: 36px;
+        font-size: 32px;
         margin-bottom: 10px;
     }
     
@@ -99,37 +109,49 @@
         opacity: 0.8;
     }
     
-    .menu-section {
-        padding: 15px;
-        border-bottom: 1px solid #f0f0f0;
+    .menu-group {
+        padding: 15px 0;
     }
     
-    .menu-section-title {
+    .menu-group-title {
+        padding: 8px 20px;
         font-size: 12px;
         color: #999;
-        margin-bottom: 10px;
-        text-transform: uppercase;
+        font-weight: 600;
+        letter-spacing: 0.5px;
     }
     
     .menu-item {
-        padding: 12px 15px;
-        border-radius: 8px;
-        cursor: pointer;
         display: flex;
         align-items: center;
-        gap: 12px;
+        padding: 14px 20px;
+        cursor: pointer;
         transition: all 0.2s;
-        font-size: 15px;
         color: #333;
+        text-decoration: none;
+        gap: 15px;
     }
     
-    .menu-item:hover, .menu-item.active {
-        background: #f0f0ff;
-        color: #667eea;
+    .menu-item:hover {
+        background: #f8f9fa;
     }
     
-    .menu-item-icon {
+    .menu-item.active {
+        background: #e8f0fe;
+        color: #1a73e8;
+        border-left: 3px solid #1a73e8;
+        padding-left: 17px;
+    }
+    
+    .menu-icon {
         font-size: 20px;
+        width: 24px;
+        text-align: center;
+    }
+    
+    .menu-text {
+        font-size: 15px;
+        font-weight: 500;
     }
     
     /* 遮罩層 */
@@ -148,240 +170,350 @@
         display: block;
     }
     
-    /* 主要內容區 */
+    /* 主內容區 */
     .main-content {
-        padding-top: 60px;
+        padding-top: 55px;
         min-height: 100vh;
     }
     
-    /* 搜尋區域 */
-    .search-section {
+    /* 搜尋區 - 保持原始風格 */
+    .search-container {
         background: white;
-        padding: 15px;
-        margin: 15px;
-        border-radius: 12px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        padding: 20px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.08);
     }
     
-    .search-input-group {
+    .search-title {
         display: flex;
-        gap: 10px;
-        margin-bottom: 10px;
+        align-items: center;
+        gap: 8px;
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 15px;
+        color: #333;
+    }
+    
+    .search-subtitle {
+        font-size: 14px;
+        color: #666;
+        margin-bottom: 12px;
+    }
+    
+    .search-input-wrapper {
+        position: relative;
     }
     
     .search-input {
-        flex: 1;
-        padding: 12px 15px;
+        width: 100%;
+        padding: 14px 16px;
         border: 2px solid #e0e0e0;
-        border-radius: 8px;
+        border-radius: 10px;
         font-size: 16px;
+        transition: all 0.2s;
     }
     
     .search-input:focus {
         outline: none;
-        border-color: #667eea;
+        border-color: #1a73e8;
+        box-shadow: 0 0 0 3px rgba(26,115,232,0.1);
     }
     
     .search-btn {
-        padding: 12px 24px;
-        background: #667eea;
+        position: absolute;
+        right: 8px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: #1a73e8;
         color: white;
         border: none;
-        border-radius: 8px;
+        padding: 10px 24px;
+        border-radius: 6px;
         font-weight: 600;
+        font-size: 15px;
         cursor: pointer;
     }
     
-    /* CB資訊卡片 */
-    .cb-card {
-        background: white;
-        margin: 15px;
-        border-radius: 12px;
-        overflow: hidden;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    .search-hint {
+        font-size: 13px;
+        color: #999;
+        margin-top: 8px;
     }
     
-    .cb-card-header {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    /* CB資訊卡片 - 原始風格 */
+    .cb-info-card {
+        background: white;
+        margin: 20px;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        overflow: hidden;
+    }
+    
+    .cb-header {
         padding: 20px;
-        color: white;
+        border-bottom: 1px solid #f0f0f0;
+    }
+    
+    .cb-title-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 15px;
+    }
+    
+    .cb-name-info {
+        flex: 1;
     }
     
     .cb-name {
-        font-size: 20px;
+        font-size: 18px;
         font-weight: 600;
-        margin-bottom: 5px;
+        color: #333;
+        margin-bottom: 4px;
     }
     
     .cb-code {
-        font-size: 14px;
-        opacity: 0.9;
+        font-size: 24px;
+        font-weight: 700;
+        color: #1a73e8;
+    }
+    
+    .cb-price-info {
+        text-align: right;
     }
     
     .cb-price {
         font-size: 32px;
         font-weight: 700;
-        margin-top: 10px;
+        color: #ea4335;
     }
     
     .cb-change {
         font-size: 14px;
-        margin-top: 5px;
+        color: #666;
+        margin-top: 4px;
     }
     
     /* 資訊列表 */
     .info-list {
-        padding: 15px;
+        padding: 0;
     }
     
     .info-item {
         display: flex;
         justify-content: space-between;
-        padding: 12px 0;
-        border-bottom: 1px solid #f0f0f0;
+        padding: 16px 20px;
+        border-bottom: 1px solid #f5f5f5;
+        transition: background 0.2s;
     }
     
-    .info-item:last-child {
-        border-bottom: none;
+    .info-item:active {
+        background: #f8f9fa;
     }
     
     .info-label {
         color: #666;
-        font-size: 14px;
+        font-size: 15px;
     }
     
     .info-value {
-        font-weight: 600;
-        font-size: 14px;
         color: #333;
-    }
-    
-    /* 標籤導航 */
-    .tab-nav {
-        display: flex;
-        background: white;
-        padding: 0 15px;
-        gap: 20px;
-        overflow-x: auto;
-        border-bottom: 1px solid #f0f0f0;
-        margin: 0 15px;
-        border-radius: 12px 12px 0 0;
-    }
-    
-    .tab-btn {
-        padding: 15px 5px;
-        border: none;
-        background: none;
         font-weight: 600;
-        color: #666;
-        cursor: pointer;
-        position: relative;
-        white-space: nowrap;
+        font-size: 15px;
+    }
+    
+    .info-value.red { color: #ea4335; }
+    .info-value.green { color: #34a853; }
+    
+    /* 底部按鈕組 */
+    .bottom-actions {
+        display: flex;
+        gap: 10px;
+        padding: 15px 20px;
+        background: #f8f9fa;
+    }
+    
+    .action-btn {
+        flex: 1;
+        padding: 12px;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
         font-size: 14px;
+        cursor: pointer;
+        transition: all 0.2s;
     }
     
-    .tab-btn.active {
-        color: #667eea;
+    .action-btn.primary {
+        background: #1a73e8;
+        color: white;
     }
     
-    .tab-btn.active::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        height: 3px;
-        background: #667eea;
-    }
-    
-    /* 圖表容器 */
-    .chart-container {
+    .action-btn.secondary {
         background: white;
-        margin: 0 15px 15px;
-        padding: 15px;
-        border-radius: 0 0 12px 12px;
-        height: 300px;
+        color: #666;
+        border: 1px solid #e0e0e0;
     }
     
-    .chart-box {
-        width: 100%;
-        height: 100%;
+    /* 圖表區域 */
+    .chart-section {
+        background: white;
+        margin: 20px;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     }
     
-    /* 快速選擇 */
-    .quick-picks {
-        padding: 15px;
+    .chart-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
     }
     
-    .quick-picks-title {
+    .chart-title {
         font-size: 16px;
         font-weight: 600;
         color: #333;
-        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
     }
     
-    .quick-picks-grid {
+    .time-selector {
+        display: flex;
+        gap: 8px;
+    }
+    
+    .time-btn {
+        padding: 6px 12px;
+        border: 1px solid #e0e0e0;
+        background: white;
+        border-radius: 6px;
+        font-size: 13px;
+        color: #666;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    
+    .time-btn.active {
+        background: #1a73e8;
+        color: white;
+        border-color: #1a73e8;
+    }
+    
+    .chart-container {
+        height: 300px;
+        position: relative;
+    }
+    
+    /* 快速連結 */
+    .quick-links {
+        padding: 20px;
+    }
+    
+    .quick-links-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .links-grid {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
+        gap: 12px;
     }
     
-    .quick-pick-item {
+    .link-card {
         background: white;
-        border: 1px solid #e0e0e0;
-        padding: 12px;
-        border-radius: 8px;
+        padding: 16px;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
         text-align: center;
         cursor: pointer;
         transition: all 0.2s;
     }
     
-    .quick-pick-item:active {
+    .link-card:active {
         transform: scale(0.98);
     }
     
-    .quick-pick-code {
-        font-weight: 600;
-        color: #667eea;
+    .link-icon {
+        font-size: 28px;
+        margin-bottom: 8px;
+    }
+    
+    .link-text {
         font-size: 14px;
+        color: #333;
+        font-weight: 500;
     }
     
-    .quick-pick-name {
-        font-size: 12px;
-        color: #666;
-        margin-top: 4px;
-    }
-    
-    /* 資料表格 */
-    .data-table {
+    /* 列表樣式 */
+    .list-section {
         background: white;
-        margin: 15px;
+        margin: 20px;
         border-radius: 12px;
-        overflow: hidden;
         box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        overflow: hidden;
     }
     
-    .table-header {
-        background: #f5f5f5;
-        padding: 12px 15px;
+    .list-header {
+        padding: 16px 20px;
+        background: #f8f9fa;
         font-weight: 600;
-        font-size: 14px;
-        color: #555;
-        border-bottom: 2px solid #e0e0e0;
+        color: #333;
+        border-bottom: 1px solid #e0e0e0;
     }
     
-    .table-row {
-        display: grid;
-        grid-template-columns: 1fr 1.5fr 1fr 1fr;
-        padding: 12px 15px;
-        border-bottom: 1px solid #f0f0f0;
-        font-size: 14px;
-        align-items: center;
+    .list-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 16px 20px;
+        border-bottom: 1px solid #f5f5f5;
+        transition: background 0.2s;
     }
     
-    .table-row:active {
-        background: #f5f5f5;
+    .list-item:active {
+        background: #f8f9fa;
     }
+    
+    .list-item-left {
+        flex: 1;
+    }
+    
+    .list-item-name {
+        font-size: 15px;
+        font-weight: 500;
+        color: #333;
+        margin-bottom: 4px;
+    }
+    
+    .list-item-code {
+        font-size: 13px;
+        color: #666;
+    }
+    
+    .list-item-right {
+        text-align: right;
+    }
+    
+    .list-item-price {
+        font-size: 16px;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 4px;
+    }
+    
+    .list-item-change {
+        font-size: 13px;
+    }
+    
+    .list-item-change.up { color: #ea4335; }
+    .list-item-change.down { color: #34a853; }
     
     /* 載入畫面 */
     .loading-screen {
@@ -399,10 +531,10 @@
     }
     
     .loading-spinner {
-        width: 50px;
-        height: 50px;
+        width: 40px;
+        height: 40px;
         border: 3px solid #f0f0f0;
-        border-top: 3px solid #667eea;
+        border-top: 3px solid #1a73e8;
         border-radius: 50%;
         animation: spin 1s linear infinite;
         margin-bottom: 20px;
@@ -415,69 +547,7 @@
     
     .loading-text {
         color: #666;
-        font-size: 16px;
-    }
-    
-    /* 統計卡片 */
-    .stats-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
-        padding: 15px;
-    }
-    
-    .stat-card {
-        background: white;
-        padding: 15px;
-        border-radius: 12px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-        text-align: center;
-    }
-    
-    .stat-icon {
-        font-size: 28px;
-        margin-bottom: 8px;
-    }
-    
-    .stat-value {
-        font-size: 24px;
-        font-weight: 700;
-        color: #667eea;
-        margin-bottom: 4px;
-    }
-    
-    .stat-label {
-        font-size: 12px;
-        color: #999;
-    }
-    
-    /* 功能頁面 */
-    .feature-page {
-        display: none;
-        padding: 15px;
-    }
-    
-    .feature-page.active {
-        display: block;
-    }
-    
-    .feature-title {
-        font-size: 20px;
-        font-weight: 600;
-        color: #333;
-        margin-bottom: 15px;
-    }
-    
-    /* 響應式調整 */
-    @media (max-width: 375px) {
-        .quick-picks-grid {
-            grid-template-columns: 1fr;
-        }
-        
-        .table-row {
-            grid-template-columns: 1fr 1.2fr 0.8fr 0.8fr;
-            font-size: 13px;
-        }
+        font-size: 15px;
     }
 </style>
 ```
@@ -492,10 +562,12 @@
 
 ```
 <!-- 頂部導航 -->
-<header class="mobile-header">
-    <button class="menu-btn" onclick="toggleMenu()">☰</button>
-    <div class="header-title">Rex大叔 智能CB戰情室</div>
-    <div class="header-badge">1969檔</div>
+<header class="header">
+    <div class="header-left">
+        <button class="menu-btn" onclick="toggleMenu()">☰</button>
+        <div class="header-title">Rex大叔 智能CB戰情室</div>
+    </div>
+    <div class="header-badge">資料庫就緒 (共 1969 檔)</div>
 </header>
 
 <!-- 側邊選單 -->
@@ -503,316 +575,233 @@
     <div class="sidebar-header">
         <div class="sidebar-logo">📈</div>
         <div class="sidebar-title">Rex大叔168</div>
-        <div class="sidebar-subtitle">專注風險 • 數據驅動 • 智能分析</div>
+        <div class="sidebar-subtitle">專注風險・數據驅動・智能分析</div>
     </div>
     
-    <div class="menu-section">
-        <div class="menu-section-title">主要功能</div>
-        <div class="menu-item active" onclick="showPage('home')">
-            <span class="menu-item-icon">🏠</span>
-            <span>CB搜尋首頁</span>
-        </div>
-        <div class="menu-item" onclick="showPage('ranking')">
-            <span class="menu-item-icon">📊</span>
-            <span>CB排行榜</span>
-        </div>
-        <div class="menu-item" onclick="showPage('cbas')">
-            <span class="menu-item-icon">💎</span>
-            <span>CBAS權利金</span>
-        </div>
-        <div class="menu-item" onclick="showPage('analysis')">
-            <span class="menu-item-icon">📈</span>
-            <span>技術分析</span>
-        </div>
+    <div class="menu-group">
+        <div class="menu-group-title">主要功能</div>
+        <a class="menu-item active" onclick="showPage('home')">
+            <span class="menu-icon">🏠</span>
+            <span class="menu-text">CB搜尋首頁</span>
+        </a>
+        <a class="menu-item" onclick="showPage('ranking')">
+            <span class="menu-icon">📊</span>
+            <span class="menu-text">CB排行榜</span>
+        </a>
+        <a class="menu-item" onclick="showPage('cbas')">
+            <span class="menu-icon">💎</span>
+            <span class="menu-text">CBAS權利金</span>
+        </a>
+        <a class="menu-item" onclick="showPage('analysis')">
+            <span class="menu-icon">📈</span>
+            <span class="menu-text">技術分析</span>
+        </a>
     </div>
     
-    <div class="menu-section">
-        <div class="menu-section-title">進階分析</div>
-        <div class="menu-item" onclick="showPage('comparison')">
-            <span class="menu-item-icon">🔄</span>
-            <span>CB比較</span>
-        </div>
-        <div class="menu-item" onclick="showPage('filter')">
-            <span class="menu-item-icon">🔍</span>
-            <span>條件篩選</span>
-        </div>
-        <div class="menu-item" onclick="showPage('alert')">
-            <span class="menu-item-icon">🔔</span>
-            <span>價格提醒</span>
-        </div>
-        <div class="menu-item" onclick="showPage('portfolio')">
-            <span class="menu-item-icon">💼</span>
-            <span>投資組合</span>
-        </div>
+    <div class="menu-group">
+        <div class="menu-group-title">進階分析</div>
+        <a class="menu-item" onclick="showPage('comparison')">
+            <span class="menu-icon">🔄</span>
+            <span class="menu-text">CB比較</span>
+        </a>
+        <a class="menu-item" onclick="showPage('filter')">
+            <span class="menu-icon">🔍</span>
+            <span class="menu-text">條件篩選</span>
+        </a>
+        <a class="menu-item" onclick="showPage('alert')">
+            <span class="menu-icon">🔔</span>
+            <span class="menu-text">價格提醒</span>
+        </a>
+        <a class="menu-item" onclick="showPage('portfolio')">
+            <span class="menu-icon">💼</span>
+            <span class="menu-text">投資組合</span>
+        </a>
     </div>
     
-    <div class="menu-section">
-        <div class="menu-section-title">資料匯出</div>
-        <div class="menu-item" onclick="showPage('export')">
-            <span class="menu-item-icon">📑</span>
-            <span>報表匯出</span>
-        </div>
-        <div class="menu-item" onclick="showPage('api')">
-            <span class="menu-item-icon">🔗</span>
-            <span>API連接</span>
-        </div>
+    <div class="menu-group">
+        <div class="menu-group-title">資料匯出</div>
+        <a class="menu-item" onclick="showPage('export')">
+            <span class="menu-icon">📑</span>
+            <span class="menu-text">報表匯出</span>
+        </a>
+        <a class="menu-item" onclick="showPage('api')">
+            <span class="menu-icon">🔗</span>
+            <span class="menu-text">API連接</span>
+        </a>
     </div>
     
-    <div class="menu-section">
-        <div class="menu-section-title">設定</div>
-        <div class="menu-item" onclick="showPage('settings')">
-            <span class="menu-item-icon">⚙️</span>
-            <span>系統設定</span>
-        </div>
-        <div class="menu-item" onclick="showPage('about')">
-            <span class="menu-item-icon">ℹ️</span>
-            <span>關於系統</span>
-        </div>
+    <div class="menu-group">
+        <div class="menu-group-title">設定</div>
+        <a class="menu-item" onclick="showPage('settings')">
+            <span class="menu-icon">⚙️</span>
+            <span class="menu-text">系統設定</span>
+        </a>
+        <a class="menu-item" onclick="showPage('about')">
+            <span class="menu-icon">ℹ️</span>
+            <span class="menu-text">關於</span>
+        </a>
     </div>
 </div>
 
 <!-- 遮罩層 -->
 <div id="overlay" class="overlay" onclick="closeMenu()"></div>
 
-<!-- 主要內容區 -->
-<div class="main-content">
-    <!-- 首頁 -->
-    <div id="page-home" class="feature-page active">
-        <!-- 搜尋區 -->
-        <div class="search-section">
-            <div class="search-input-group">
-                <input type="text" class="search-input" id="searchInput" placeholder="輸入CB代號或名稱..." inputmode="numeric">
-                <button class="search-btn" onclick="performSearch()">搜尋</button>
-            </div>
+<!-- 主內容區 -->
+<main class="main-content">
+    <!-- 搜尋區 -->
+    <div class="search-container">
+        <div class="search-title">
+            <span>🔍</span>
+            <span>搜尋面板</span>
         </div>
-        
-        <!-- 統計資訊 -->
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-icon">📊</div>
-                <div class="stat-value" id="totalCB">2,232</div>
-                <div class="stat-label">CB總數</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">💎</div>
-                <div class="stat-value" id="cbasMonths">174</div>
-                <div class="stat-label">CBAS月份</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">📈</div>
-                <div class="stat-value" id="priceMonths">268</div>
-                <div class="stat-label">價格月份</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">🔄</div>
-                <div class="stat-value" id="updateTime">17:55</div>
-                <div class="stat-label">更新時間</div>
-            </div>
+        <div class="search-subtitle">輸入代號或名稱：</div>
+        <div class="search-input-wrapper">
+            <input type="text" class="search-input" id="searchInput" 
+                   placeholder="請輸入CB代號或名稱" 
+                   value="23836"
+                   inputmode="numeric">
+            <button class="search-btn" onclick="performSearch()">開始查詢</button>
         </div>
-        
-        <!-- 快速選擇 -->
-        <div class="quick-picks">
-            <div class="quick-picks-title">⚡ 熱門查詢</div>
-            <div class="quick-picks-grid" id="quickPicks">
-                <div class="quick-pick-item" onclick="quickSearch('23836')">
-                    <div class="quick-pick-code">23836</div>
-                    <div class="quick-pick-name">台光電六</div>
+        <div class="search-hint">※ 若無法讀取，請手動上傳：</div>
+    </div>
+    
+    <!-- CB資訊卡片 -->
+    <div class="cb-info-card">
+        <div class="cb-header">
+            <div class="cb-title-row">
+                <div class="cb-name-info">
+                    <div class="cb-name">台光電六</div>
+                    <div class="cb-code">23836</div>
                 </div>
-                <div class="quick-pick-item" onclick="quickSearch('11011')">
-                    <div class="quick-pick-code">11011</div>
-                    <div class="quick-pick-name">台泥一永</div>
-                </div>
-                <div class="quick-pick-item" onclick="quickSearch('13166')">
-                    <div class="quick-pick-code">13166</div>
-                    <div class="quick-pick-name">上曜六</div>
-                </div>
-                <div class="quick-pick-item" onclick="quickSearch('12561')">
-                    <div class="quick-pick-code">12561</div>
-                    <div class="quick-pick-name">鮮活果汁一</div>
+                <div class="cb-price-info">
+                    <div class="cb-price">203.77</div>
+                    <div class="cb-change">溢價率 --%</div>
                 </div>
             </div>
         </div>
         
-        <!-- 搜尋結果區 -->
-        <div id="searchResult" style="display:none;">
-            <!-- CB資訊卡片 -->
-            <div class="cb-card">
-                <div class="cb-card-header">
-                    <div class="cb-name" id="cbName">台光電六</div>
-                    <div class="cb-code" id="cbCode">23836</div>
-                    <div class="cb-price" id="cbPrice">203.77</div>
-                    <div class="cb-change" id="cbChange">溢價率 --%</div>
-                </div>
-                <div class="info-list">
-                    <div class="info-item">
-                        <span class="info-label">收盤價</span>
-                        <span class="info-value" id="closePrice">203.77</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">轉換價</span>
-                        <span class="info-value" id="conversionPrice">--</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">標的股價</span>
-                        <span class="info-value" id="stockPrice">--</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">轉換價值</span>
-                        <span class="info-value" id="conversionValue">--</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">溢價率</span>
-                        <span class="info-value" id="premiumRate">--%</span>
-                    </div>
-                </div>
+        <div class="info-list">
+            <div class="info-item">
+                <span class="info-label">收盤價</span>
+                <span class="info-value">203.77</span>
             </div>
-            
-            <!-- 標籤導航 -->
-            <div class="tab-nav">
-                <button class="tab-btn active" onclick="switchTab('chart')">走勢圖</button>
-                <button class="tab-btn" onclick="switchTab('cbas')">CBAS</button>
-                <button class="tab-btn" onclick="switchTab('history')">歷史資料</button>
+            <div class="info-item">
+                <span class="info-label">轉換價</span>
+                <span class="info-value">-</span>
             </div>
-            
-            <!-- 圖表容器 -->
-            <div id="tab-chart" class="chart-container">
-                <div id="priceChart" class="chart-box"></div>
+            <div class="info-item">
+                <span class="info-label">標的股價</span>
+                <span class="info-value">-</span>
             </div>
-            
-            <!-- CBAS資料 -->
-            <div id="tab-cbas" class="chart-container" style="display:none;">
-                <div id="cbasChart" class="chart-box"></div>
+            <div class="info-item">
+                <span class="info-label">轉換價值</span>
+                <span class="info-value">-</span>
             </div>
-            
-            <!-- 歷史資料表 -->
-            <div id="tab-history" style="display:none;">
-                <div class="data-table">
-                    <div class="table-header">CB價格歷史</div>
-                    <div id="historyTable"></div>
-                </div>
+            <div class="info-item">
+                <span class="info-label">溢價率</span>
+                <span class="info-value">-%</span>
+            </div>
+        </div>
+        
+        <div class="bottom-actions">
+            <button class="action-btn primary" onclick="showChart()">選擇檔案</button>
+            <button class="action-btn secondary" onclick="showDetails()">未選取檔案</button>
+        </div>
+    </div>
+    
+    <!-- 圖表區域 -->
+    <div class="chart-section">
+        <div class="chart-header">
+            <div class="chart-title">
+                <span>📈</span>
+                <span>CB價格走勢</span>
+            </div>
+            <div class="time-selector">
+                <button class="time-btn active">1M</button>
+                <button class="time-btn">3M</button>
+                <button class="time-btn">6M</button>
+                <button class="time-btn">1Y</button>
+            </div>
+        </div>
+        <div class="chart-container" id="priceChart"></div>
+    </div>
+    
+    <!-- 快速連結 -->
+    <div class="quick-links">
+        <div class="quick-links-title">
+            <span>⚡</span>
+            <span>快速功能</span>
+        </div>
+        <div class="links-grid">
+            <div class="link-card" onclick="showPage('ranking')">
+                <div class="link-icon">🏆</div>
+                <div class="link-text">排行榜</div>
+            </div>
+            <div class="link-card" onclick="showPage('cbas')">
+                <div class="link-icon">💎</div>
+                <div class="link-text">CBAS</div>
+            </div>
+            <div class="link-card" onclick="showPage('filter')">
+                <div class="link-icon">🔍</div>
+                <div class="link-text">篩選器</div>
+            </div>
+            <div class="link-card" onclick="showPage('export')">
+                <div class="link-icon">📊</div>
+                <div class="link-text">匯出</div>
             </div>
         </div>
     </div>
     
-    <!-- CB排行榜頁面 -->
-    <div id="page-ranking" class="feature-page">
-        <div class="feature-title">📊 CB排行榜</div>
-        <div class="data-table">
-            <div class="table-header">溢價率排行</div>
-            <div class="table-row">
-                <span>代號</span>
-                <span>名稱</span>
-                <span>收盤價</span>
-                <span>溢價率</span>
+    <!-- CB排行榜 -->
+    <div class="list-section">
+        <div class="list-header">CB名稱　　收盤價</div>
+        <div class="list-item">
+            <div class="list-item-left">
+                <div class="list-item-name">台光電六</div>
+                <div class="list-item-code">23836</div>
             </div>
-            <div class="table-row">
-                <span>23836</span>
-                <span>台光電六</span>
-                <span>208.5</span>
-                <span style="color:#52c41a">-3.2%</span>
+            <div class="list-item-right">
+                <div class="list-item-price">208.5</div>
+                <div class="list-item-change down">-1.2%</div>
             </div>
-            <div class="table-row">
-                <span>11011</span>
-                <span>台泥一永</span>
-                <span>104.5</span>
-                <span style="color:#52c41a">-1.5%</span>
+        </div>
+        <div class="list-item">
+            <div class="list-item-left">
+                <div class="list-item-name">台光電七</div>
+                <div class="list-item-code">23837</div>
             </div>
-            <div class="table-row">
-                <span>13166</span>
-                <span>上曜六</span>
-                <span>115.3</span>
-                <span style="color:#ff4444">2.3%</span>
+            <div class="list-item-right">
+                <div class="list-item-price">197.3</div>
+                <div class="list-item-change up">+0.8%</div>
+            </div>
+        </div>
+        <div class="list-item">
+            <div class="list-item-left">
+                <div class="list-item-name">台光電六</div>
+                <div class="list-item-code">23836</div>
+            </div>
+            <div class="list-item-right">
+                <div class="list-item-price">156.0</div>
+                <div class="list-item-change down">-2.5%</div>
+            </div>
+        </div>
+        <div class="list-item">
+            <div class="list-item-left">
+                <div class="list-item-name">台光電六</div>
+                <div class="list-item-code">23836</div>
+            </div>
+            <div class="list-item-right">
+                <div class="list-item-price">140.5</div>
+                <div class="list-item-change up">+1.5%</div>
             </div>
         </div>
     </div>
-    
-    <!-- CBAS權利金頁面 -->
-    <div id="page-cbas" class="feature-page">
-        <div class="feature-title">💎 CBAS權利金分析</div>
-        <div class="cb-card">
-            <div class="cb-card-header" style="background: linear-gradient(135deg, #ff9800 0%, #ff5722 100%);">
-                <div class="cb-name">CBAS權利金統計</div>
-                <div class="cb-code">最新月份: 11410</div>
-            </div>
-            <div class="info-list">
-                <div class="info-item">
-                    <span class="info-label">平均權利金</span>
-                    <span class="info-value">8.56</span>
-                </div>
-                <div class="info-item">
-                    <span class="info-label">最高權利金</span>
-                    <span class="info-value">25.34</span>
-                </div>
-                <div class="info-item">
-                    <span class="info-label">最低權利金</span>
-                    <span class="info-value">0.85</span>
-                </div>
-                <div class="info-item">
-                    <span class="info-label">總成交筆數</span>
-                    <span class="info-value">1,234</span>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- 其他功能頁面... -->
-    <div id="page-analysis" class="feature-page">
-        <div class="feature-title">📈 技術分析工具</div>
-        <p style="padding:20px;text-align:center;color:#999;">功能開發中...</p>
-    </div>
-    
-    <div id="page-comparison" class="feature-page">
-        <div class="feature-title">🔄 CB比較工具</div>
-        <p style="padding:20px;text-align:center;color:#999;">功能開發中...</p>
-    </div>
-    
-    <div id="page-filter" class="feature-page">
-        <div class="feature-title">🔍 條件篩選器</div>
-        <p style="padding:20px;text-align:center;color:#999;">功能開發中...</p>
-    </div>
-    
-    <div id="page-about" class="feature-page">
-        <div class="feature-title">ℹ️ 關於系統</div>
-        <div class="cb-card">
-            <div class="info-list">
-                <div class="info-item">
-                    <span class="info-label">系統版本</span>
-                    <span class="info-value">v6.0 Mobile</span>
-                </div>
-                <div class="info-item">
-                    <span class="info-label">資料來源</span>
-                    <span class="info-value">Excel整合版</span>
-                </div>
-                <div class="info-item">
-                    <span class="info-label">更新頻率</span>
-                    <span class="info-value">即時同步</span>
-                </div>
-                <div class="info-item">
-                    <span class="info-label">開發者</span>
-                    <span class="info-value">Rex大叔168</span>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+</main>
 ```
 
 <script>
 // 全域變數
-let cbDatabase = {};
-let cbasData = {};
-let priceData = {};
-let currentCB = null;
-let priceChart = null;
-let cbasChart = null;
-
-// 配置
-const CONFIG = {
-    baseUrl: './',
-    cbFile: '00_CB代號名稱.xlsx',
-    cbasFile: 'CBAS月拆解查詢系統_資料版.xlsx',
-    priceFile: '04_CB月成交價表_1_.xlsx'
-};
+let currentChart = null;
 
 // 側邊選單控制
 function toggleMenu() {
@@ -831,25 +820,14 @@ function closeMenu() {
 
 // 頁面切換
 function showPage(pageName) {
-    // 關閉選單
     closeMenu();
-    
-    // 隱藏所有頁面
-    document.querySelectorAll('.feature-page').forEach(page => {
-        page.classList.remove('active');
-    });
-    
-    // 顯示指定頁面
-    const targetPage = document.getElementById(`page-${pageName}`);
-    if (targetPage) {
-        targetPage.classList.add('active');
-    }
-    
     // 更新選單狀態
     document.querySelectorAll('.menu-item').forEach(item => {
         item.classList.remove('active');
     });
     event.currentTarget.classList.add('active');
+    
+    console.log('切換到頁面:', pageName);
 }
 
 // 搜尋功能
@@ -859,80 +837,55 @@ function performSearch() {
         alert('請輸入CB代號或名稱');
         return;
     }
-    
-    // 模擬搜尋
-    quickSearch(input.padStart(5, '0'));
+    console.log('搜尋:', input);
+    loadChart();
 }
 
-// 快速搜尋
-function quickSearch(code) {
-    currentCB = code;
+// 載入圖表
+function loadChart() {
+    const chartDiv = document.getElementById('priceChart');
     
-    // 更新顯示資訊
-    document.getElementById('cbName').textContent = cbDatabase[code]?.name || '台光電六';
-    document.getElementById('cbCode').textContent = code;
-    document.getElementById('cbPrice').textContent = '203.77';
-    document.getElementById('closePrice').textContent = '203.77';
-    
-    // 顯示搜尋結果
-    document.getElementById('searchResult').style.display = 'block';
-    
-    // 載入圖表
-    setTimeout(() => {
-        loadPriceChart(code);
-    }, 100);
-}
-
-// 標籤切換
-function switchTab(tabName) {
-    // 更新標籤狀態
-    document.querySelectorAll('.tab-btn').forEach(btn => {
-        btn.classList.remove('active');
-    });
-    event.currentTarget.classList.add('active');
-    
-    // 顯示對應內容
-    document.getElementById('tab-chart').style.display = tabName === 'chart' ? 'block' : 'none';
-    document.getElementById('tab-cbas').style.display = tabName === 'cbas' ? 'block' : 'none';
-    document.getElementById('tab-history').style.display = tabName === 'history' ? 'block' : 'none';
-    
-    // 載入對應資料
-    if (tabName === 'cbas') {
-        loadCBASChart(currentCB);
-    } else if (tabName === 'history') {
-        loadHistoryTable(currentCB);
-    }
-}
-
-// 載入價格走勢圖
-function loadPriceChart(code) {
-    if (!priceChart) {
-        priceChart = echarts.init(document.getElementById('priceChart'));
+    if (!currentChart) {
+        currentChart = echarts.init(chartDiv);
     }
     
     // 模擬資料
-    const dates = ['10-01', '10-02', '10-03', '10-04', '10-05', '10-06', '10-07', '10-08', '10-09', '10-10', '10-11', '10-12'];
-    const prices = [103.5, 104.2, 103.8, 105.1, 106.3, 107.2, 106.8, 108.5, 109.2, 110.1, 109.5, 108.8];
+    const dates = [];
+    const prices = [];
+    const basePrice = 203.77;
+    
+    for (let i = 30; i >= 0; i--) {
+        const date = new Date();
+        date.setDate(date.getDate() - i);
+        dates.push((date.getMonth() + 1) + '/' + date.getDate());
+        
+        // 隨機價格波動
+        const randomChange = (Math.random() - 0.5) * 4;
+        prices.push((basePrice + randomChange).toFixed(2));
+    }
     
     const option = {
         grid: {
-            left: 50,
-            right: 20,
-            top: 20,
-            bottom: 40
+            left: 45,
+            right: 15,
+            top: 15,
+            bottom: 35
         },
         xAxis: {
             type: 'category',
             data: dates,
             axisLabel: {
-                fontSize: 10
+                fontSize: 11,
+                interval: 5
             }
         },
         yAxis: {
             type: 'value',
             axisLabel: {
-                fontSize: 10
-            }
+                fontSize: 11
+            },
+            min: 200,
+            max: 210
         },
         series: [{
             data: prices,
@@ -940,124 +893,58 @@ function loadPriceChart(code) {
             smooth: true,
             lineStyle: {
                 width: 2,
-                color: '#667eea'
+                color: '#ea4335'
             },
             areaStyle: {
                 color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                    { offset: 0, color: 'rgba(102,126,234,0.3)' },
-                    { offset: 1, color: 'rgba(102,126,234,0)' }
+                    { offset: 0, color: 'rgba(234,67,53,0.2)' },
+                    { offset: 1, color: 'rgba(234,67,53,0)' }
                 ])
-            }
-        }]
-    };
-    
-    priceChart.setOption(option);
-}
-
-// 載入CBAS圖表
-function loadCBASChart(code) {
-    if (!cbasChart) {
-        cbasChart = echarts.init(document.getElementById('cbasChart'));
-    }
-    
-    // 模擬CBAS資料
-    const dates = ['10-01', '10-02', '10-03', '10-04', '10-05', '10-06', '10-07', '10-08', '10-09', '10-10', '10-11', '10-12'];
-    const premiums = [8.5, 8.2, 7.8, 7.5, 7.2, 6.8, 6.5, 6.2, 5.8, 5.5, 5.2, 4.8];
-    
-    const option = {
-        grid: {
-            left: 50,
-            right: 20,
-            top: 20,
-            bottom: 40
-        },
-        xAxis: {
-            type: 'category',
-            data: dates,
-            axisLabel: {
-                fontSize: 10
-            }
-        },
-        yAxis: {
-            type: 'value',
-            name: '權利金',
-            axisLabel: {
-                fontSize: 10
-            }
-        },
-        series: [{
-            data: premiums,
-            type: 'line',
-            smooth: true,
-            lineStyle: {
-                width: 2,
-                color: '#ff9800'
             },
-            areaStyle: {
-                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                    { offset: 0, color: 'rgba(255,152,0,0.3)' },
-                    { offset: 1, color: 'rgba(255,152,0,0)' }
-                ])
-            }
+            symbol: 'none'
         }]
     };
     
-    cbasChart.setOption(option);
+    currentChart.setOption(option);
 }
 
-// 載入歷史資料表
-function loadHistoryTable(code) {
-    const tableHtml = `
-        <div class="table-row">
-            <span>日期</span>
-            <span>收盤價</span>
-            <span>成交量</span>
-            <span>漲跌</span>
-        </div>
-        <div class="table-row">
-            <span>10-12</span>
-            <span>203.77</span>
-            <span>1,234</span>
-            <span style="color:#52c41a">-0.5%</span>
-        </div>
-        <div class="table-row">
-            <span>10-11</span>
-            <span>204.50</span>
-            <span>987</span>
-            <span style="color:#ff4444">1.2%</span>
-        </div>
-        <div class="table-row">
-            <span>10-10</span>
-            <span>202.10</span>
-            <span>1,567</span>
-            <span style="color:#52c41a">-0.8%</span>
-        </div>
-    `;
-    
-    document.getElementById('historyTable').innerHTML = tableHtml;
+// 顯示圖表
+function showChart() {
+    console.log('顯示圖表');
 }
 
-// 初始化系統（簡化版）
-function initSystem() {
+// 顯示詳情
+function showDetails() {
+    console.log('顯示詳情');
+}
+
+// 初始化
+window.addEventListener('DOMContentLoaded', function() {
     // 隱藏載入畫面
     setTimeout(() => {
         document.getElementById('loadingScreen').style.display = 'none';
     }, 1000);
     
-    // 更新時間
-    const now = new Date();
-    document.getElementById('updateTime').textContent = 
-        now.getHours().toString().padStart(2, '0') + ':' + 
-        now.getMinutes().toString().padStart(2, '0');
-}
+    // 載入圖表
+    setTimeout(() => {
+        loadChart();
+    }, 1200);
+});
 
-// 頁面載入時初始化
-window.addEventListener('DOMContentLoaded', initSystem);
-
-// 處理圖表大小調整
+// 處理視窗調整
 window.addEventListener('resize', () => {
-    if (priceChart) priceChart.resize();
-    if (cbasChart) cbasChart.resize();
+    if (currentChart) {
+        currentChart.resize();
+    }
+});
+
+// 時間按鈕點擊
+document.querySelectorAll('.time-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        loadChart(); // 重新載入不同時間範圍的資料
+    });
 });
 </script>
 
