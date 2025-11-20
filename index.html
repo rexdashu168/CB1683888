@@ -1016,19 +1016,19 @@
     
     <div class="menu-group">
         <div class="menu-group-title">主要功能</div>
-        <a class="menu-item active" onclick="showPage('home')">
+        <a class="menu-item active" onclick="showPage('home', event)">
             <span class="menu-icon">🏠</span>
             <span class="menu-text">首頁</span>
         </a>
-        <a class="menu-item" onclick="showPage('high-low-query')">
+        <a class="menu-item" onclick="showPage('high-low-query', event)">
             <span class="menu-icon">📊</span>
             <span class="menu-text">CB掛牌高低查詢</span>
         </a>
-        <a class="menu-item" onclick="showPage('issue-query')">
+        <a class="menu-item" onclick="showPage('issue-query', event)">
             <span class="menu-icon">📋</span>
             <span class="menu-text">CB發行查詢</span>
         </a>
-        <a class="menu-item" onclick="showPage('company-query')">
+        <a class="menu-item" onclick="showPage('company-query', event)">
             <span class="menu-icon">🏢</span>
             <span class="menu-text">CB同公司發行查詢</span>
         </a>
@@ -1036,11 +1036,11 @@
     
     <div class="menu-group">
         <div class="menu-group-title">承銷專區</div>
-        <a class="menu-item" onclick="showPage('board-announcement')">
+        <a class="menu-item" onclick="showPage('board-announcement', event)">
             <span class="menu-icon">📢</span>
             <span class="menu-text">董事會公告</span>
         </a>
-        <a class="menu-item" onclick="showPage('issue-cases')">
+        <a class="menu-item" onclick="showPage('issue-cases', event)">
             <span class="menu-icon">📄</span>
             <span class="menu-text">發行案件</span>
         </a>
@@ -1048,15 +1048,15 @@
     
     <div class="menu-group">
         <div class="menu-group-title">競拍專區</div>
-        <a class="menu-item" onclick="showPage('auction-query')">
+        <a class="menu-item" onclick="showPage('auction-query', event)">
             <span class="menu-icon">🔨</span>
             <span class="menu-text">競拍查詢</span>
         </a>
-        <a class="menu-item" onclick="showPage('auction-batch')">
+        <a class="menu-item" onclick="showPage('auction-batch', event)">
             <span class="menu-icon">📑</span>
             <span class="menu-text">競拍批次查詢</span>
         </a>
-        <a class="menu-item" onclick="showPage('condition-analysis')">
+        <a class="menu-item" onclick="showPage('condition-analysis', event)">
             <span class="menu-icon">🔍</span>
             <span class="menu-text">發行組合條件分析</span>
         </a>
@@ -1064,7 +1064,7 @@
     
     <div class="menu-group">
         <div class="menu-group-title">統計分析</div>
-        <a class="menu-item" onclick="showPage('performance-analysis')">
+        <a class="menu-item" onclick="showPage('performance-analysis', event)">
             <span class="menu-icon">📈</span>
             <span class="menu-text">組合績效分析</span>
         </a>
@@ -1106,19 +1106,19 @@
                 <span>快速功能</span>
             </div>
             <div class="links-grid">
-                <div class="link-card" onclick="showPage('high-low-query')">
+                <div class="link-card" onclick="showPage('high-low-query', event)">
                     <div class="link-icon">📊</div>
                     <div class="link-text">掛牌高低</div>
                 </div>
-                <div class="link-card" onclick="showPage('auction-query')">
+                <div class="link-card" onclick="showPage('auction-query', event)">
                     <div class="link-icon">🔨</div>
                     <div class="link-text">競拍查詢</div>
                 </div>
-                <div class="link-card" onclick="showPage('company-query')">
+                <div class="link-card" onclick="showPage('company-query', event)">
                     <div class="link-icon">🏢</div>
                     <div class="link-text">同公司查詢</div>
                 </div>
-                <div class="link-card" onclick="showPage('condition-analysis')">
+                <div class="link-card" onclick="showPage('condition-analysis', event)">
                     <div class="link-icon">🔍</div>
                     <div class="link-text">條件分析</div>
                 </div>
@@ -1415,7 +1415,7 @@ function closeMenu() {
 }
 
 // 頁面切換
-function showPage(pageName) {
+function showPage(pageName, event) {
     closeMenu();
     
     // 隱藏所有頁面
@@ -1433,8 +1433,12 @@ function showPage(pageName) {
     document.querySelectorAll('.menu-item').forEach(item => {
         item.classList.remove('active');
     });
+    
+    // 使用傳入的event參數
     if (event && event.currentTarget) {
         event.currentTarget.classList.add('active');
+    } else if (event && event.target) {
+        event.target.closest('.menu-item').classList.add('active');
     }
     
     // 根據頁面初始化內容
@@ -1471,16 +1475,20 @@ function showPage(pageName) {
 
 // 初始化排行榜
 function initRanking() {
-    showRanking('premium');
+    const firstTab = document.querySelector('.ranking-tab');
+    showRanking('premium', {target: firstTab});
 }
 
 // 顯示不同類型的排行
-function showRanking(type) {
+function showRanking(type, event) {
     document.querySelectorAll('.ranking-tab').forEach(tab => {
         tab.classList.remove('active');
     });
+    
     if (event && event.currentTarget) {
         event.currentTarget.classList.add('active');
+    } else if (event && event.target) {
+        event.target.classList.add('active');
     }
     
     const rankingList = document.getElementById('rankingList');
