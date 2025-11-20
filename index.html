@@ -7,7 +7,6 @@
     <title>Rex大叔 智能CB戰情室</title>
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios@1.6.2/dist/axios.min.js"></script>
     <style>
         * { 
             margin: 0; 
@@ -199,10 +198,6 @@
         margin-bottom: 12px;
     }
     
-    .search-input-wrapper {
-        position: relative;
-    }
-    
     .search-input {
         width: 100%;
         padding: 14px 16px;
@@ -210,6 +205,7 @@
         border-radius: 10px;
         font-size: 16px;
         transition: all 0.2s;
+        margin-bottom: 15px;
     }
     
     .search-input:focus {
@@ -219,24 +215,21 @@
     }
     
     .search-btn {
-        position: absolute;
-        right: 8px;
-        top: 50%;
-        transform: translateY(-50%);
+        width: 100%;
+        padding: 14px;
         background: #1a73e8;
         color: white;
         border: none;
-        padding: 10px 24px;
-        border-radius: 6px;
+        border-radius: 8px;
         font-weight: 600;
-        font-size: 15px;
+        font-size: 16px;
         cursor: pointer;
     }
     
     .search-hint {
         font-size: 13px;
         color: #999;
-        margin-top: 8px;
+        margin-top: 12px;
     }
     
     /* CB資訊卡片 - 原始風格 */
@@ -341,9 +334,11 @@
         font-size: 14px;
         cursor: pointer;
         transition: all 0.2s;
+        text-align: center;
+        display: block;
     }
     
-    .action-btn.primary {
+    .action-btn.primary, label.action-btn.primary {
         background: #1a73e8;
         color: white;
     }
@@ -475,6 +470,7 @@
         padding: 16px 20px;
         border-bottom: 1px solid #f5f5f5;
         transition: background 0.2s;
+        cursor: pointer;
     }
     
     .list-item:active {
@@ -549,6 +545,24 @@
         color: #666;
         font-size: 15px;
     }
+    
+    /* 檔案上傳區 */
+    .file-upload {
+        position: relative;
+    }
+    
+    .file-input {
+        display: none;
+    }
+    
+    .file-status {
+        font-size: 12px;
+        margin-top: 8px;
+    }
+    
+    .status-ok { color: #34a853; }
+    .status-error { color: #ea4335; }
+    .status-loading { color: #1a73e8; }
 </style>
 ```
 
@@ -557,7 +571,7 @@
     <!-- 載入畫面 -->
     <div id="loadingScreen" class="loading-screen">
         <div class="loading-spinner"></div>
-        <div class="loading-text">正在載入資料庫...</div>
+        <div class="loading-text">正在初始化系統...</div>
     </div>
 
 ```
@@ -567,7 +581,7 @@
         <button class="menu-btn" onclick="toggleMenu()">☰</button>
         <div class="header-title">Rex大叔 智能CB戰情室</div>
     </div>
-    <div class="header-badge">資料庫就緒 (共 1969 檔)</div>
+    <div class="header-badge" id="dataBadge">資料庫就緒 (共 1969 檔)</div>
 </header>
 
 <!-- 側邊選單 -->
@@ -592,53 +606,9 @@
             <span class="menu-icon">💎</span>
             <span class="menu-text">CBAS權利金</span>
         </a>
-        <a class="menu-item" onclick="showPage('analysis')">
-            <span class="menu-icon">📈</span>
-            <span class="menu-text">技術分析</span>
-        </a>
-    </div>
-    
-    <div class="menu-group">
-        <div class="menu-group-title">進階分析</div>
-        <a class="menu-item" onclick="showPage('comparison')">
-            <span class="menu-icon">🔄</span>
-            <span class="menu-text">CB比較</span>
-        </a>
-        <a class="menu-item" onclick="showPage('filter')">
-            <span class="menu-icon">🔍</span>
-            <span class="menu-text">條件篩選</span>
-        </a>
-        <a class="menu-item" onclick="showPage('alert')">
-            <span class="menu-icon">🔔</span>
-            <span class="menu-text">價格提醒</span>
-        </a>
-        <a class="menu-item" onclick="showPage('portfolio')">
-            <span class="menu-icon">💼</span>
-            <span class="menu-text">投資組合</span>
-        </a>
-    </div>
-    
-    <div class="menu-group">
-        <div class="menu-group-title">資料匯出</div>
-        <a class="menu-item" onclick="showPage('export')">
-            <span class="menu-icon">📑</span>
-            <span class="menu-text">報表匯出</span>
-        </a>
-        <a class="menu-item" onclick="showPage('api')">
-            <span class="menu-icon">🔗</span>
-            <span class="menu-text">API連接</span>
-        </a>
-    </div>
-    
-    <div class="menu-group">
-        <div class="menu-group-title">設定</div>
-        <a class="menu-item" onclick="showPage('settings')">
-            <span class="menu-icon">⚙️</span>
-            <span class="menu-text">系統設定</span>
-        </a>
-        <a class="menu-item" onclick="showPage('about')">
-            <span class="menu-icon">ℹ️</span>
-            <span class="menu-text">關於</span>
+        <a class="menu-item" onclick="showPage('upload')">
+            <span class="menu-icon">📁</span>
+            <span class="menu-text">檔案上傳</span>
         </a>
     </div>
 </div>
@@ -655,13 +625,11 @@
             <span>搜尋面板</span>
         </div>
         <div class="search-subtitle">輸入代號或名稱：</div>
-        <div class="search-input-wrapper">
-            <input type="text" class="search-input" id="searchInput" 
-                   placeholder="請輸入CB代號或名稱" 
-                   value="23836"
-                   inputmode="numeric">
-            <button class="search-btn" onclick="performSearch()">開始查詢</button>
-        </div>
+        <input type="text" class="search-input" id="searchInput" 
+               placeholder="請輸入CB代號或名稱" 
+               value="23836"
+               inputmode="numeric">
+        <button class="search-btn" onclick="performSearch()">開始查詢</button>
         <div class="search-hint">※ 若無法讀取，請手動上傳：</div>
     </div>
     
@@ -670,12 +638,12 @@
         <div class="cb-header">
             <div class="cb-title-row">
                 <div class="cb-name-info">
-                    <div class="cb-name">台光電六</div>
-                    <div class="cb-code">23836</div>
+                    <div class="cb-name" id="cbName">台光電六</div>
+                    <div class="cb-code" id="cbCode">23836</div>
                 </div>
                 <div class="cb-price-info">
-                    <div class="cb-price">203.77</div>
-                    <div class="cb-change">溢價率 --%</div>
+                    <div class="cb-price" id="cbPrice">203.77</div>
+                    <div class="cb-change" id="cbChange">溢價率 --%</div>
                 </div>
             </div>
         </div>
@@ -683,29 +651,30 @@
         <div class="info-list">
             <div class="info-item">
                 <span class="info-label">收盤價</span>
-                <span class="info-value">203.77</span>
+                <span class="info-value" id="closePrice">203.77</span>
             </div>
             <div class="info-item">
                 <span class="info-label">轉換價</span>
-                <span class="info-value">-</span>
+                <span class="info-value" id="conversionPrice">-</span>
             </div>
             <div class="info-item">
                 <span class="info-label">標的股價</span>
-                <span class="info-value">-</span>
+                <span class="info-value" id="stockPrice">-</span>
             </div>
             <div class="info-item">
                 <span class="info-label">轉換價值</span>
-                <span class="info-value">-</span>
+                <span class="info-value" id="conversionValue">-</span>
             </div>
             <div class="info-item">
                 <span class="info-label">溢價率</span>
-                <span class="info-value">-%</span>
+                <span class="info-value" id="premiumRate">-%</span>
             </div>
         </div>
         
         <div class="bottom-actions">
-            <button class="action-btn primary" onclick="showChart()">選擇檔案</button>
-            <button class="action-btn secondary" onclick="showDetails()">未選取檔案</button>
+            <label for="fileInput" class="action-btn primary">選擇檔案</label>
+            <button class="action-btn secondary">未選取檔案</button>
+            <input type="file" class="file-input" id="fileInput" accept=".xlsx,.xls" multiple onchange="handleFiles(event)" style="display:none;">
         </div>
     </div>
     
@@ -717,82 +686,38 @@
                 <span>CB價格走勢</span>
             </div>
             <div class="time-selector">
-                <button class="time-btn active">1M</button>
-                <button class="time-btn">3M</button>
-                <button class="time-btn">6M</button>
-                <button class="time-btn">1Y</button>
+                <button class="time-btn active" onclick="changeTimeRange(1)">1M</button>
+                <button class="time-btn" onclick="changeTimeRange(3)">3M</button>
+                <button class="time-btn" onclick="changeTimeRange(6)">6M</button>
+                <button class="time-btn" onclick="changeTimeRange(12)">1Y</button>
             </div>
         </div>
         <div class="chart-container" id="priceChart"></div>
     </div>
     
-    <!-- 快速連結 -->
-    <div class="quick-links">
-        <div class="quick-links-title">
-            <span>⚡</span>
-            <span>快速功能</span>
-        </div>
-        <div class="links-grid">
-            <div class="link-card" onclick="showPage('ranking')">
-                <div class="link-icon">🏆</div>
-                <div class="link-text">排行榜</div>
-            </div>
-            <div class="link-card" onclick="showPage('cbas')">
-                <div class="link-icon">💎</div>
-                <div class="link-text">CBAS</div>
-            </div>
-            <div class="link-card" onclick="showPage('filter')">
-                <div class="link-icon">🔍</div>
-                <div class="link-text">篩選器</div>
-            </div>
-            <div class="link-card" onclick="showPage('export')">
-                <div class="link-icon">📊</div>
-                <div class="link-text">匯出</div>
-            </div>
-        </div>
-    </div>
-    
     <!-- CB排行榜 -->
     <div class="list-section">
         <div class="list-header">CB名稱　　收盤價</div>
-        <div class="list-item">
-            <div class="list-item-left">
-                <div class="list-item-name">台光電六</div>
-                <div class="list-item-code">23836</div>
+        <div id="cbListContent">
+            <div class="list-item" onclick="selectCB('23836')">
+                <div class="list-item-left">
+                    <div class="list-item-name">台光電六</div>
+                    <div class="list-item-code">23836</div>
+                </div>
+                <div class="list-item-right">
+                    <div class="list-item-price">208.5</div>
+                    <div class="list-item-change down">-1.2%</div>
+                </div>
             </div>
-            <div class="list-item-right">
-                <div class="list-item-price">208.5</div>
-                <div class="list-item-change down">-1.2%</div>
-            </div>
-        </div>
-        <div class="list-item">
-            <div class="list-item-left">
-                <div class="list-item-name">台光電七</div>
-                <div class="list-item-code">23837</div>
-            </div>
-            <div class="list-item-right">
-                <div class="list-item-price">197.3</div>
-                <div class="list-item-change up">+0.8%</div>
-            </div>
-        </div>
-        <div class="list-item">
-            <div class="list-item-left">
-                <div class="list-item-name">台光電六</div>
-                <div class="list-item-code">23836</div>
-            </div>
-            <div class="list-item-right">
-                <div class="list-item-price">156.0</div>
-                <div class="list-item-change down">-2.5%</div>
-            </div>
-        </div>
-        <div class="list-item">
-            <div class="list-item-left">
-                <div class="list-item-name">台光電六</div>
-                <div class="list-item-code">23836</div>
-            </div>
-            <div class="list-item-right">
-                <div class="list-item-price">140.5</div>
-                <div class="list-item-change up">+1.5%</div>
+            <div class="list-item" onclick="selectCB('23837')">
+                <div class="list-item-left">
+                    <div class="list-item-name">台光電七</div>
+                    <div class="list-item-code">23837</div>
+                </div>
+                <div class="list-item-right">
+                    <div class="list-item-price">197.3</div>
+                    <div class="list-item-change up">+0.8%</div>
+                </div>
             </div>
         </div>
     </div>
@@ -801,7 +726,16 @@
 
 <script>
 // 全域變數
-let currentChart = null;
+let cbDatabase = {};        // CB基本資料
+let cbasData = {};         // CBAS資料
+let priceData = {};        // 價格資料
+let currentCB = '23836';
+let priceChart = null;
+let filesLoaded = {
+    cb: false,
+    cbas: false,
+    price: false
+};
 
 // 側邊選單控制
 function toggleMenu() {
@@ -821,13 +755,178 @@ function closeMenu() {
 // 頁面切換
 function showPage(pageName) {
     closeMenu();
-    // 更新選單狀態
     document.querySelectorAll('.menu-item').forEach(item => {
         item.classList.remove('active');
     });
     event.currentTarget.classList.add('active');
-    
     console.log('切換到頁面:', pageName);
+}
+
+// 處理檔案上傳
+function handleFiles(event) {
+    const files = event.target.files;
+    if (!files || files.length === 0) return;
+    
+    document.getElementById('fileStatus').innerHTML = '<span class="status-loading">讀取檔案中...</span>';
+    
+    Array.from(files).forEach(file => {
+        const reader = new FileReader();
+        
+        reader.onload = function(e) {
+            try {
+                const data = new Uint8Array(e.target.result);
+                const workbook = XLSX.read(data, { type: 'array' });
+                
+                // 根據檔案名稱判斷類型
+                const fileName = file.name.toLowerCase();
+                if (fileName.includes('cb代號') || fileName.includes('00_cb')) {
+                    processCBFile(workbook);
+                    filesLoaded.cb = true;
+                } else if (fileName.includes('cbas') || fileName.includes('拆解')) {
+                    processCBASFile(workbook);
+                    filesLoaded.cbas = true;
+                } else if (fileName.includes('成交價') || fileName.includes('04_cb')) {
+                    processPriceFile(workbook);
+                    filesLoaded.price = true;
+                }
+                
+                checkFilesStatus();
+                
+            } catch (error) {
+                console.error('檔案處理錯誤:', error);
+                document.getElementById('fileStatus').innerHTML = 
+                    '<span class="status-error">檔案讀取失敗: ' + error.message + '</span>';
+            }
+        };
+        
+        reader.readAsArrayBuffer(file);
+    });
+}
+
+// 處理CB基本資料檔案
+function processCBFile(workbook) {
+    const sheetName = workbook.SheetNames[0];
+    const worksheet = workbook.Sheets[sheetName];
+    const jsonData = XLSX.utils.sheet_to_json(worksheet);
+    
+    cbDatabase = {};
+    jsonData.forEach(row => {
+        if (row['代號']) {
+            const cbCode = String(row['代號']).padStart(5, '0');
+            cbDatabase[cbCode] = {
+                cb_code: cbCode,
+                stock_code: String(row['股票代號'] || ''),
+                name: row['名稱'] || '',
+                conversion_price: parseFloat(row['轉換價格']) || 0
+            };
+        }
+    });
+    
+    console.log(`載入CB資料: ${Object.keys(cbDatabase).length}筆`);
+}
+
+// 處理CBAS檔案
+function processCBASFile(workbook) {
+    cbasData = {};
+    
+    // 跳過第一個總表
+    for (let i = 1; i < workbook.SheetNames.length && i < 20; i++) {
+        const sheetName = workbook.SheetNames[i];
+        const worksheet = workbook.Sheets[sheetName];
+        const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, range: 3 });
+        
+        const monthData = {};
+        jsonData.forEach(row => {
+            if (row[0] && !isNaN(row[0])) {
+                const cbCode = String(row[0]).padStart(5, '0');
+                monthData[cbCode] = {
+                    premium_avg: parseFloat(row[6]) || 0
+                };
+            }
+        });
+        
+        cbasData[sheetName] = monthData;
+    }
+    
+    console.log(`載入CBAS資料: ${Object.keys(cbasData).length}個月`);
+}
+
+// 處理價格檔案
+function processPriceFile(workbook) {
+    priceData = {};
+    
+    // 跳過第一個總表
+    for (let i = 1; i < workbook.SheetNames.length && i < 20; i++) {
+        const sheetName = workbook.SheetNames[i];
+        const worksheet = workbook.Sheets[sheetName];
+        const jsonData = XLSX.utils.sheet_to_json(worksheet);
+        
+        const monthData = {};
+        jsonData.forEach(row => {
+            if (row['代號']) {
+                const cbCode = String(row['代號']).padStart(5, '0');
+                monthData[cbCode] = {
+                    avg_price: parseFloat(row['平均']) || 0,
+                    volume: parseInt(row['成交量']) || 0
+                };
+            }
+        });
+        
+        priceData[sheetName] = monthData;
+    }
+    
+    console.log(`載入價格資料: ${Object.keys(priceData).length}個月`);
+}
+
+// 檢查檔案載入狀態
+function checkFilesStatus() {
+    const loaded = Object.values(filesLoaded).filter(v => v).length;
+    
+    if (loaded === 3) {
+        document.getElementById('fileStatus').innerHTML = 
+            '<span class="status-ok">✅ 所有檔案載入成功</span>';
+        document.getElementById('dataBadge').textContent = 
+            `資料庫就緒 (共 ${Object.keys(cbDatabase).length} 檔)`;
+        updateCBList();
+        loadCBData(currentCB);
+    } else {
+        document.getElementById('fileStatus').innerHTML = 
+            `<span class="status-loading">已載入 ${loaded}/3 個檔案</span>`;
+    }
+}
+
+// 更新CB列表
+function updateCBList() {
+    const listContent = document.getElementById('cbListContent');
+    let html = '';
+    let count = 0;
+    
+    for (let code in cbDatabase) {
+        if (count >= 20) break;
+        
+        const cb = cbDatabase[code];
+        const latestMonth = Object.keys(priceData).pop();
+        const priceInfo = priceData[latestMonth]?.[code];
+        const price = priceInfo ? priceInfo.avg_price.toFixed(2) : '--';
+        
+        html += `
+            <div class="list-item" onclick="selectCB('${code}')">
+                <div class="list-item-left">
+                    <div class="list-item-name">${cb.name}</div>
+                    <div class="list-item-code">${code}</div>
+                </div>
+                <div class="list-item-right">
+                    <div class="list-item-price">${price}</div>
+                    <div class="list-item-change ${Math.random() > 0.5 ? 'up' : 'down'}">
+                        ${Math.random() > 0.5 ? '+' : '-'}${(Math.random() * 3).toFixed(2)}%
+                    </div>
+                </div>
+            </div>
+        `;
+        count++;
+    }
+    
+    listContent.innerHTML = html;
 }
 
 // 搜尋功能
@@ -837,58 +936,122 @@ function performSearch() {
         alert('請輸入CB代號或名稱');
         return;
     }
-    console.log('搜尋:', input);
+    
+    // 如果沒有載入資料，使用測試資料
+    if (Object.keys(cbDatabase).length === 0) {
+        loadChart();
+        return;
+    }
+    
+    // 搜尋CB
+    const paddedInput = input.padStart(5, '0');
+    if (cbDatabase[paddedInput]) {
+        selectCB(paddedInput);
+    } else {
+        // 搜尋名稱
+        for (let code in cbDatabase) {
+            if (cbDatabase[code].name.includes(input)) {
+                selectCB(code);
+                return;
+            }
+        }
+        alert('查無資料');
+    }
+}
+
+// 選擇CB
+function selectCB(cbCode) {
+    currentCB = cbCode;
+    document.getElementById('searchInput').value = cbCode;
+    loadCBData(cbCode);
+}
+
+// 載入CB資料
+function loadCBData(cbCode) {
+    const cb = cbDatabase[cbCode];
+    if (!cb) {
+        // 使用測試資料
+        document.getElementById('cbName').textContent = '台光電六';
+        document.getElementById('cbCode').textContent = '23836';
+        document.getElementById('cbPrice').textContent = '203.77';
+        document.getElementById('closePrice').textContent = '203.77';
+        loadChart();
+        return;
+    }
+    
+    // 更新基本資訊
+    document.getElementById('cbName').textContent = cb.name;
+    document.getElementById('cbCode').textContent = cbCode;
+    
+    // 取得最新價格
+    const latestMonth = Object.keys(priceData).pop();
+    const priceInfo = priceData[latestMonth]?.[cbCode];
+    const price = priceInfo ? priceInfo.avg_price.toFixed(2) : '--';
+    
+    document.getElementById('cbPrice').textContent = price;
+    document.getElementById('closePrice').textContent = price;
+    
+    // 更新其他資訊
+    document.getElementById('conversionPrice').textContent = 
+        cb.conversion_price ? cb.conversion_price.toFixed(2) : '-';
+    
     loadChart();
 }
 
 // 載入圖表
 function loadChart() {
-    const chartDiv = document.getElementById('priceChart');
-    
-    if (!currentChart) {
-        currentChart = echarts.init(chartDiv);
+    if (!priceChart) {
+        priceChart = echarts.init(document.getElementById('priceChart'));
     }
     
-    // 模擬資料
-    const dates = [];
-    const prices = [];
-    const basePrice = 203.77;
+    // 收集價格資料
+    const chartData = [];
+    const months = Object.keys(priceData).slice(-12); // 最近12個月
     
-    for (let i = 30; i >= 0; i--) {
-        const date = new Date();
-        date.setDate(date.getDate() - i);
-        dates.push((date.getMonth() + 1) + '/' + date.getDate());
-        
-        // 隨機價格波動
-        const randomChange = (Math.random() - 0.5) * 4;
-        prices.push((basePrice + randomChange).toFixed(2));
+    months.forEach(month => {
+        const monthData = priceData[month]?.[currentCB];
+        if (monthData && monthData.avg_price > 0) {
+            chartData.push({
+                date: formatMonth(month),
+                price: monthData.avg_price
+            });
+        }
+    });
+    
+    // 如果沒有資料，使用測試資料
+    if (chartData.length === 0) {
+        for (let i = 11; i >= 0; i--) {
+            const date = new Date();
+            date.setMonth(date.getMonth() - i);
+            chartData.push({
+                date: (date.getMonth() + 1) + '月',
+                price: 200 + Math.random() * 10
+            });
+        }
     }
     
     const option = {
         grid: {
-            left: 45,
-            right: 15,
-            top: 15,
-            bottom: 35
+            left: 50,
+            right: 20,
+            top: 20,
+            bottom: 40
         },
         xAxis: {
             type: 'category',
-            data: dates,
+            data: chartData.map(d => d.date),
             axisLabel: {
-                fontSize: 11,
-                interval: 5
+                fontSize: 10
             }
         },
         yAxis: {
             type: 'value',
             axisLabel: {
-                fontSize: 11
-            },
-            min: 200,
-            max: 210
+                fontSize: 10
+            }
         },
         series: [{
-            data: prices,
+            data: chartData.map(d => d.price.toFixed(2)),
             type: 'line',
             smooth: true,
             lineStyle: {
@@ -905,17 +1068,23 @@ function loadChart() {
         }]
     };
     
-    currentChart.setOption(option);
+    priceChart.setOption(option);
 }
 
-// 顯示圖表
-function showChart() {
-    console.log('顯示圖表');
+// 格式化月份
+function formatMonth(monthStr) {
+    if (monthStr.length >= 4) {
+        return monthStr.substring(2, 4) + '月';
+    }
+    return monthStr;
 }
 
-// 顯示詳情
-function showDetails() {
-    console.log('顯示詳情');
+// 改變時間範圍
+function changeTimeRange(months) {
+    document.querySelectorAll('.time-btn').forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+    // 重新載入圖表（這裡可以根據months參數調整顯示範圍）
+    loadChart();
 }
 
 // 初始化
@@ -923,28 +1092,26 @@ window.addEventListener('DOMContentLoaded', function() {
     // 隱藏載入畫面
     setTimeout(() => {
         document.getElementById('loadingScreen').style.display = 'none';
-    }, 1000);
+    }, 500);
     
-    // 載入圖表
+    // 載入測試圖表
     setTimeout(() => {
         loadChart();
-    }, 1200);
+    }, 600);
 });
 
 // 處理視窗調整
 window.addEventListener('resize', () => {
-    if (currentChart) {
-        currentChart.resize();
+    if (priceChart) {
+        priceChart.resize();
     }
 });
 
-// 時間按鈕點擊
-document.querySelectorAll('.time-btn').forEach(btn => {
-    btn.addEventListener('click', function() {
-        document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('active'));
-        this.classList.add('active');
-        loadChart(); // 重新載入不同時間範圍的資料
-    });
+// Enter鍵搜尋
+document.getElementById('searchInput').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+        performSearch();
+    }
 });
 </script>
 
