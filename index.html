@@ -3,187 +3,277 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Rex大叔 智能CB戰情室 (v13.0 完美對接版)</title>
+    <title>Rex大叔 戰情室 (v14.0 絕對救援版)</title>
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <style>
-        /* ====== 視覺系統 ====== */
-        :root { --primary: #0f172a; --secondary: #334155; --accent: #3b82f6; --bg: #f8fafc; --text: #1e293b; --sidebar-w: 280px; }
+        :root { --primary: #1e3c72; --secondary: #2a5298; --accent: #00b4d8; --bg: #f1f5f9; --text: #334155; }
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { font-family: -apple-system, BlinkMacSystemFont, "Microsoft JhengHei", sans-serif; background: var(--bg); color: var(--text); padding-top: 60px; overflow-x: hidden; }
-        
-        /* 載入畫面 & 錯誤救援 */
-        .loader-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.5s; }
-        .spinner { width: 50px; height: 50px; border: 4px solid #e2e8f0; border-top: 4px solid var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 20px; }
-        .log-box { font-size: 12px; color: #64748b; margin-top: 10px; height: 20px; }
-        
-        .rescue-box { display: none; background: #fff1f2; border: 1px solid #fecdd3; padding: 25px; border-radius: 12px; text-align: center; max-width: 90%; width: 450px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); animation: popIn 0.3s; }
-        .rescue-btn { background: var(--primary); color: white; padding: 15px 30px; border-radius: 8px; border: none; font-size: 16px; cursor: pointer; margin-top: 15px; width: 100%; font-weight: 700; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        .rescue-btn:hover { background: var(--accent); }
-        
+        body { font-family: "Microsoft JhengHei", sans-serif; background: var(--bg); color: var(--text); padding-top: 60px; }
+
         /* 頂部導航 */
-        .header { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; height: 60px; display: flex; align-items: center; justify-content: space-between; padding: 0 15px; position: fixed; top: 0; width: 100%; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        .menu-btn { background: none; border: none; color: white; font-size: 24px; cursor: pointer; }
-        .header-title { font-size: 18px; font-weight: 700; margin-left: 10px; }
-        .db-badge { font-size: 12px; background: rgba(255,255,255,0.2); padding: 4px 12px; border-radius: 15px; }
-
-        /* 側邊選單 */
-        .sidebar { position: fixed; left: calc(var(--sidebar-w) * -1); top: 0; width: var(--sidebar-w); height: 100vh; background: white; transition: left 0.3s ease; z-index: 2000; box-shadow: 4px 0 15px rgba(0,0,0,0.1); overflow-y: auto; }
-        .sidebar.active { left: 0; }
-        .sidebar-header { background: linear-gradient(135deg, var(--primary), var(--secondary)); padding: 30px 20px; color: white; }
-        .menu-group { padding: 10px 0; border-bottom: 1px solid #f0f0f0; }
-        .menu-title { padding: 10px 20px 5px; font-size: 12px; color: #94a3b8; font-weight: 700; }
-        .menu-item { display: flex; align-items: center; padding: 12px 20px; cursor: pointer; color: #333; text-decoration: none; font-weight: 500; transition: 0.2s; }
-        .menu-item:hover { background: #f0f9ff; color: var(--accent); }
-        .menu-item.active { background: #eff6ff; color: var(--accent); border-left: 4px solid var(--accent); }
-        .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: none; z-index: 1500; }
-        .overlay.active { display: block; }
-
-        /* 內容區 */
-        .page-content { display: none; padding: 20px; max-width: 1200px; margin: 0 auto; animation: fadeIn 0.4s; }
-        .page-content.active { display: block; }
+        .header { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; height: 60px; display: flex; align-items: center; justify-content: space-between; padding: 0 15px; position: fixed; top: 0; width: 100%; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
+        .header h1 { font-size: 18px; margin: 0; font-weight: 700; }
         
-        /* 搜尋 */
-        .search-container { background: white; padding: 30px; border-radius: 16px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); margin-bottom: 25px; text-align: center; }
-        .input-group { display: flex; gap: 10px; margin-top: 15px; max-width: 600px; margin: 15px auto 0; }
-        .search-input { flex: 1; padding: 14px; border: 2px solid #e2e8f0; border-radius: 50px; font-size: 16px; outline: none; padding-left: 20px; }
-        .search-input:focus { border-color: var(--accent); }
-        .search-btn { padding: 0 30px; background: var(--accent); color: white; border: none; border-radius: 50px; font-weight: bold; cursor: pointer; font-size: 16px; }
+        /* 系統狀態與除錯視窗 */
+        #console-box {
+            position: fixed; bottom: 0; right: 0; width: 100%; max-width: 400px; height: 150px;
+            background: rgba(0,0,0,0.85); color: #0f0; font-family: monospace; font-size: 12px;
+            padding: 10px; overflow-y: auto; z-index: 9999; border-top-left-radius: 10px;
+            display: none; /* 預設隱藏，有載入動作時顯示 */
+        }
 
-        /* 卡片 */
-        .card { background: white; border-radius: 12px; padding: 16px; margin-bottom: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); cursor: pointer; border: 1px solid #f1f5f9; transition: 0.2s; }
-        .card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
-        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-bottom: 1px dashed #e2e8f0; padding-bottom: 10px; }
-        .cb-name { font-size: 18px; font-weight: 800; color: var(--primary); }
-        .data-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
-        .data-item { background: #f8fafc; padding: 8px; border-radius: 6px; text-align: center; }
-        .data-label { font-size: 11px; color: #64748b; }
-        .data-value { font-size: 15px; font-weight: 700; color: var(--text); }
-        .red { color: #ef4444; } .green { color: #10b981; } .blue { color: #3b82f6; }
+        /* 搜尋區 */
+        .search-area { padding: 20px; background: white; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .input-group { display: flex; gap: 10px; max-width: 600px; margin: 0 auto; }
+        .search-input { flex: 1; padding: 12px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 16px; }
+        .search-btn { padding: 0 25px; background: var(--accent); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
+
+        /* 載入按鈕區 (救援模式) */
+        .upload-zone { 
+            text-align: center; padding: 40px 20px; background: white; margin: 20px; 
+            border-radius: 16px; border: 2px dashed #cbd5e1; 
+        }
+        .big-btn { 
+            background: var(--primary); color: white; padding: 15px 30px; 
+            border-radius: 50px; font-size: 18px; cursor: pointer; border: none; 
+            box-shadow: 0 4px 15px rgba(30, 60, 114, 0.3); transition: 0.2s;
+            display: inline-flex; align-items: center; gap: 10px;
+        }
+        .big-btn:active { transform: scale(0.95); }
+
+        /* 卡片列表 */
+        .container { padding: 0 15px 20px; max-width: 1200px; margin: 0 auto; }
+        .card { background: white; border-radius: 12px; padding: 15px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); cursor: pointer; border-left: 5px solid transparent; }
+        .card:hover { border-left-color: var(--accent); transform: translateX(5px); transition: 0.2s; }
         
-        /* Tags */
-        .tag { font-size: 11px; padding: 2px 8px; border-radius: 4px; background: #e2e8f0; color: #475569; margin-left: 5px; }
-        .tag-industry { background: #dbeafe; color: #1e40af; }
+        .card-header { display: flex; justify-content: space-between; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px dashed #eee; }
+        .cb-title { font-size: 18px; font-weight: 800; color: var(--primary); }
+        .cb-code { font-size: 14px; color: #64748b; background: #f1f5f9; padding: 2px 6px; border-radius: 4px; }
+        
+        .data-row { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 14px; }
+        .label { color: #94a3b8; }
+        .val { font-weight: 600; color: var(--text); }
+        .red { color: #ef4444; } .blue { color: #3b82f6; }
 
         /* Modal */
-        .modal { display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.8); z-index: 3000; overflow-y: auto; padding: 20px; backdrop-filter: blur(4px); }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 3000; overflow-y: auto; padding: 20px; }
         .modal.active { display: flex; justify-content: center; align-items: flex-start; }
-        .modal-content { background: white; width: 100%; max-width: 900px; border-radius: 16px; padding: 30px; position: relative; margin-bottom: 50px; animation: slideUp 0.3s; }
-        .close-modal { position: absolute; top: 20px; right: 20px; font-size: 28px; cursor: pointer; color: #94a3b8; }
-        .chart-box { height: 350px; width: 100%; border: 1px solid #e2e8f0; border-radius: 12px; padding: 10px; margin-top: 20px; }
+        .modal-content { background: white; width: 100%; max-width: 800px; border-radius: 16px; padding: 25px; position: relative; margin-top: 20px; margin-bottom: 50px; }
+        .close-btn { position: absolute; right: 20px; top: 20px; font-size: 24px; cursor: pointer; color: #999; }
 
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        @keyframes popIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        /* 圖表 */
+        .chart-box { height: 300px; width: 100%; border: 1px solid #e2e8f0; margin-top: 20px; border-radius: 8px; }
     </style>
 </head>
 <body>
 
-    <div id="loader" class="loader-screen">
-        <div class="spinner" id="spinner"></div>
-        <h3 style="color: var(--primary);">Rex大叔 戰情室 v13.0</h3>
-        <div id="logText" class="log-box">系統啟動中...</div>
+    <div class="header">
+        <h1>Rex大叔 戰情室 v14.0</h1>
+        <div id="status" style="font-size:12px; color:#fff;">等待載入...</div>
+    </div>
+
+    <div id="uploadArea" class="upload-zone">
+        <div style="font-size: 40px; margin-bottom: 10px;">📂</div>
+        <h3 style="margin-bottom: 5px; color: var(--primary);">請載入資料庫</h3>
+        <p style="color: #64748b; margin-bottom: 20px;">請一次選取 00, 01, 02, 04 四個 Excel 檔案</p>
         
-        <div id="rescueBox" class="rescue-box">
-            <div style="font-size:40px; margin-bottom:10px;">📂</div>
-            <h3 style="color:#ef4444; margin:0 0 10px 0;">請手動載入資料庫</h3>
-            <p style="font-size:14px; color:#64748b; line-height:1.6;">
-                瀏覽器安全性限制了自動連線。<br>
-                請點擊下方按鈕，<b>一次選取那 4 個 Excel 檔</b>：
-            </p>
-            <label class="rescue-btn">
-                點此載入檔案 (可多選)
-                <input type="file" id="fileInput" multiple accept=".xlsx" style="display:none" onchange="handleManualUpload(event)">
-            </label>
-            <div style="font-size:12px; color:#94a3b8; margin-top:15px;">
-                支援: 00_CB, 01_Report, 02_CBAS, 04_Price
-            </div>
+        <label class="big-btn">
+            <span>點此選擇檔案</span>
+            <input type="file" id="fileInput" multiple accept=".xlsx" style="display:none" onchange="handleFiles(event)">
+        </label>
+    </div>
+
+    <div id="searchArea" class="search-area" style="display:none;">
+        <div class="input-group">
+            <input type="text" id="searchInput" class="search-input" placeholder="輸入代號 (如: 68732)、名稱 (如: 亞力)..." onkeyup="if(event.key==='Enter') doSearch()">
+            <button class="search-btn" onclick="doSearch()">查詢</button>
         </div>
     </div>
 
-    <header class="header">
-        <div class="header-left"><button class="menu-btn" onclick="toggleMenu()">☰</button><span class="header-title">Rex大叔 智能CB戰情室</span></div>
-        <div class="db-badge" id="dbBadge">資料庫: 未連線</div>
-    </header>
+    <div id="resultList" class="container"></div>
 
-    <div id="sidebar" class="sidebar">
-        <div class="sidebar-header"><div style="font-size:22px; font-weight:800;">Rex大叔168</div><div style="font-size:12px; opacity:0.8;">Flagship System</div></div>
-        <div class="menu-group">
-            <div class="menu-title">主要功能</div>
-            <a class="menu-item active" onclick="showPage('home')">🏠 戰情室首頁</a>
-            <a class="menu-item" onclick="showPage('basic')">📋 CB 基本資料</a>
-            <a class="menu-item" onclick="showPage('highlow')">📊 掛牌高低</a>
-            <a class="menu-item" onclick="showPage('auction')">🔨 競拍數據</a>
-        </div>
-        <div class="menu-group">
-            <div class="menu-title">進階分析</div>
-            <a class="menu-item" onclick="showPage('cbas')">📈 CBAS 拆解</a>
-            <a class="menu-item" onclick="showPage('report')">📑 個股研究報告</a>
-            <a class="menu-item" onclick="showPage('industry')">🏭 產業概念股</a>
-        </div>
-    </div>
-    <div id="overlay" class="overlay" onclick="closeMenu()"></div>
-
-    <div id="page-home" class="page-content active">
-        <div class="search-container">
-            <h2 style="color:var(--primary); margin-bottom:5px;">全域智能搜尋</h2>
-            <p style="color:#64748b; font-size:14px;">輸入代號、名稱、產業或概念 (如: "6873", "亞力", "AI")</p>
-            <div class="input-group">
-                <input type="text" class="search-input" id="mainSearch" placeholder="在此輸入關鍵字..." onkeyup="if(event.key==='Enter') doSearch()">
-                <button class="search-btn" onclick="doSearch()">搜尋</button>
-            </div>
-        </div>
-        <div id="homeResults">
-            <div style="text-align:center; padding:60px; color:#cbd5e1;">
-                <div style="font-size:48px; margin-bottom:15px;">📊</div>
-                請輸入關鍵字開始分析
-            </div>
-        </div>
-    </div>
-
-    <div id="page-basic" class="page-content"><h2>📋 CB 基本資料</h2><div id="basicList"></div></div>
-    <div id="page-highlow" class="page-content"><h2>📊 掛牌高低</h2><div id="highlowList"></div></div>
-    <div id="page-auction" class="page-content"><h2>🔨 競拍數據</h2><div id="auctionList"></div></div>
-    <div id="page-cbas" class="page-content"><h2>📈 CBAS 拆解</h2><div id="cbasList"></div></div>
-    <div id="page-report" class="page-content"><h2>📑 研究報告</h2><div id="reportList"></div></div>
-    <div id="page-industry" class="page-content"><h2>🏭 產業概念</h2><div id="industryList"></div></div>
+    <div id="console-box"></div>
 
     <div id="detailModal" class="modal" onclick="if(event.target===this) closeModal()">
         <div class="modal-content">
-            <div class="close-modal" onclick="closeModal()">×</div>
+            <span class="close-btn" onclick="closeModal()">×</span>
             <div id="modalBody"></div>
         </div>
     </div>
 
 <script>
-// 1. 資料庫結構
-const DB = { basic:{}, highlow:{}, auction:{}, industry:{}, concepts:{}, reports:{}, news:[], cbas_latest:{}, cbas_history:{}, prices:{} };
-
-// 檔案名稱 (GitHub)
-const FILES = [
-    '00_CB代號名稱.xlsx',
-    '01_cb168report.xlsx',
-    '02_CBAS月拆解表.xlsx',
-    '04_CB月成交價表.xlsx'
-];
-
-// 2. 啟動邏輯
-window.onload = async function() {
-    document.getElementById('logText').innerText = "正在連線...";
-    // 嘗試自動連線，若失敗(CORS/404)則顯示救援按鈕
-    try {
-        await autoLoad();
-    } catch (e) {
-        showRescue();
-    }
+// 全域資料庫
+const DB = {
+    basic: {},    // 00_CB (基本)
+    highlow: {},  // 00_CB (高低)
+    auction: {},  // 00_CB (競拍)
+    cbas: {},     // 02_CBAS (最新)
+    prices: {},   // 04_Price (歷史)
+    reports: {},  // 01_Report
+    industry: {}  // 00_CB (產業)
 };
 
-async function autoLoad() {
-    let success = 0;
-    for (let name of FILES) {
-        try {
-            document.getElementById('logText').innerText = `讀取: ${name}...`;
-            const res = await fetch(name);
-            if (!res.ok) throw new Error('404');
-            const ab
+// 記錄 Log
+function log(msg) {
+    const box = document.getElementById('console-box');
+    box.style.display = 'block';
+    const time = new Date().toLocaleTimeString();
+    box.innerHTML += `[${time}] ${msg}<br>`;
+    box.scrollTop = box.scrollHeight;
+    console.log(msg);
+}
+
+// 處理檔案上傳
+function handleFiles(event) {
+    const files = event.target.files;
+    if (files.length === 0) return;
+
+    document.getElementById('uploadArea').style.display = 'none';
+    document.getElementById('searchArea').style.display = 'block';
+    log(`收到 ${files.length} 個檔案，開始解析...`);
+
+    let processed = 0;
+    Array.from(files).forEach(file => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            try {
+                const data = new Uint8Array(e.target.result);
+                const workbook = XLSX.read(data, { type: 'array' });
+                parseWorkbook(file.name, workbook);
+                processed++;
+                if (processed === files.length) {
+                    log("✅ 所有檔案解析完成！請開始搜尋。");
+                    document.getElementById('status').innerText = "資料庫就緒";
+                    // 預設顯示一些資料確認
+                    doSearch(' '); 
+                }
+            } catch (err) {
+                log(`❌ 解析失敗 ${file.name}: ${err.message}`);
+            }
+        };
+        reader.readAsArrayBuffer(file);
+    });
+}
+
+// 智慧解析 (核心修正：自動找標題列)
+function parseWorkbook(filename, wb) {
+    const lowerName = filename.toLowerCase();
+    log(`正在處理: ${filename}`);
+
+    // 1. 判斷檔案類型
+    let type = 'unknown';
+    if (lowerName.includes('00') || lowerName.includes('基本') || lowerName.includes('cb代號')) type = 'basic';
+    else if (lowerName.includes('01') || lowerName.includes('report') || lowerName.includes('報告')) type = 'report';
+    else if (lowerName.includes('02') || lowerName.includes('cbas') || lowerName.includes('拆解')) type = 'cbas';
+    else if (lowerName.includes('04') || lowerName.includes('price') || lowerName.includes('成交')) type = 'price';
+
+    wb.SheetNames.forEach(sheetName => {
+        const sheet = wb.Sheets[sheetName];
+        // 使用 header:1 讀取原始陣列，解決標題不在第一行的問題
+        const rawData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+        if (!rawData || rawData.length === 0) return;
+
+        // 尋找標題列 (掃描前 10 行)
+        let headerRowIndex = -1;
+        let headers = [];
+        for (let i = 0; i < Math.min(10, rawData.length); i++) {
+            const row = rawData[i];
+            // 判斷關鍵字來認定這是不是標題列
+            if (row.some(cell => cell && (String(cell).includes('代號') || String(cell).includes('名稱') || String(cell).includes('日期')))) {
+                headerRowIndex = i;
+                headers = row;
+                break;
+            }
+        }
+
+        if (headerRowIndex === -1) return; // 沒找到標題，跳過此工作表
+
+        // 轉換為物件陣列
+        const jsonData = [];
+        for (let i = headerRowIndex + 1; i < rawData.length; i++) {
+            const row = rawData[i];
+            let obj = {};
+            headers.forEach((h, index) => {
+                if (h) obj[String(h).trim()] = row[index];
+            });
+            jsonData.push(obj);
+        }
+
+        // 分流儲存資料
+        if (type === 'basic') {
+            if (sheetName.includes('基本') || sheetName.includes('01')) {
+                jsonData.forEach(row => mapData(DB.basic, row));
+            } else if (sheetName.includes('掛牌') || sheetName.includes('00')) {
+                jsonData.forEach(row => mapData(DB.highlow, row));
+            } else if (sheetName.includes('競拍') || sheetName.includes('04')) {
+                jsonData.forEach(row => mapData(DB.auction, row));
+            } else if (sheetName.includes('產業')) {
+                jsonData.forEach(row => {
+                    const stock = getVal(row, ['股票代號','代號']);
+                    if(stock) DB.industry[stock] = row;
+                });
+            }
+        } 
+        else if (type === 'cbas') {
+            // 處理 CBAS 歷史
+            const dateMatch = sheetName.match(/\d+/);
+            if (dateMatch) { // 是月份工作表
+                const dateStr = dateMatch[0]; // 11201
+                jsonData.forEach(row => {
+                    const code = getVal(row, ['CB代號','代號']);
+                    if (code) {
+                        const price = getVal(row, ['最低權利金(元)','權利金']);
+                        const principal = getVal(row, ['名目本金']);
+                        const vol = principal ? Math.round(principal/100000) : 0;
+                        
+                        // 存入歷史
+                        if (!DB.cbas[code]) DB.cbas[code] = { history: [], latest: {} };
+                        DB.cbas[code].history.push({ date: dateStr, price, vol });
+                        
+                        // 更新最新
+                        if (!DB.cbas[code].latest.date || dateStr > DB.cbas[code].latest.date) {
+                            DB.cbas[code].latest = { date: dateStr, price, vol };
+                        }
+                    }
+                });
+            }
+        }
+        else if (type === 'price') {
+            // 處理歷史股價
+            const dateMatch = sheetName.match(/\d+/);
+            if (dateMatch) {
+                const dateStr = dateMatch[0];
+                jsonData.forEach(row => {
+                    const code = getVal(row, ['CB代號','代號']);
+                    if (code) {
+                        if (!DB.prices[code]) DB.prices[code] = [];
+                        DB.prices[code].push({
+                            date: dateStr,
+                            price: getVal(row, ['平均','平均價']),
+                            high: getVal(row, ['最高','最高價'])
+                        });
+                    }
+                });
+            }
+        }
+        else if (type === 'report') {
+            jsonData.forEach(row => {
+                const stock = getVal(row, ['股號','股票代號']);
+                if (stock) {
+                    if (!DB.reports[stock]) DB.reports[stock] = [];
+                    DB.reports[stock].push(row);
+                }
+            });
+        }
+    });
+}
+
+// 輔助：將資料存入 DB
+function mapData(target, row) {
+    const code = getVal(row, ['CB代號', '代號', '債券代碼']);
+    if (code) target[code] = row;
+}
+
+// 輔助：模糊取值
+function getVal(row,
