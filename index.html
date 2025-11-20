@@ -563,6 +563,428 @@
     .status-ok { color: #34a853; }
     .status-error { color: #ea4335; }
     .status-loading { color: #1a73e8; }
+    
+    /* 文件上傳區 */
+    .file-upload-section {
+        margin-top: 20px;
+        text-align: center;
+    }
+    
+    /* 結果卡片 */
+    .result-card {
+        background: white;
+        margin: 20px;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    
+    .result-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid #e0e0e0;
+    }
+    
+    .result-header h3 {
+        font-size: 20px;
+        font-weight: 600;
+        margin: 0;
+    }
+    
+    .result-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+    
+    .result-item {
+        background: #f8f9fa;
+        padding: 15px;
+        border-radius: 8px;
+        text-align: center;
+    }
+    
+    .result-label {
+        font-size: 13px;
+        color: #666;
+        margin-bottom: 8px;
+    }
+    
+    .result-value {
+        font-size: 24px;
+        font-weight: 700;
+        color: #333;
+    }
+    
+    .result-value.high {
+        color: #ea4335;
+    }
+    
+    .result-value.low {
+        color: #34a853;
+    }
+    
+    .result-value.amplitude {
+        color: #1a73e8;
+    }
+    
+    /* 公司查詢結果 */
+    .company-result {
+        background: white;
+        margin: 20px;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    
+    .company-result h3 {
+        font-size: 20px;
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+    
+    .company-result p {
+        color: #666;
+        margin-bottom: 20px;
+    }
+    
+    /* 篩選器 */
+    .filter-select {
+        padding: 8px 16px;
+        border: 1px solid #e0e0e0;
+        border-radius: 6px;
+        margin-right: 10px;
+        font-size: 14px;
+    }
+    
+    /* 狀態標籤 */
+    .status-tabs {
+        display: flex;
+        gap: 10px;
+        padding: 15px 20px;
+        background: white;
+        overflow-x: auto;
+    }
+    
+    .status-tab {
+        padding: 8px 16px;
+        border: 1px solid #e0e0e0;
+        background: white;
+        border-radius: 20px;
+        font-size: 14px;
+        cursor: pointer;
+        white-space: nowrap;
+    }
+    
+    .status-tab.active {
+        background: #1a73e8;
+        color: white;
+        border-color: #1a73e8;
+    }
+    
+    /* 批次輸入 */
+    .batch-input-section {
+        background: white;
+        padding: 20px;
+        margin: 20px;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    
+    .batch-input-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        margin-bottom: 15px;
+    }
+    
+    .batch-input {
+        padding: 10px;
+        border: 1px solid #e0e0e0;
+        border-radius: 6px;
+        font-size: 14px;
+    }
+    
+    .add-input-btn {
+        background: #f0f0f0;
+        border: 1px dashed #999;
+        padding: 8px 16px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+        margin-right: 10px;
+    }
+    
+    /* 條件篩選 */
+    .condition-filters {
+        background: white;
+        padding: 20px;
+        margin: 20px;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    
+    .filter-group {
+        margin-bottom: 20px;
+    }
+    
+    .filter-group h3 {
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 12px;
+    }
+    
+    .filter-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 14px;
+    }
+    
+    .filter-group select {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #e0e0e0;
+        border-radius: 6px;
+        margin-bottom: 10px;
+    }
+    
+    /* 分析結果 */
+    .analysis-result, .performance-summary {
+        background: white;
+        margin: 20px;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    
+    /* 頁面內容樣式 */
+    .page-content {
+        min-height: calc(100vh - 55px);
+        background: #f5f7fa;
+    }
+    
+    .page-header {
+        background: white;
+        padding: 20px;
+        border-bottom: 1px solid #e0e0e0;
+    }
+    
+    .page-title {
+        font-size: 20px;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 5px;
+    }
+    
+    .page-subtitle {
+        font-size: 14px;
+        color: #666;
+    }
+    
+    /* 排行榜樣式 */
+    .ranking-tabs {
+        display: flex;
+        gap: 10px;
+        padding: 15px 20px;
+        background: white;
+        overflow-x: auto;
+    }
+    
+    .ranking-tab {
+        padding: 8px 16px;
+        border: 1px solid #e0e0e0;
+        background: white;
+        border-radius: 20px;
+        font-size: 14px;
+        cursor: pointer;
+        white-space: nowrap;
+    }
+    
+    .ranking-tab.active {
+        background: #1a73e8;
+        color: white;
+        border-color: #1a73e8;
+    }
+    
+    /* CBAS統計卡片 */
+    .cbas-summary {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        padding: 20px;
+    }
+    
+    .summary-card {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    
+    .summary-label {
+        font-size: 13px;
+        color: #666;
+        margin-bottom: 8px;
+    }
+    
+    .summary-value {
+        font-size: 24px;
+        font-weight: 700;
+        color: #1a73e8;
+    }
+    
+    /* 分析控制項 */
+    .analysis-controls {
+        padding: 20px;
+        background: white;
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+    }
+    
+    .analysis-select {
+        flex: 1;
+        padding: 10px;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+    }
+    
+    .indicator-buttons {
+        display: flex;
+        gap: 8px;
+    }
+    
+    .indicator-btn {
+        padding: 8px 16px;
+        border: 1px solid #e0e0e0;
+        background: white;
+        border-radius: 6px;
+        font-size: 13px;
+        cursor: pointer;
+    }
+    
+    .indicator-btn.active {
+        background: #1a73e8;
+        color: white;
+        border-color: #1a73e8;
+    }
+    
+    /* 比較工具 */
+    .comparison-controls {
+        padding: 20px;
+        background: white;
+    }
+    
+    .add-cb-btn {
+        background: #1a73e8;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+    }
+    
+    .selected-cbs {
+        display: flex;
+        gap: 10px;
+        margin-top: 15px;
+        flex-wrap: wrap;
+    }
+    
+    /* 篩選器 */
+    .filter-section {
+        background: white;
+        padding: 20px;
+        margin-bottom: 15px;
+    }
+    
+    .filter-title {
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 15px;
+    }
+    
+    .filter-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 10px;
+    }
+    
+    .filter-row label {
+        min-width: 80px;
+        font-size: 14px;
+    }
+    
+    .filter-row input[type="number"] {
+        width: 80px;
+        padding: 6px;
+        border: 1px solid #e0e0e0;
+        border-radius: 4px;
+    }
+    
+    .filter-btn {
+        background: #1a73e8;
+        color: white;
+        border: none;
+        padding: 12px 30px;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        display: block;
+        margin: 20px auto;
+    }
+    
+    /* 提醒設定 */
+    .add-alert-btn, .add-position-btn {
+        background: #1a73e8;
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        margin: 20px;
+        display: block;
+    }
+    
+    /* 匯出選項 */
+    .export-options, .export-format {
+        background: white;
+        padding: 20px;
+        margin-bottom: 15px;
+    }
+    
+    .export-options h3, .export-format h3 {
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 15px;
+    }
+    
+    .export-options label, .export-format label {
+        display: block;
+        margin-bottom: 10px;
+        font-size: 14px;
+    }
+    
+    .export-btn {
+        background: #34a853;
+        color: white;
+        border: none;
+        padding: 12px 30px;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        display: block;
+        margin: 20px auto;
+    }
 </style>
 ```
 
@@ -596,19 +1018,55 @@
         <div class="menu-group-title">主要功能</div>
         <a class="menu-item active" onclick="showPage('home')">
             <span class="menu-icon">🏠</span>
-            <span class="menu-text">CB搜尋首頁</span>
+            <span class="menu-text">首頁</span>
         </a>
-        <a class="menu-item" onclick="showPage('ranking')">
+        <a class="menu-item" onclick="showPage('high-low-query')">
             <span class="menu-icon">📊</span>
-            <span class="menu-text">CB排行榜</span>
+            <span class="menu-text">CB掛牌高低查詢</span>
         </a>
-        <a class="menu-item" onclick="showPage('cbas')">
-            <span class="menu-icon">💎</span>
-            <span class="menu-text">CBAS權利金</span>
+        <a class="menu-item" onclick="showPage('issue-query')">
+            <span class="menu-icon">📋</span>
+            <span class="menu-text">CB發行查詢</span>
         </a>
-        <a class="menu-item" onclick="showPage('upload')">
-            <span class="menu-icon">📁</span>
-            <span class="menu-text">檔案上傳</span>
+        <a class="menu-item" onclick="showPage('company-query')">
+            <span class="menu-icon">🏢</span>
+            <span class="menu-text">CB同公司發行查詢</span>
+        </a>
+    </div>
+    
+    <div class="menu-group">
+        <div class="menu-group-title">承銷專區</div>
+        <a class="menu-item" onclick="showPage('board-announcement')">
+            <span class="menu-icon">📢</span>
+            <span class="menu-text">董事會公告</span>
+        </a>
+        <a class="menu-item" onclick="showPage('issue-cases')">
+            <span class="menu-icon">📄</span>
+            <span class="menu-text">發行案件</span>
+        </a>
+    </div>
+    
+    <div class="menu-group">
+        <div class="menu-group-title">競拍專區</div>
+        <a class="menu-item" onclick="showPage('auction-query')">
+            <span class="menu-icon">🔨</span>
+            <span class="menu-text">競拍查詢</span>
+        </a>
+        <a class="menu-item" onclick="showPage('auction-batch')">
+            <span class="menu-icon">📑</span>
+            <span class="menu-text">競拍批次查詢</span>
+        </a>
+        <a class="menu-item" onclick="showPage('condition-analysis')">
+            <span class="menu-icon">🔍</span>
+            <span class="menu-text">發行組合條件分析</span>
+        </a>
+    </div>
+    
+    <div class="menu-group">
+        <div class="menu-group-title">統計分析</div>
+        <a class="menu-item" onclick="showPage('performance-analysis')">
+            <span class="menu-icon">📈</span>
+            <span class="menu-text">組合績效分析</span>
         </a>
     </div>
 </div>
@@ -618,107 +1076,310 @@
 
 <!-- 主內容區 -->
 <main class="main-content">
-    <!-- 搜尋區 -->
-    <div class="search-container">
-        <div class="search-title">
-            <span>🔍</span>
-            <span>搜尋面板</span>
+    <!-- 首頁 -->
+    <div id="page-home" class="page-content active">
+        <!-- 搜尋區 -->
+        <div class="search-container">
+            <div class="search-title">
+                <span>🔍</span>
+                <span>搜尋面板</span>
+            </div>
+            <div class="search-subtitle">輸入代號或名稱：</div>
+            <input type="text" class="search-input" id="searchInput" 
+                   placeholder="請輸入CB代號或名稱" 
+                   value="23836"
+                   inputmode="numeric">
+            <button class="search-btn" onclick="performSearch()">開始查詢</button>
+            <div class="search-hint">※ 請先載入Excel檔案</div>
+            
+            <div class="file-upload-section">
+                <label for="fileInput" class="action-btn primary">選擇Excel檔案</label>
+                <input type="file" class="file-input" id="fileInput" accept=".xlsx,.xls" multiple onchange="handleFiles(event)" style="display:none;">
+                <div id="fileStatus" class="file-status"></div>
+            </div>
         </div>
-        <div class="search-subtitle">輸入代號或名稱：</div>
-        <input type="text" class="search-input" id="searchInput" 
-               placeholder="請輸入CB代號或名稱" 
-               value="23836"
-               inputmode="numeric">
-        <button class="search-btn" onclick="performSearch()">開始查詢</button>
-        <div class="search-hint">※ 若無法讀取，請手動上傳：</div>
+        
+        <!-- 快速功能連結 -->
+        <div class="quick-links">
+            <div class="quick-links-title">
+                <span>⚡</span>
+                <span>快速功能</span>
+            </div>
+            <div class="links-grid">
+                <div class="link-card" onclick="showPage('high-low-query')">
+                    <div class="link-icon">📊</div>
+                    <div class="link-text">掛牌高低</div>
+                </div>
+                <div class="link-card" onclick="showPage('auction-query')">
+                    <div class="link-icon">🔨</div>
+                    <div class="link-text">競拍查詢</div>
+                </div>
+                <div class="link-card" onclick="showPage('company-query')">
+                    <div class="link-icon">🏢</div>
+                    <div class="link-text">同公司查詢</div>
+                </div>
+                <div class="link-card" onclick="showPage('condition-analysis')">
+                    <div class="link-icon">🔍</div>
+                    <div class="link-text">條件分析</div>
+                </div>
+            </div>
+        </div>
     </div>
     
-    <!-- CB資訊卡片 -->
-    <div class="cb-info-card">
-        <div class="cb-header">
-            <div class="cb-title-row">
-                <div class="cb-name-info">
-                    <div class="cb-name" id="cbName">台光電六</div>
-                    <div class="cb-code" id="cbCode">23836</div>
+    <!-- CB掛牌高低查詢 -->
+    <div id="page-high-low-query" class="page-content" style="display:none;">
+        <div class="page-header">
+            <h2 class="page-title">📊 CB掛牌高低查詢</h2>
+            <p class="page-subtitle">查詢CB的掛牌最高價、最低價及振幅</p>
+        </div>
+        
+        <div class="search-container">
+            <input type="text" class="search-input" id="highLowSearchInput" 
+                   placeholder="輸入CB代號或名稱">
+            <button class="search-btn" onclick="searchHighLow()">查詢</button>
+        </div>
+        
+        <div class="result-card" id="highLowResult" style="display:none;">
+            <div class="result-header">
+                <h3 id="hlResultName">--</h3>
+                <span id="hlResultCode">--</span>
+            </div>
+            <div class="result-grid">
+                <div class="result-item">
+                    <div class="result-label">掛牌最高</div>
+                    <div class="result-value high" id="hlHigh">--</div>
                 </div>
-                <div class="cb-price-info">
-                    <div class="cb-price" id="cbPrice">203.77</div>
-                    <div class="cb-change" id="cbChange">溢價率 --%</div>
+                <div class="result-item">
+                    <div class="result-label">掛牌最低</div>
+                    <div class="result-value low" id="hlLow">--</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">振幅</div>
+                    <div class="result-value amplitude" id="hlAmplitude">--%</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">平均得標</div>
+                    <div class="result-value" id="hlAvgBid">--</div>
                 </div>
             </div>
         </div>
         
-        <div class="info-list">
-            <div class="info-item">
-                <span class="info-label">收盤價</span>
-                <span class="info-value" id="closePrice">203.77</span>
-            </div>
-            <div class="info-item">
-                <span class="info-label">轉換價</span>
-                <span class="info-value" id="conversionPrice">-</span>
-            </div>
-            <div class="info-item">
-                <span class="info-label">標的股價</span>
-                <span class="info-value" id="stockPrice">-</span>
-            </div>
-            <div class="info-item">
-                <span class="info-label">轉換價值</span>
-                <span class="info-value" id="conversionValue">-</span>
-            </div>
-            <div class="info-item">
-                <span class="info-label">溢價率</span>
-                <span class="info-value" id="premiumRate">-%</span>
-            </div>
+        <!-- 高低排行榜 -->
+        <div class="list-section">
+            <div class="list-header">振幅排行榜 (前10名)</div>
+            <div id="amplitudeRanking"></div>
+        </div>
+    </div>
+    
+    <!-- CB發行查詢 -->
+    <div id="page-issue-query" class="page-content" style="display:none;">
+        <div class="page-header">
+            <h2 class="page-title">📋 CB發行查詢</h2>
+            <p class="page-subtitle">查詢CB的發行基本資料</p>
         </div>
         
-        <div class="bottom-actions">
-            <label for="fileInput" class="action-btn primary">選擇檔案</label>
-            <button class="action-btn secondary">未選取檔案</button>
-            <input type="file" class="file-input" id="fileInput" accept=".xlsx,.xls" multiple onchange="handleFiles(event)" style="display:none;">
+        <div class="search-container">
+            <input type="text" class="search-input" id="issueSearchInput" 
+                   placeholder="輸入CB代號或名稱">
+            <button class="search-btn" onclick="searchIssue()">查詢</button>
+        </div>
+        
+        <div class="info-card" id="issueResult" style="display:none;">
+            <div class="card-title" id="issueResultTitle">--</div>
+            <div class="info-list" id="issueInfoList">
+                <!-- 動態生成發行資料 -->
+            </div>
         </div>
     </div>
     
-    <!-- 圖表區域 -->
-    <div class="chart-section">
-        <div class="chart-header">
-            <div class="chart-title">
-                <span>📈</span>
-                <span>CB價格走勢</span>
-            </div>
-            <div class="time-selector">
-                <button class="time-btn active" onclick="changeTimeRange(1)">1M</button>
-                <button class="time-btn" onclick="changeTimeRange(3)">3M</button>
-                <button class="time-btn" onclick="changeTimeRange(6)">6M</button>
-                <button class="time-btn" onclick="changeTimeRange(12)">1Y</button>
+    <!-- CB同公司發行查詢 -->
+    <div id="page-company-query" class="page-content" style="display:none;">
+        <div class="page-header">
+            <h2 class="page-title">🏢 CB同公司發行查詢</h2>
+            <p class="page-subtitle">查詢同一公司發行的所有CB</p>
+        </div>
+        
+        <div class="search-container">
+            <input type="text" class="search-input" id="companySearchInput" 
+                   placeholder="輸入股票代號或公司名稱 (如: 6290 或 良維)">
+            <button class="search-btn" onclick="searchCompany()">查詢</button>
+        </div>
+        
+        <div class="company-result" id="companyResult" style="display:none;">
+            <h3 id="companyName">--</h3>
+            <p id="companyCount">共發行 0 檔CB</p>
+            
+            <div class="list-section">
+                <div class="list-header">發行記錄</div>
+                <div id="companyCBList"></div>
             </div>
         </div>
-        <div class="chart-container" id="priceChart"></div>
     </div>
     
-    <!-- CB排行榜 -->
-    <div class="list-section">
-        <div class="list-header">CB名稱　　收盤價</div>
-        <div id="cbListContent">
-            <div class="list-item" onclick="selectCB('23836')">
-                <div class="list-item-left">
-                    <div class="list-item-name">台光電六</div>
-                    <div class="list-item-code">23836</div>
-                </div>
-                <div class="list-item-right">
-                    <div class="list-item-price">208.5</div>
-                    <div class="list-item-change down">-1.2%</div>
-                </div>
+    <!-- 董事會公告 -->
+    <div id="page-board-announcement" class="page-content" style="display:none;">
+        <div class="page-header">
+            <h2 class="page-title">📢 董事會公告</h2>
+            <p class="page-subtitle">最新董事會通過發行CB公告</p>
+        </div>
+        
+        <div class="filter-section">
+            <select class="filter-select" id="boardYearFilter">
+                <option value="all">全部年份</option>
+                <option value="2024">2024年</option>
+                <option value="2023">2023年</option>
+            </select>
+            
+            <select class="filter-select" id="boardMonthFilter">
+                <option value="all">全部月份</option>
+                <option value="1">1月</option>
+                <option value="2">2月</option>
+                <!-- 其他月份 -->
+            </select>
+        </div>
+        
+        <div class="announcement-list" id="boardList">
+            <!-- 動態生成公告列表 -->
+        </div>
+    </div>
+    
+    <!-- 發行案件 -->
+    <div id="page-issue-cases" class="page-content" style="display:none;">
+        <div class="page-header">
+            <h2 class="page-title">📄 發行案件</h2>
+            <p class="page-subtitle">CB發行案件進度追蹤</p>
+        </div>
+        
+        <div class="status-tabs">
+            <button class="status-tab active" onclick="filterIssueStatus('all')">全部</button>
+            <button class="status-tab" onclick="filterIssueStatus('pending')">待發行</button>
+            <button class="status-tab" onclick="filterIssueStatus('issued')">已發行</button>
+        </div>
+        
+        <div class="issue-cases-list" id="issueCasesList">
+            <!-- 動態生成案件列表 -->
+        </div>
+    </div>
+    
+    <!-- 競拍查詢 -->
+    <div id="page-auction-query" class="page-content" style="display:none;">
+        <div class="page-header">
+            <h2 class="page-title">🔨 競拍查詢</h2>
+            <p class="page-subtitle">查詢單檔CB競拍詳細資料</p>
+        </div>
+        
+        <div class="search-container">
+            <input type="text" class="search-input" id="auctionSearchInput" 
+                   placeholder="輸入CB代號或名稱">
+            <button class="search-btn" onclick="searchAuction()">查詢</button>
+        </div>
+        
+        <div class="auction-result" id="auctionResult" style="display:none;">
+            <!-- 競拍結果詳情 -->
+        </div>
+    </div>
+    
+    <!-- 競拍批次查詢 -->
+    <div id="page-auction-batch" class="page-content" style="display:none;">
+        <div class="page-header">
+            <h2 class="page-title">📑 競拍批次查詢</h2>
+            <p class="page-subtitle">同時查詢多檔CB競拍資料（最多10檔）</p>
+        </div>
+        
+        <div class="batch-input-section">
+            <div class="batch-input-grid" id="batchInputs">
+                <input type="text" class="batch-input" placeholder="CB代號 1">
+                <input type="text" class="batch-input" placeholder="CB代號 2">
+                <input type="text" class="batch-input" placeholder="CB代號 3">
+                <input type="text" class="batch-input" placeholder="CB代號 4">
+                <input type="text" class="batch-input" placeholder="CB代號 5">
             </div>
-            <div class="list-item" onclick="selectCB('23837')">
-                <div class="list-item-left">
-                    <div class="list-item-name">台光電七</div>
-                    <div class="list-item-code">23837</div>
-                </div>
-                <div class="list-item-right">
-                    <div class="list-item-price">197.3</div>
-                    <div class="list-item-change up">+0.8%</div>
-                </div>
+            <button class="add-input-btn" onclick="addBatchInput()">+ 新增欄位</button>
+            <button class="search-btn" onclick="searchBatch()">批次查詢</button>
+        </div>
+        
+        <div class="batch-result-table" id="batchResult" style="display:none;">
+            <!-- 批次查詢結果表格 -->
+        </div>
+    </div>
+    
+    <!-- 發行組合條件分析 -->
+    <div id="page-condition-analysis" class="page-content" style="display:none;">
+        <div class="page-header">
+            <h2 class="page-title">🔍 發行組合條件分析</h2>
+            <p class="page-subtitle">根據發行條件組合篩選CB</p>
+        </div>
+        
+        <div class="condition-filters">
+            <div class="filter-group">
+                <h3>基本條件</h3>
+                <label>
+                    發行年期：
+                    <select id="yearFilter">
+                        <option value="">不限</option>
+                        <option value="3">3年期</option>
+                        <option value="5">5年期</option>
+                        <option value="7">7年期</option>
+                    </select>
+                </label>
+                
+                <label>
+                    擔保情形：
+                    <select id="securityFilter">
+                        <option value="">不限</option>
+                        <option value="secured">有擔保</option>
+                        <option value="unsecured">無擔保</option>
+                    </select>
+                </label>
             </div>
+            
+            <div class="filter-group">
+                <h3>投標倍數</h3>
+                <label>
+                    <input type="radio" name="bidMultiple" value="all" checked> 全部
+                </label>
+                <label>
+                    <input type="radio" name="bidMultiple" value="<1"> &lt;1倍（極度冷清）
+                </label>
+                <label>
+                    <input type="radio" name="bidMultiple" value="1-1.5"> 1-1.5倍（冷清）
+                </label>
+                <label>
+                    <input type="radio" name="bidMultiple" value="1.5-2.5"> 1.5-2.5倍（普通）
+                </label>
+                <label>
+                    <input type="radio" name="bidMultiple" value="2.5-4"> 2.5-4倍（火熱）
+                </label>
+                <label>
+                    <input type="radio" name="bidMultiple" value=">4"> &gt;4倍（極度火熱）
+                </label>
+            </div>
+            
+            <button class="filter-btn" onclick="analyzeConditions()">開始分析</button>
+        </div>
+        
+        <div class="analysis-result" id="analysisResult" style="display:none;">
+            <!-- 分析結果 -->
+        </div>
+    </div>
+    
+    <!-- 組合績效分析 -->
+    <div id="page-performance-analysis" class="page-content" style="display:none;">
+        <div class="page-header">
+            <h2 class="page-title">📈 組合績效分析</h2>
+            <p class="page-subtitle">分析不同條件組合的歷史績效表現</p>
+        </div>
+        
+        <div class="performance-summary">
+            <!-- 績效統計摘要 -->
+        </div>
+        
+        <div class="chart-section">
+            <div class="chart-container" id="performanceChart" style="height: 400px;"></div>
+        </div>
+        
+        <div class="performance-ranking" id="performanceRanking">
+            <!-- 績效排名列表 -->
         </div>
     </div>
 </main>
@@ -731,6 +1392,7 @@ let cbasData = {};         // CBAS資料
 let priceData = {};        // 價格資料
 let currentCB = '23836';
 let priceChart = null;
+let cbasChart = null;      // CBAS圖表
 let filesLoaded = {
     cb: false,
     cbas: false,
@@ -755,11 +1417,461 @@ function closeMenu() {
 // 頁面切換
 function showPage(pageName) {
     closeMenu();
+    
+    // 隱藏所有頁面
+    document.querySelectorAll('.page-content').forEach(page => {
+        page.style.display = 'none';
+    });
+    
+    // 顯示選中的頁面
+    const targetPage = document.getElementById(`page-${pageName}`);
+    if (targetPage) {
+        targetPage.style.display = 'block';
+    }
+    
+    // 更新選單狀態
     document.querySelectorAll('.menu-item').forEach(item => {
         item.classList.remove('active');
     });
-    event.currentTarget.classList.add('active');
-    console.log('切換到頁面:', pageName);
+    if (event && event.currentTarget) {
+        event.currentTarget.classList.add('active');
+    }
+    
+    // 根據頁面初始化內容
+    switch(pageName) {
+        case 'high-low-query':
+            initHighLowQuery();
+            break;
+        case 'issue-query':
+            initIssueQuery();
+            break;
+        case 'company-query':
+            initCompanyQuery();
+            break;
+        case 'board-announcement':
+            initBoardAnnouncement();
+            break;
+        case 'issue-cases':
+            initIssueCases();
+            break;
+        case 'auction-query':
+            initAuctionQuery();
+            break;
+        case 'auction-batch':
+            initAuctionBatch();
+            break;
+        case 'condition-analysis':
+            initConditionAnalysis();
+            break;
+        case 'performance-analysis':
+            initPerformanceAnalysis();
+            break;
+    }
+}
+
+// 初始化排行榜
+function initRanking() {
+    showRanking('premium');
+}
+
+// 顯示不同類型的排行
+function showRanking(type) {
+    document.querySelectorAll('.ranking-tab').forEach(tab => {
+        tab.classList.remove('active');
+    });
+    if (event && event.currentTarget) {
+        event.currentTarget.classList.add('active');
+    }
+    
+    const rankingList = document.getElementById('rankingList');
+    if (!rankingList) return;
+    
+    let html = '';
+    
+    // 模擬不同類型的排行榜資料
+    const mockData = {
+        premium: [
+            {name: '台光電六', code: '23836', value: '-3.2%'},
+            {name: '台泥一', code: '11011', value: '-1.5%'},
+            {name: '上曜六', code: '13166', value: '2.3%'},
+        ],
+        volume: [
+            {name: '台積電一', code: '23301', value: '15,234'},
+            {name: '聯電二', code: '23032', value: '12,456'},
+            {name: '鴻海三', code: '23173', value: '9,876'},
+        ],
+        change: [
+            {name: '陽明五', code: '26095', value: '+5.8%'},
+            {name: '長榮三', code: '26033', value: '+4.2%'},
+            {name: '萬海二', code: '26152', value: '+3.6%'},
+        ],
+        cbas: [
+            {name: '華航一', code: '26101', value: '12.5'},
+            {name: '中鋼四', code: '20234', value: '10.8'},
+            {name: '台塑二', code: '13012', value: '9.2'},
+        ]
+    };
+    
+    const data = mockData[type] || [];
+    
+    data.forEach((item, index) => {
+        const isUp = item.value.includes('+');
+        const colorClass = isUp ? 'up' : (item.value.includes('-') ? 'down' : '');
+        
+        html += `
+            <div class="list-item" onclick="selectCB('${item.code}')">
+                <div class="list-item-left">
+                    <div class="list-item-name">${index + 1}. ${item.name}</div>
+                    <div class="list-item-code">${item.code}</div>
+                </div>
+                <div class="list-item-right">
+                    <div class="list-item-price ${colorClass}">${item.value}</div>
+                </div>
+            </div>
+        `;
+    });
+    
+    rankingList.innerHTML = html;
+}
+
+// 初始化CBAS頁面
+function initCBAS() {
+    setTimeout(() => {
+        const cbasChartDom = document.getElementById('cbasChart');
+        if (!cbasChartDom) return;
+        
+        if (!cbasChart) {
+            cbasChart = echarts.init(cbasChartDom);
+        }
+        
+        // 載入CBAS圖表
+        const option = {
+            grid: {
+                left: 50,
+                right: 20,
+                top: 20,
+                bottom: 40
+            },
+            xAxis: {
+                type: 'category',
+                data: ['1月', '2月', '3月', '4月', '5月', '6月'],
+                axisLabel: {
+                    fontSize: 10
+                }
+            },
+            yAxis: {
+                type: 'value',
+                name: '權利金',
+                axisLabel: {
+                    fontSize: 10
+                }
+            },
+            series: [{
+                data: [8.5, 7.8, 9.2, 8.6, 7.5, 8.1],
+                type: 'line',
+                smooth: true,
+                lineStyle: {
+                    width: 2,
+                    color: '#ff9800'
+                },
+                areaStyle: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                        { offset: 0, color: 'rgba(255,152,0,0.3)' },
+                        { offset: 1, color: 'rgba(255,152,0,0)' }
+                    ])
+                }
+            }]
+        };
+        
+        cbasChart.setOption(option);
+    }, 100);
+}
+
+// 初始化其他功能
+function initAnalysis() { console.log('初始化技術分析頁面'); }
+function initComparison() { console.log('初始化比較工具'); }
+function initFilter() { console.log('初始化條件篩選'); }
+function initAlert() { console.log('初始化價格提醒'); }
+function initPortfolio() { console.log('初始化投資組合'); }
+function initExport() { console.log('初始化報表匯出'); }
+
+// ===== 新功能初始化函數 =====
+
+// CB掛牌高低查詢
+function initHighLowQuery() {
+    loadAmplitudeRanking();
+}
+
+function searchHighLow() {
+    const input = document.getElementById('highLowSearchInput').value.trim();
+    if (!input) {
+        alert('請輸入CB代號或名稱');
+        return;
+    }
+    
+    // 搜尋邏輯
+    const cbData = searchCB(input);
+    if (cbData) {
+        displayHighLowResult(cbData);
+    }
+}
+
+function displayHighLowResult(cbData) {
+    document.getElementById('hlResultName').textContent = cbData.name || '--';
+    document.getElementById('hlResultCode').textContent = cbData.cb_code || '--';
+    document.getElementById('hlHigh').textContent = cbData.high_price ? cbData.high_price.toFixed(2) : '--';
+    document.getElementById('hlLow').textContent = cbData.low_price ? cbData.low_price.toFixed(2) : '--';
+    
+    // 計算振幅
+    if (cbData.high_price && cbData.low_price && cbData.low_price > 0) {
+        const amplitude = ((cbData.high_price - cbData.low_price) / cbData.low_price * 100).toFixed(2);
+        document.getElementById('hlAmplitude').textContent = amplitude + '%';
+    }
+    
+    document.getElementById('hlAvgBid').textContent = cbData.avg_bid ? cbData.avg_bid.toFixed(2) : '--';
+    document.getElementById('highLowResult').style.display = 'block';
+}
+
+function loadAmplitudeRanking() {
+    // 載入振幅排行榜
+    const rankingList = document.getElementById('amplitudeRanking');
+    if (!rankingList) return;
+    
+    // 模擬資料
+    const mockData = [
+        {name: '材料KY三', code: '47633', amplitude: '501.0%'},
+        {name: '北基六', code: '89276', amplitude: '177.0%'},
+        {name: '山林水二', code: '84732', amplitude: '74.3%'},
+    ];
+    
+    let html = '';
+    mockData.forEach((item, index) => {
+        html += `
+            <div class="list-item">
+                <div class="list-item-left">
+                    <div class="list-item-name">${index + 1}. ${item.name}</div>
+                    <div class="list-item-code">${item.code}</div>
+                </div>
+                <div class="list-item-right">
+                    <div class="list-item-price">${item.amplitude}</div>
+                </div>
+            </div>
+        `;
+    });
+    
+    rankingList.innerHTML = html;
+}
+
+// CB發行查詢
+function initIssueQuery() {
+    console.log('初始化發行查詢');
+}
+
+function searchIssue() {
+    const input = document.getElementById('issueSearchInput').value.trim();
+    if (!input) {
+        alert('請輸入CB代號或名稱');
+        return;
+    }
+    
+    // 顯示結果
+    document.getElementById('issueResultTitle').textContent = '查詢結果';
+    document.getElementById('issueResult').style.display = 'block';
+}
+
+// CB同公司發行查詢
+function initCompanyQuery() {
+    console.log('初始化同公司查詢');
+}
+
+function searchCompany() {
+    const input = document.getElementById('companySearchInput').value.trim();
+    if (!input) {
+        alert('請輸入股票代號或公司名稱');
+        return;
+    }
+    
+    // 模擬查詢結果
+    const mockResults = {
+        '6290': {
+            company: '良維科技',
+            cbs: [
+                {code: '62901', name: '良維一'},
+                {code: '62902', name: '良維二'},
+                {code: '62903', name: '良維三'},
+                {code: '62904', name: '良維四'},
+                {code: '62905', name: '良維五'},
+            ]
+        }
+    };
+    
+    const result = mockResults[input];
+    if (result) {
+        displayCompanyResult(result);
+    }
+}
+
+function displayCompanyResult(result) {
+    document.getElementById('companyName').textContent = result.company;
+    document.getElementById('companyCount').textContent = `共發行 ${result.cbs.length} 檔CB`;
+    
+    let html = '';
+    result.cbs.forEach(cb => {
+        html += `
+            <div class="list-item" onclick="selectCB('${cb.code}')">
+                <div class="list-item-left">
+                    <div class="list-item-name">${cb.name}</div>
+                    <div class="list-item-code">${cb.code}</div>
+                </div>
+                <div class="list-item-right">
+                    <div class="list-item-price">查看詳情</div>
+                </div>
+            </div>
+        `;
+    });
+    
+    document.getElementById('companyCBList').innerHTML = html;
+    document.getElementById('companyResult').style.display = 'block';
+}
+
+// 董事會公告
+function initBoardAnnouncement() {
+    console.log('初始化董事會公告');
+}
+
+// 發行案件
+function initIssueCases() {
+    console.log('初始化發行案件');
+}
+
+// 競拍查詢
+function initAuctionQuery() {
+    console.log('初始化競拍查詢');
+}
+
+function searchAuction() {
+    const input = document.getElementById('auctionSearchInput').value.trim();
+    if (!input) {
+        alert('請輸入CB代號或名稱');
+        return;
+    }
+}
+
+// 競拍批次查詢
+function initAuctionBatch() {
+    console.log('初始化批次查詢');
+}
+
+function addBatchInput() {
+    const grid = document.getElementById('batchInputs');
+    const currentInputs = grid.querySelectorAll('.batch-input').length;
+    
+    if (currentInputs < 10) {
+        const newInput = document.createElement('input');
+        newInput.type = 'text';
+        newInput.className = 'batch-input';
+        newInput.placeholder = `CB代號 ${currentInputs + 1}`;
+        grid.appendChild(newInput);
+    } else {
+        alert('最多只能查詢10檔CB');
+    }
+}
+
+function searchBatch() {
+    const inputs = document.querySelectorAll('.batch-input');
+    const codes = [];
+    
+    inputs.forEach(input => {
+        if (input.value.trim()) {
+            codes.push(input.value.trim());
+        }
+    });
+    
+    if (codes.length === 0) {
+        alert('請至少輸入一個CB代號');
+        return;
+    }
+    
+    console.log('批次查詢:', codes);
+}
+
+// 發行組合條件分析
+function initConditionAnalysis() {
+    console.log('初始化條件分析');
+}
+
+function analyzeConditions() {
+    const yearFilter = document.getElementById('yearFilter').value;
+    const securityFilter = document.getElementById('securityFilter').value;
+    const bidMultiple = document.querySelector('input[name="bidMultiple"]:checked').value;
+    
+    console.log('分析條件:', {
+        year: yearFilter,
+        security: securityFilter,
+        bidMultiple: bidMultiple
+    });
+}
+
+// 組合績效分析
+function initPerformanceAnalysis() {
+    console.log('初始化績效分析');
+    
+    // 初始化績效圖表
+    setTimeout(() => {
+        const chartDom = document.getElementById('performanceChart');
+        if (chartDom) {
+            const performanceChart = echarts.init(chartDom);
+            
+            const option = {
+                title: {
+                    text: '各投標倍數區間平均績效',
+                    left: 'center'
+                },
+                xAxis: {
+                    type: 'category',
+                    data: ['<1倍', '1-1.5倍', '1.5-2.5倍', '2.5-4倍', '>4倍']
+                },
+                yAxis: {
+                    type: 'value',
+                    name: '平均績效(%)'
+                },
+                series: [
+                    {
+                        name: '有擔保',
+                        type: 'bar',
+                        data: [19.92, 30.67, 45.31, 89.12, 53.51],
+                        itemStyle: { color: '#34a853' }
+                    },
+                    {
+                        name: '無擔保',
+                        type: 'bar',
+                        data: [57.32, 42.22, 43.97, 44.30, 56.73],
+                        itemStyle: { color: '#ff9800' }
+                    }
+                ]
+            };
+            
+            performanceChart.setOption(option);
+        }
+    }, 100);
+}
+
+// 輔助函數：搜尋CB
+function searchCB(input) {
+    // 從資料庫中搜尋CB
+    const paddedInput = input.padStart(5, '0');
+    if (cbDatabase[paddedInput]) {
+        return cbDatabase[paddedInput];
+    }
+    
+    // 搜尋名稱
+    for (let code in cbDatabase) {
+        if (cbDatabase[code].name && cbDatabase[code].name.includes(input)) {
+            return cbDatabase[code];
+        }
+    }
+    
+    return null;
 }
 
 // 處理檔案上傳
