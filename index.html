@@ -1,524 +1,643 @@
 <!DOCTYPE html>
-
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rex大叔 智能CB戰情室 v2</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Rex大叔 智能CB戰情室</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            -webkit-tap-highlight-color: transparent;
         }
-
-```
-    body {
-        font-family: -apple-system, BlinkMacSystemFont, 'Microsoft JhengHei', sans-serif;
-        background: #f5f5f5;
-        color: #333;
-        min-height: 100vh;
-    }
-    
-    /* 頂部標題 */
-    .header {
-        background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-        color: white;
-        padding: 15px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    
-    .header-left {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-    
-    .menu-btn {
-        background: none;
-        border: none;
-        color: white;
-        font-size: 24px;
-        cursor: pointer;
-        padding: 5px;
-    }
-    
-    .header-title {
-        font-size: 18px;
-        font-weight: 600;
-    }
-    
-    .header-badge {
-        background: rgba(255,255,255,0.2);
-        padding: 5px 15px;
-        border-radius: 20px;
-        font-size: 13px;
-    }
-    
-    /* 搜尋區 */
-    .search-section {
-        background: white;
-        margin: 20px;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-    }
-    
-    .search-title {
-        font-size: 18px;
-        font-weight: 600;
-        margin-bottom: 15px;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-    }
-    
-    .search-subtitle {
-        font-size: 14px;
-        color: #666;
-        margin-bottom: 10px;
-    }
-    
-    .search-input {
-        width: 100%;
-        padding: 12px;
-        border: 2px solid #e0e0e0;
-        border-radius: 8px;
-        font-size: 16px;
-        margin-bottom: 15px;
-    }
-    
-    .search-input:focus {
-        outline: none;
-        border-color: #1a73e8;
-    }
-    
-    .search-btn {
-        width: 100%;
-        padding: 14px;
-        background: #1a73e8;
-        color: white;
-        border: none;
-        border-radius: 8px;
-        font-size: 16px;
-        font-weight: 600;
-        cursor: pointer;
-    }
-    
-    .search-hint {
-        font-size: 13px;
-        color: #999;
-        margin-top: 10px;
-    }
-    
-    /* 快速功能 */
-    .quick-links {
-        padding: 20px;
-    }
-    
-    .quick-title {
-        font-size: 16px;
-        font-weight: 600;
-        margin-bottom: 15px;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-    }
-    
-    .link-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 15px;
-    }
-    
-    .link-card {
-        background: white;
-        padding: 25px;
-        border-radius: 10px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-        text-align: center;
-        cursor: pointer;
-        transition: transform 0.2s;
-    }
-    
-    .link-card:active {
-        transform: scale(0.95);
-    }
-    
-    .link-icon {
-        font-size: 32px;
-        margin-bottom: 10px;
-    }
-    
-    .link-text {
-        font-size: 14px;
-        font-weight: 500;
-        color: #333;
-    }
-    
-    /* 檔案上傳 */
-    .upload-section {
-        background: white;
-        margin: 20px;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-        text-align: center;
-    }
-    
-    .upload-btn {
-        display: inline-block;
-        background: #34a853;
-        color: white;
-        padding: 12px 24px;
-        border-radius: 8px;
-        cursor: pointer;
-        font-weight: 600;
-    }
-    
-    .file-input {
-        display: none;
-    }
-    
-    .file-status {
-        margin-top: 10px;
-        font-size: 14px;
-    }
-    
-    /* 側邊選單 */
-    .sidebar {
-        position: fixed;
-        left: -300px;
-        top: 0;
-        width: 300px;
-        height: 100vh;
-        background: white;
-        box-shadow: 2px 0 10px rgba(0,0,0,0.1);
-        transition: left 0.3s;
-        z-index: 2000;
-        overflow-y: auto;
-    }
-    
-    .sidebar.active {
-        left: 0;
-    }
-    
-    .sidebar-header {
-        background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-        color: white;
-        padding: 25px 20px;
-    }
-    
-    .sidebar-title {
-        font-size: 20px;
-        font-weight: 600;
-        margin-bottom: 5px;
-    }
-    
-    .sidebar-subtitle {
-        font-size: 13px;
-        opacity: 0.9;
-    }
-    
-    .menu-group {
-        padding: 15px 0;
-    }
-    
-    .menu-group-title {
-        padding: 10px 20px;
-        font-size: 12px;
-        color: #999;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-    }
-    
-    .menu-item {
-        display: flex;
-        align-items: center;
-        padding: 14px 20px;
-        cursor: pointer;
-        color: #333;
-        text-decoration: none;
-        transition: background 0.2s;
-        gap: 15px;
-    }
-    
-    .menu-item:hover {
-        background: #f8f9fa;
-    }
-    
-    .menu-item.active {
-        background: #e8f0fe;
-        color: #1a73e8;
-        border-left: 3px solid #1a73e8;
-        padding-left: 17px;
-    }
-    
-    .menu-icon {
-        font-size: 20px;
-        width: 24px;
-        text-align: center;
-    }
-    
-    .menu-text {
-        font-size: 15px;
-        font-weight: 500;
-    }
-    
-    /* 遮罩層 */
-    .overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(0,0,0,0.5);
-        display: none;
-        z-index: 1500;
-    }
-    
-    .overlay.active {
-        display: block;
-    }
-    
-    /* 頁面內容 */
-    .page-content {
-        display: none;
-        padding-top: 60px;
-        min-height: 100vh;
-    }
-    
-    .page-content.active {
-        display: block;
-    }
-</style>
-```
-
+        
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Microsoft JhengHei', 'Helvetica Neue', sans-serif; 
+            background: #f5f7fa;
+            min-height: 100vh;
+            overflow-x: hidden;
+            color: #333;
+        }
+        
+        /* 頂部導航 */
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 0 15px;
+            height: 55px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .menu-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            padding: 8px;
+            cursor: pointer;
+        }
+        
+        .header-title {
+            font-size: 17px;
+            font-weight: 600;
+        }
+        
+        .header-badge {
+            background: rgba(255,255,255,0.25);
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+        }
+        
+        /* 側邊選單 */
+        .sidebar {
+            position: fixed;
+            left: -300px;
+            top: 0;
+            width: 300px;
+            height: 100vh;
+            background: white;
+            transition: left 0.3s ease;
+            z-index: 2000;
+            overflow-y: auto;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        }
+        
+        .sidebar.active {
+            left: 0;
+        }
+        
+        .sidebar-header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            padding: 25px 20px;
+            color: white;
+        }
+        
+        .sidebar-logo {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        
+        .sidebar-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .sidebar-subtitle {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+        
+        .menu-group {
+            padding: 15px 0;
+        }
+        
+        .menu-group-title {
+            padding: 8px 20px;
+            font-size: 12px;
+            color: #999;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 14px 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #333;
+            text-decoration: none;
+            gap: 15px;
+        }
+        
+        .menu-item:hover {
+            background: #f8f9fa;
+        }
+        
+        .menu-item.active {
+            background: #e8f0fe;
+            color: #1a73e8;
+            border-left: 3px solid #1a73e8;
+            padding-left: 17px;
+        }
+        
+        .menu-icon {
+            font-size: 20px;
+            width: 24px;
+            text-align: center;
+        }
+        
+        .menu-text {
+            font-size: 15px;
+            font-weight: 500;
+        }
+        
+        /* 遮罩層 */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            z-index: 1500;
+        }
+        
+        .overlay.active {
+            display: block;
+        }
+        
+        /* 主內容區 */
+        .main-content {
+            padding-top: 55px;
+            min-height: 100vh;
+        }
+        
+        /* 搜尋區 */
+        .search-container {
+            background: white;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+        
+        .search-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .search-subtitle {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 12px;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.2s;
+            margin-bottom: 15px;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: #1a73e8;
+            box-shadow: 0 0 0 3px rgba(26,115,232,0.1);
+        }
+        
+        .search-btn {
+            width: 100%;
+            padding: 14px;
+            background: #1a73e8;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        
+        .search-hint {
+            font-size: 13px;
+            color: #999;
+            margin-top: 12px;
+        }
+        
+        /* 快速連結 */
+        .quick-links {
+            padding: 20px;
+        }
+        
+        .quick-links-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+        
+        .link-card {
+            background: white;
+            padding: 16px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .link-card:active {
+            transform: scale(0.98);
+        }
+        
+        .link-icon {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+        
+        .link-text {
+            font-size: 14px;
+            color: #333;
+            font-weight: 500;
+        }
+        
+        /* 檔案上傳 */
+        .file-upload-section {
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .action-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            text-align: center;
+            display: inline-block;
+            margin: 5px;
+        }
+        
+        .action-btn.primary {
+            background: #1a73e8;
+            color: white;
+        }
+        
+        .file-input {
+            display: none;
+        }
+        
+        .file-status {
+            margin-top: 10px;
+            font-size: 14px;
+        }
+        
+        /* 頁面內容 */
+        .page-content {
+            min-height: calc(100vh - 55px);
+            background: #f5f7fa;
+            display: none;
+        }
+        
+        .page-content.active {
+            display: block;
+        }
+        
+        .page-header {
+            background: white;
+            padding: 20px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .page-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .page-subtitle {
+            font-size: 14px;
+            color: #666;
+        }
+    </style>
 </head>
 <body>
     <!-- 頂部導航 -->
-    <div class="header">
+    <header class="header">
         <div class="header-left">
             <button class="menu-btn" onclick="toggleMenu()">☰</button>
             <div class="header-title">Rex大叔 智能CB戰情室</div>
         </div>
-        <div class="header-badge">資料庫就緒 (共 1969 檔)</div>
-    </div>
-
-```
-<!-- 側邊選單 -->
-<div id="sidebar" class="sidebar">
-    <div class="sidebar-header">
-        <div class="sidebar-title">Rex大叔168</div>
-        <div class="sidebar-subtitle">專注風險 • 數據驅動 • 智能分析</div>
-    </div>
+        <div class="header-badge" id="dataBadge">資料庫就緒 (共 1969 檔)</div>
+    </header>
     
-    <div class="menu-group">
-        <div class="menu-group-title">主要功能</div>
-        <a href="#" class="menu-item active" onclick="showPage('home'); return false;">
-            <span class="menu-icon">🏠</span>
-            <span class="menu-text">首頁</span>
-        </a>
-        <a href="#" class="menu-item" onclick="showPage('high-low'); return false;">
-            <span class="menu-icon">📊</span>
-            <span class="menu-text">CB掛牌高低查詢</span>
-        </a>
-        <a href="#" class="menu-item" onclick="showPage('issue'); return false;">
-            <span class="menu-icon">📋</span>
-            <span class="menu-text">CB發行查詢</span>
-        </a>
-        <a href="#" class="menu-item" onclick="showPage('company'); return false;">
-            <span class="menu-icon">🏢</span>
-            <span class="menu-text">CB同公司發行查詢</span>
-        </a>
-    </div>
-    
-    <div class="menu-group">
-        <div class="menu-group-title">承銷專區</div>
-        <a href="#" class="menu-item" onclick="showPage('board'); return false;">
-            <span class="menu-icon">📢</span>
-            <span class="menu-text">董事會公告</span>
-        </a>
-        <a href="#" class="menu-item" onclick="showPage('cases'); return false;">
-            <span class="menu-icon">📄</span>
-            <span class="menu-text">發行案件</span>
-        </a>
-    </div>
-    
-    <div class="menu-group">
-        <div class="menu-group-title">競拍專區</div>
-        <a href="#" class="menu-item" onclick="showPage('auction'); return false;">
-            <span class="menu-icon">🔨</span>
-            <span class="menu-text">競拍查詢</span>
-        </a>
-        <a href="#" class="menu-item" onclick="showPage('batch'); return false;">
-            <span class="menu-icon">📑</span>
-            <span class="menu-text">競拍批次查詢</span>
-        </a>
-        <a href="#" class="menu-item" onclick="showPage('condition'); return false;">
-            <span class="menu-icon">🔍</span>
-            <span class="menu-text">發行組合條件分析</span>
-        </a>
-    </div>
-    
-    <div class="menu-group">
-        <div class="menu-group-title">統計分析</div>
-        <a href="#" class="menu-item" onclick="showPage('performance'); return false;">
-            <span class="menu-icon">📈</span>
-            <span class="menu-text">組合績效分析</span>
-        </a>
-    </div>
-</div>
-
-<!-- 遮罩層 -->
-<div id="overlay" class="overlay" onclick="closeMenu()"></div>
-
-<!-- 首頁內容 -->
-<div id="page-home" class="page-content active">
-    <!-- 搜尋區 -->
-    <div class="search-section">
-        <div class="search-title">
-            <span>🔍</span>
-            <span>搜尋面板</span>
+    <!-- 側邊選單 -->
+    <div id="sidebar" class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">📈</div>
+            <div class="sidebar-title">Rex大叔168</div>
+            <div class="sidebar-subtitle">專注風險 • 數據驅動 • 智能分析</div>
         </div>
-        <div class="search-subtitle">輸入代號或名稱：</div>
-        <input type="text" class="search-input" id="searchInput" 
-               placeholder="例: 11011 或 台泥" value="23836">
-        <button class="search-btn" onclick="performSearch()">開始查詢</button>
-        <div class="search-hint">※ 請先載入Excel檔案</div>
-    </div>
-    
-    <!-- 快速功能 -->
-    <div class="quick-links">
-        <div class="quick-title">
-            <span>⚡</span>
-            <span>快速功能</span>
+        
+        <div class="menu-group">
+            <div class="menu-group-title">主要功能</div>
+            <a class="menu-item active" onclick="showPage('home', event)">
+                <span class="menu-icon">🏠</span>
+                <span class="menu-text">首頁</span>
+            </a>
+            <a class="menu-item" onclick="showPage('high-low', event)">
+                <span class="menu-icon">📊</span>
+                <span class="menu-text">CB掛牌高低查詢</span>
+            </a>
+            <a class="menu-item" onclick="showPage('issue', event)">
+                <span class="menu-icon">📋</span>
+                <span class="menu-text">CB發行查詢</span>
+            </a>
+            <a class="menu-item" onclick="showPage('company', event)">
+                <span class="menu-icon">🏢</span>
+                <span class="menu-text">CB同公司發行查詢</span>
+            </a>
         </div>
-        <div class="link-grid">
-            <div class="link-card" onclick="showPage('high-low')">
-                <div class="link-icon">📊</div>
-                <div class="link-text">掛牌高低</div>
-            </div>
-            <div class="link-card" onclick="showPage('auction')">
-                <div class="link-icon">🔨</div>
-                <div class="link-text">競拍查詢</div>
-            </div>
-            <div class="link-card" onclick="showPage('company')">
-                <div class="link-icon">🏢</div>
-                <div class="link-text">同公司查詢</div>
-            </div>
-            <div class="link-card" onclick="showPage('condition')">
-                <div class="link-icon">🔍</div>
-                <div class="link-text">條件分析</div>
-            </div>
+        
+        <div class="menu-group">
+            <div class="menu-group-title">承銷專區</div>
+            <a class="menu-item" onclick="showPage('board', event)">
+                <span class="menu-icon">📢</span>
+                <span class="menu-text">董事會公告</span>
+            </a>
+            <a class="menu-item" onclick="showPage('cases', event)">
+                <span class="menu-icon">📄</span>
+                <span class="menu-text">發行案件</span>
+            </a>
+        </div>
+        
+        <div class="menu-group">
+            <div class="menu-group-title">競拍專區</div>
+            <a class="menu-item" onclick="showPage('auction', event)">
+                <span class="menu-icon">🔨</span>
+                <span class="menu-text">競拍查詢</span>
+            </a>
+            <a class="menu-item" onclick="showPage('batch', event)">
+                <span class="menu-icon">📑</span>
+                <span class="menu-text">競拍批次查詢</span>
+            </a>
+            <a class="menu-item" onclick="showPage('condition', event)">
+                <span class="menu-icon">🔍</span>
+                <span class="menu-text">發行組合條件分析</span>
+            </a>
+        </div>
+        
+        <div class="menu-group">
+            <div class="menu-group-title">統計分析</div>
+            <a class="menu-item" onclick="showPage('performance', event)">
+                <span class="menu-icon">📈</span>
+                <span class="menu-text">組合績效分析</span>
+            </a>
         </div>
     </div>
     
-    <!-- 檔案上傳 -->
-    <div class="upload-section">
-        <label for="fileInput" class="upload-btn">選擇Excel檔案</label>
-        <input type="file" id="fileInput" class="file-input" 
-               accept=".xlsx,.xls" multiple onchange="handleFiles(event)">
-        <div id="fileStatus" class="file-status"></div>
-    </div>
-</div>
+    <!-- 遮罩層 -->
+    <div id="overlay" class="overlay" onclick="closeMenu()"></div>
+    
+    <!-- 主內容區 -->
+    <main class="main-content">
+        <!-- 首頁 -->
+        <div id="page-home" class="page-content active">
+            <div class="search-container">
+                <div class="search-title">
+                    <span>🔍</span>
+                    <span>搜尋面板</span>
+                </div>
+                <div class="search-subtitle">輸入代號或名稱：</div>
+                <input type="text" class="search-input" id="searchInput" 
+                       placeholder="請輸入CB代號或名稱" value="23836">
+                <button class="search-btn" onclick="performSearch()">開始查詢</button>
+                <div class="search-hint">※ 請先載入Excel檔案</div>
+                
+                <div class="file-upload-section">
+                    <label for="fileInput" class="action-btn primary">選擇Excel檔案</label>
+                    <input type="file" class="file-input" id="fileInput" 
+                           accept=".xlsx,.xls" multiple onchange="handleFiles(event)">
+                    <div id="fileStatus" class="file-status"></div>
+                </div>
+            </div>
+            
+            <div class="quick-links">
+                <div class="quick-links-title">
+                    <span>⚡</span>
+                    <span>快速功能</span>
+                </div>
+                <div class="links-grid">
+                    <div class="link-card" onclick="showPage('high-low', event)">
+                        <div class="link-icon">📊</div>
+                        <div class="link-text">掛牌高低</div>
+                    </div>
+                    <div class="link-card" onclick="showPage('auction', event)">
+                        <div class="link-icon">🔨</div>
+                        <div class="link-text">競拍查詢</div>
+                    </div>
+                    <div class="link-card" onclick="showPage('company', event)">
+                        <div class="link-icon">🏢</div>
+                        <div class="link-text">同公司查詢</div>
+                    </div>
+                    <div class="link-card" onclick="showPage('condition', event)">
+                        <div class="link-icon">🔍</div>
+                        <div class="link-text">條件分析</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 其他頁面 -->
+        <div id="page-high-low" class="page-content">
+            <div class="page-header">
+                <h2 class="page-title">📊 CB掛牌高低查詢</h2>
+                <p class="page-subtitle">查詢CB的掛牌最高價、最低價及振幅</p>
+            </div>
+        </div>
+        
+        <div id="page-issue" class="page-content">
+            <div class="page-header">
+                <h2 class="page-title">📋 CB發行查詢</h2>
+                <p class="page-subtitle">查詢CB的發行基本資料</p>
+            </div>
+        </div>
+        
+        <div id="page-company" class="page-content">
+            <div class="page-header">
+                <h2 class="page-title">🏢 CB同公司發行查詢</h2>
+                <p class="page-subtitle">查詢同一公司發行的所有CB</p>
+            </div>
+        </div>
+        
+        <div id="page-board" class="page-content">
+            <div class="page-header">
+                <h2 class="page-title">📢 董事會公告</h2>
+                <p class="page-subtitle">最新董事會通過發行CB公告</p>
+            </div>
+        </div>
+        
+        <div id="page-cases" class="page-content">
+            <div class="page-header">
+                <h2 class="page-title">📄 發行案件</h2>
+                <p class="page-subtitle">CB發行案件進度追蹤</p>
+            </div>
+        </div>
+        
+        <div id="page-auction" class="page-content">
+            <div class="page-header">
+                <h2 class="page-title">🔨 競拍查詢</h2>
+                <p class="page-subtitle">查詢單檔CB競拍詳細資料</p>
+            </div>
+        </div>
+        
+        <div id="page-batch" class="page-content">
+            <div class="page-header">
+                <h2 class="page-title">📑 競拍批次查詢</h2>
+                <p class="page-subtitle">同時查詢多檔CB競拍資料（最多10檔）</p>
+            </div>
+        </div>
+        
+        <div id="page-condition" class="page-content">
+            <div class="page-header">
+                <h2 class="page-title">🔍 發行組合條件分析</h2>
+                <p class="page-subtitle">根據發行條件組合篩選CB</p>
+            </div>
+        </div>
+        
+        <div id="page-performance" class="page-content">
+            <div class="page-header">
+                <h2 class="page-title">📈 組合績效分析</h2>
+                <p class="page-subtitle">分析不同條件組合的歷史績效表現</p>
+            </div>
+        </div>
+    </main>
 
-<!-- 其他頁面內容 -->
-<div id="page-high-low" class="page-content">
-    <div style="padding: 20px; text-align: center;">
-        <h2>CB掛牌高低查詢</h2>
-        <p>功能開發中...</p>
-    </div>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <script>
-    // 側邊選單控制
-    function toggleMenu() {
-        const sidebar = document.getElementById('sidebar');
-        const overlay = document.getElementById('overlay');
-        sidebar.classList.toggle('active');
-        overlay.classList.toggle('active');
-    }
-    
-    function closeMenu() {
-        const sidebar = document.getElementById('sidebar');
-        const overlay = document.getElementById('overlay');
-        sidebar.classList.remove('active');
-        overlay.classList.remove('active');
-    }
-    
-    // 頁面切換
-    function showPage(pageName) {
-        // 關閉選單
-        closeMenu();
-        
-        // 隱藏所有頁面
-        document.querySelectorAll('.page-content').forEach(page => {
-            page.classList.remove('active');
-        });
-        
-        // 顯示選中頁面
-        const targetPage = document.getElementById('page-' + pageName);
-        if (targetPage) {
-            targetPage.classList.add('active');
-        }
-        
-        // 更新選單狀態
-        document.querySelectorAll('.menu-item').forEach(item => {
-            item.classList.remove('active');
-        });
-        
-        // 設定當前選中的選單項
-        const currentMenuItem = event.currentTarget;
-        if (currentMenuItem) {
-            currentMenuItem.classList.add('active');
-        }
-    }
-    
-    // 搜尋功能
-    function performSearch() {
-        const input = document.getElementById('searchInput').value.trim();
-        if (!input) {
-            alert('請輸入CB代號或名稱');
-            return;
-        }
-        alert('搜尋: ' + input);
-    }
-    
-    // 檔案處理
-    function handleFiles(event) {
-        const files = event.target.files;
-        if (!files || files.length === 0) return;
-        
-        const status = document.getElementById('fileStatus');
-        status.textContent = '讀取檔案中...';
-        status.style.color = '#1a73e8';
-        
-        // 這裡處理檔案上傳
-        setTimeout(() => {
-            status.textContent = '✓ 檔案載入成功';
-            status.style.color = '#34a853';
-        }, 1000);
-    }
-    
-    // Enter鍵搜尋
-    document.addEventListener('DOMContentLoaded', function() {
-        const searchInput = document.getElementById('searchInput');
-        if (searchInput) {
-            searchInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    performSearch();
-                }
-            });
-        }
-    });
-</script>
-```
+// 全域變數
+let cbDatabase = {};
+let cbasData = {};
+let priceData = {};
+let currentCB = '23836';
+let priceChart = null;
+let cbasChart = null;
 
+// 側邊選單控制
+function toggleMenu() {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
+    sidebar.classList.toggle('active');
+    overlay.classList.toggle('active');
+}
+
+function closeMenu() {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
+    sidebar.classList.remove('active');
+    overlay.classList.remove('active');
+}
+
+// 頁面切換
+function showPage(pageName, event) {
+    closeMenu();
+    
+    // 隱藏所有頁面
+    document.querySelectorAll('.page-content').forEach(page => {
+        page.style.display = 'none';
+    });
+    
+    // 顯示選中的頁面
+    const targetPage = document.getElementById(`page-${pageName}`);
+    if (targetPage) {
+        targetPage.style.display = 'block';
+    }
+    
+    // 更新選單狀態
+    document.querySelectorAll('.menu-item').forEach(item => {
+        item.classList.remove('active');
+    });
+    
+    // 使用傳入的event參數
+    if (event && event.currentTarget) {
+        event.currentTarget.classList.add('active');
+    } else if (event && event.target) {
+        event.target.closest('.menu-item').classList.add('active');
+    }
+}
+
+// 搜尋功能
+function performSearch() {
+    const input = document.getElementById('searchInput').value.trim();
+    if (!input) {
+        alert('請輸入CB代號或名稱');
+        return;
+    }
+    
+    alert('搜尋功能開發中: ' + input);
+}
+
+// 處理檔案上傳
+function handleFiles(event) {
+    const files = event.target.files;
+    if (!files || files.length === 0) return;
+    
+    document.getElementById('fileStatus').innerHTML = '<span style="color:#1a73e8;">讀取檔案中...</span>';
+    
+    Array.from(files).forEach(file => {
+        const reader = new FileReader();
+        
+        reader.onload = function(e) {
+            try {
+                const data = new Uint8Array(e.target.result);
+                const workbook = XLSX.read(data, { type: 'array' });
+                
+                // 根據檔案名稱判斷類型
+                const fileName = file.name.toLowerCase();
+                console.log('載入檔案:', fileName);
+                console.log('工作表:', workbook.SheetNames);
+                
+                document.getElementById('fileStatus').innerHTML = 
+                    '<span style="color:#34a853;">✅ 檔案載入成功</span>';
+                
+            } catch (error) {
+                console.error('檔案處理錯誤:', error);
+                document.getElementById('fileStatus').innerHTML = 
+                    '<span style="color:#ea4335;">檔案讀取失敗: ' + error.message + '</span>';
+            }
+        };
+        
+        reader.readAsArrayBuffer(file);
+    });
+}
+
+// Enter鍵搜尋
+document.getElementById('searchInput').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+        performSearch();
+    }
+});
+
+// 初始化
+window.addEventListener('DOMContentLoaded', function() {
+    console.log('系統初始化完成');
+});
+</script>
 </body>
 </html>
