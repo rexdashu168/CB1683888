@@ -1475,12 +1475,24 @@
                    value="23836"
                    inputmode="numeric">
             <button class="search-btn" onclick="performSearch()">開始查詢</button>
-            <div class="search-hint">※ 請先載入Excel檔案</div>
+            <div class="search-hint">※ 請先載入 Excel 檔案（00檔案）</div>
             
             <div class="file-upload-section">
-                <label for="fileInput" class="action-btn primary">選擇Excel檔案</label>
-                <input type="file" class="file-input" id="fileInput" accept=".xlsx,.xls" multiple onchange="handleFiles(event)" style="display:none;">
-                <div id="fileStatus" class="file-status"></div>
+                <label for="fileInput" class="action-btn primary">
+                    📁 選擇Excel檔案 (可多選)
+                </label>
+                <input type="file" class="file-input" id="fileInput" 
+                       accept=".xlsx,.xls" multiple onchange="handleFiles(event)" 
+                       style="display:none;">
+                <div id="fileStatus" class="file-status" style="margin-top:10px;">
+                    <div style="font-size:0.85em;color:#666;line-height:1.5;">
+                        請載入以下檔案：<br>
+                        • 00_CB代號名稱.xlsx<br>
+                        • 01_cb168report.xlsx<br>
+                        • 02_CBAS月拆解表.xlsx<br>
+                        • 04_CB月成交價表.xlsx
+                    </div>
+                </div>
             </div>
         </div>
         
@@ -2188,7 +2200,7 @@ function searchHighLow() {
     
     // 檢查資料是否已載入
     if (typeof highLowData === 'undefined' || Object.keys(highLowData).length === 0) {
-        alert('請先載入Excel檔案（00檔案）');
+        alert('請先載入 Excel 檔案\n\n需要載入：00_CB代號名稱.xlsx\n\n請返回首頁，點擊「選擇Excel檔案」');
         return;
     }
     
@@ -3832,29 +3844,55 @@ window.addEventListener('DOMContentLoaded', function() {
     if (typeof auctionData === 'undefined') {
         window.auctionData = {};
     }
+    if (typeof cbasData === 'undefined') {
+        window.cbasData = {};
+    }
+    if (typeof priceData === 'undefined') {
+        window.priceData = {};
+    }
+    if (typeof industryData === 'undefined') {
+        window.industryData = {};
+    }
+    if (typeof conceptData === 'undefined') {
+        window.conceptData = {};
+    }
+    if (typeof foreignNewsData === 'undefined') {
+        window.foreignNewsData = [];
+    }
+    if (typeof stockReportsData === 'undefined') {
+        window.stockReportsData = [];
+    }
     
     // 隱藏載入畫面
     setTimeout(() => {
-        document.getElementById('loadingScreen').style.display = 'none';
+        const loadingScreen = document.getElementById('loadingScreen');
+        if (loadingScreen) {
+            loadingScreen.style.display = 'none';
+        }
     }, 500);
     
     // 載入測試圖表
     setTimeout(() => {
-        loadChart();
+        if (typeof loadChart === 'function') {
+            loadChart();
+        }
     }, 600);
+    
+    // Enter鍵搜尋
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput) {
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                performSearch();
+            }
+        });
+    }
 });
 
 // 處理視窗調整
 window.addEventListener('resize', () => {
-    if (priceChart) {
+    if (typeof priceChart !== 'undefined' && priceChart) {
         priceChart.resize();
-    }
-});
-
-// Enter鍵搜尋
-document.getElementById('searchInput').addEventListener('keypress', function(e) {
-    if (e.key === 'Enter') {
-        performSearch();
     }
 });
 </script>
