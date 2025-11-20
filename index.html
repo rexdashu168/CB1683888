@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
@@ -14,1256 +13,1287 @@
             box-sizing: border-box; 
             -webkit-tap-highlight-color: transparent;
         }
-
-```
-    body { 
-        font-family: -apple-system, BlinkMacSystemFont, 'Microsoft JhengHei', 'Helvetica Neue', sans-serif; 
-        background: #f5f7fa;
-        min-height: 100vh;
-        overflow-x: hidden;
-        color: #333;
-    }
-    
-    /* 頂部導航 - 保持原始風格 */
-    .header {
-        background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-        color: white;
-        padding: 0 15px;
-        height: 55px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        z-index: 1000;
-    }
-    
-    .header-left {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-    }
-    
-    .menu-btn {
-        background: none;
-        border: none;
-        color: white;
-        font-size: 20px;
-        padding: 8px;
-        cursor: pointer;
-    }
-    
-    .header-title {
-        font-size: 17px;
-        font-weight: 600;
-    }
-    
-    .header-badge {
-        background: rgba(255,255,255,0.25);
-        padding: 4px 12px;
-        border-radius: 15px;
-        font-size: 12px;
-    }
-    
-    /* 側邊選單 - 簡潔風格 */
-    .sidebar {
-        position: fixed;
-        left: -300px;
-        top: 0;
-        width: 300px;
-        height: 100vh;
-        background: white;
-        transition: left 0.3s ease;
-        z-index: 2000;
-        overflow-y: auto;
-        box-shadow: 2px 0 10px rgba(0,0,0,0.1);
-    }
-    
-    .sidebar.active {
-        left: 0;
-    }
-    
-    .sidebar-header {
-        background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-        padding: 25px 20px;
-        color: white;
-    }
-    
-    .sidebar-logo {
-        font-size: 32px;
-        margin-bottom: 10px;
-    }
-    
-    .sidebar-title {
-        font-size: 18px;
-        font-weight: 600;
-        margin-bottom: 5px;
-    }
-    
-    .sidebar-subtitle {
-        font-size: 12px;
-        opacity: 0.8;
-    }
-    
-    .menu-group {
-        padding: 15px 0;
-    }
-    
-    .menu-group-title {
-        padding: 8px 20px;
-        font-size: 12px;
-        color: #999;
-        font-weight: 600;
-        letter-spacing: 0.5px;
-    }
-    
-    .menu-item {
-        display: flex;
-        align-items: center;
-        padding: 14px 20px;
-        cursor: pointer;
-        transition: all 0.2s;
-        color: #333;
-        text-decoration: none;
-        gap: 15px;
-    }
-    
-    .menu-item:hover {
-        background: #f8f9fa;
-    }
-    
-    .menu-item.active {
-        background: #e8f0fe;
-        color: #1a73e8;
-        border-left: 3px solid #1a73e8;
-        padding-left: 17px;
-    }
-    
-    .menu-icon {
-        font-size: 20px;
-        width: 24px;
-        text-align: center;
-    }
-    
-    .menu-text {
-        font-size: 15px;
-        font-weight: 500;
-    }
-    
-    /* 遮罩層 */
-    .overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(0,0,0,0.5);
-        display: none;
-        z-index: 1500;
-    }
-    
-    .overlay.active {
-        display: block;
-    }
-    
-    /* 主內容區 */
-    .main-content {
-        padding-top: 55px;
-        min-height: 100vh;
-    }
-    
-    /* 搜尋區 - 保持原始風格 */
-    .search-container {
-        background: white;
-        padding: 20px;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-    }
-    
-    .search-title {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        font-size: 16px;
-        font-weight: 600;
-        margin-bottom: 15px;
-        color: #333;
-    }
-    
-    .search-subtitle {
-        font-size: 14px;
-        color: #666;
-        margin-bottom: 12px;
-    }
-    
-    .search-input {
-        width: 100%;
-        padding: 14px 16px;
-        border: 2px solid #e0e0e0;
-        border-radius: 10px;
-        font-size: 16px;
-        transition: all 0.2s;
-        margin-bottom: 15px;
-    }
-    
-    .search-input:focus {
-        outline: none;
-        border-color: #1a73e8;
-        box-shadow: 0 0 0 3px rgba(26,115,232,0.1);
-    }
-    
-    .search-btn {
-        width: 100%;
-        padding: 14px;
-        background: #1a73e8;
-        color: white;
-        border: none;
-        border-radius: 8px;
-        font-weight: 600;
-        font-size: 16px;
-        cursor: pointer;
-    }
-    
-    .search-hint {
-        font-size: 13px;
-        color: #999;
-        margin-top: 12px;
-    }
-    
-    /* CB資訊卡片 - 原始風格 */
-    .cb-info-card {
-        background: white;
-        margin: 20px;
-        border-radius: 12px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-        overflow: hidden;
-    }
-    
-    .cb-header {
-        padding: 20px;
-        border-bottom: 1px solid #f0f0f0;
-    }
-    
-    .cb-title-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        margin-bottom: 15px;
-    }
-    
-    .cb-name-info {
-        flex: 1;
-    }
-    
-    .cb-name {
-        font-size: 18px;
-        font-weight: 600;
-        color: #333;
-        margin-bottom: 4px;
-    }
-    
-    .cb-code {
-        font-size: 24px;
-        font-weight: 700;
-        color: #1a73e8;
-    }
-    
-    .cb-price-info {
-        text-align: right;
-    }
-    
-    .cb-price {
-        font-size: 32px;
-        font-weight: 700;
-        color: #ea4335;
-    }
-    
-    .cb-change {
-        font-size: 14px;
-        color: #666;
-        margin-top: 4px;
-    }
-    
-    /* 資訊列表 */
-    .info-list {
-        padding: 0;
-    }
-    
-    .info-item {
-        display: flex;
-        justify-content: space-between;
-        padding: 16px 20px;
-        border-bottom: 1px solid #f5f5f5;
-        transition: background 0.2s;
-    }
-    
-    .info-item:active {
-        background: #f8f9fa;
-    }
-    
-    .info-label {
-        color: #666;
-        font-size: 15px;
-    }
-    
-    .info-value {
-        color: #333;
-        font-weight: 600;
-        font-size: 15px;
-    }
-    
-    .info-value.red { color: #ea4335; }
-    .info-value.green { color: #34a853; }
-    
-    /* 底部按鈕組 */
-    .bottom-actions {
-        display: flex;
-        gap: 10px;
-        padding: 15px 20px;
-        background: #f8f9fa;
-    }
-    
-    .action-btn {
-        flex: 1;
-        padding: 12px;
-        border: none;
-        border-radius: 8px;
-        font-weight: 600;
-        font-size: 14px;
-        cursor: pointer;
-        transition: all 0.2s;
-        text-align: center;
-        display: block;
-    }
-    
-    .action-btn.primary, label.action-btn.primary {
-        background: #1a73e8;
-        color: white;
-    }
-    
-    .action-btn.secondary {
-        background: white;
-        color: #666;
-        border: 1px solid #e0e0e0;
-    }
-    
-    /* 圖表區域 */
-    .chart-section {
-        background: white;
-        margin: 20px;
-        padding: 20px;
-        border-radius: 12px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    }
-    
-    .chart-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 20px;
-    }
-    
-    .chart-title {
-        font-size: 16px;
-        font-weight: 600;
-        color: #333;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-    }
-    
-    .time-selector {
-        display: flex;
-        gap: 8px;
-    }
-    
-    .time-btn {
-        padding: 6px 12px;
-        border: 1px solid #e0e0e0;
-        background: white;
-        border-radius: 6px;
-        font-size: 13px;
-        color: #666;
-        cursor: pointer;
-        transition: all 0.2s;
-    }
-    
-    .time-btn.active {
-        background: #1a73e8;
-        color: white;
-        border-color: #1a73e8;
-    }
-    
-    .chart-container {
-        height: 300px;
-        position: relative;
-    }
-    
-    /* 快速連結 */
-    .quick-links {
-        padding: 20px;
-    }
-    
-    .quick-links-title {
-        font-size: 16px;
-        font-weight: 600;
-        color: #333;
-        margin-bottom: 15px;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-    }
-    
-    .links-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 12px;
-    }
-    
-    .link-card {
-        background: white;
-        padding: 16px;
-        border-radius: 10px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-        text-align: center;
-        cursor: pointer;
-        transition: all 0.2s;
-    }
-    
-    .link-card:active {
-        transform: scale(0.98);
-    }
-    
-    .link-icon {
-        font-size: 28px;
-        margin-bottom: 8px;
-    }
-    
-    .link-text {
-        font-size: 14px;
-        color: #333;
-        font-weight: 500;
-    }
-    
-    /* 列表樣式 */
-    .list-section {
-        background: white;
-        margin: 20px;
-        border-radius: 12px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-        overflow: hidden;
-    }
-    
-    .list-header {
-        padding: 16px 20px;
-        background: #f8f9fa;
-        font-weight: 600;
-        color: #333;
-        border-bottom: 1px solid #e0e0e0;
-    }
-    
-    .list-item {
-        display: flex;
-        justify-content: space-between;
-        padding: 16px 20px;
-        border-bottom: 1px solid #f5f5f5;
-        transition: background 0.2s;
-        cursor: pointer;
-    }
-    
-    .list-item:active {
-        background: #f8f9fa;
-    }
-    
-    .list-item-left {
-        flex: 1;
-    }
-    
-    .list-item-name {
-        font-size: 15px;
-        font-weight: 500;
-        color: #333;
-        margin-bottom: 4px;
-    }
-    
-    .list-item-code {
-        font-size: 13px;
-        color: #666;
-    }
-    
-    .list-item-right {
-        text-align: right;
-    }
-    
-    .list-item-price {
-        font-size: 16px;
-        font-weight: 600;
-        color: #333;
-        margin-bottom: 4px;
-    }
-    
-    .list-item-change {
-        font-size: 13px;
-    }
-    
-    .list-item-change.up { color: #ea4335; }
-    .list-item-change.down { color: #34a853; }
-    
-    /* 載入畫面 */
-    .loading-screen {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: white;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        z-index: 3000;
-    }
-    
-    .loading-spinner {
-        width: 40px;
-        height: 40px;
-        border: 3px solid #f0f0f0;
-        border-top: 3px solid #1a73e8;
-        border-radius: 50%;
-        animation: spin 1s linear infinite;
-        margin-bottom: 20px;
-    }
-    
-    @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-    }
-    
-    .loading-text {
-        color: #666;
-        font-size: 15px;
-    }
-    
-    /* 檔案上傳區 */
-    .file-upload {
-        position: relative;
-    }
-    
-    .file-input {
-        display: none;
-    }
-    
-    .file-status {
-        font-size: 12px;
-        margin-top: 8px;
-    }
-    
-    .status-ok { color: #34a853; }
-    .status-error { color: #ea4335; }
-    .status-loading { color: #1a73e8; }
-    
-    /* 文件上傳區 */
-    .file-upload-section {
-        margin-top: 20px;
-        text-align: center;
-    }
-    
-    /* 結果卡片 */
-    .result-card {
-        background: white;
-        margin: 20px;
-        padding: 20px;
-        border-radius: 12px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    }
-    
-    .result-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 20px;
-        padding-bottom: 15px;
-        border-bottom: 2px solid #e0e0e0;
-    }
-    
-    .result-header h3 {
-        font-size: 20px;
-        font-weight: 600;
-        margin: 0;
-    }
-    
-    .result-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 15px;
-    }
-    
-    .result-item {
-        background: #f8f9fa;
-        padding: 15px;
-        border-radius: 8px;
-        text-align: center;
-    }
-    
-    .result-label {
-        font-size: 13px;
-        color: #666;
-        margin-bottom: 8px;
-    }
-    
-    .result-value {
-        font-size: 24px;
-        font-weight: 700;
-        color: #333;
-    }
-    
-    .result-value.high {
-        color: #ea4335;
-    }
-    
-    .result-value.low {
-        color: #34a853;
-    }
-    
-    .result-value.amplitude {
-        color: #1a73e8;
-    }
-    
-    /* 公司查詢結果 */
-    .company-result {
-        background: white;
-        margin: 20px;
-        padding: 20px;
-        border-radius: 12px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    }
-    
-    .company-result h3 {
-        font-size: 20px;
-        font-weight: 600;
-        margin-bottom: 10px;
-    }
-    
-    .company-result p {
-        color: #666;
-        margin-bottom: 20px;
-    }
-    
-    /* 篩選器 */
-    .filter-select {
-        padding: 8px 16px;
-        border: 1px solid #e0e0e0;
-        border-radius: 6px;
-        margin-right: 10px;
-        font-size: 14px;
-    }
-    
-    /* 狀態標籤 */
-    .status-tabs {
-        display: flex;
-        gap: 10px;
-        padding: 15px 20px;
-        background: white;
-        overflow-x: auto;
-    }
-    
-    .status-tab {
-        padding: 8px 16px;
-        border: 1px solid #e0e0e0;
-        background: white;
-        border-radius: 20px;
-        font-size: 14px;
-        cursor: pointer;
-        white-space: nowrap;
-    }
-    
-    .status-tab.active {
-        background: #1a73e8;
-        color: white;
-        border-color: #1a73e8;
-    }
-    
-    /* 批次輸入 */
-    .batch-input-section {
-        background: white;
-        padding: 20px;
-        margin: 20px;
-        border-radius: 12px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    }
-    
-    .batch-input-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
-        margin-bottom: 15px;
-    }
-    
-    .batch-input {
-        padding: 10px;
-        border: 1px solid #e0e0e0;
-        border-radius: 6px;
-        font-size: 14px;
-    }
-    
-    .add-input-btn {
-        background: #f0f0f0;
-        border: 1px dashed #999;
-        padding: 8px 16px;
-        border-radius: 6px;
-        cursor: pointer;
-        font-size: 14px;
-        margin-right: 10px;
-    }
-    
-    /* 條件篩選 */
-    .condition-filters {
-        background: white;
-        padding: 20px;
-        margin: 20px;
-        border-radius: 12px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    }
-    
-    .filter-group {
-        margin-bottom: 20px;
-    }
-    
-    .filter-group h3 {
-        font-size: 16px;
-        font-weight: 600;
-        margin-bottom: 12px;
-    }
-    
-    .filter-group label {
-        display: block;
-        margin-bottom: 8px;
-        font-size: 14px;
-    }
-    
-    .filter-group select {
-        width: 100%;
-        padding: 8px;
-        border: 1px solid #e0e0e0;
-        border-radius: 6px;
-        margin-bottom: 10px;
-    }
-    
-    /* 分析結果 */
-    .analysis-result, .performance-summary {
-        background: white;
-        margin: 20px;
-        padding: 20px;
-        border-radius: 12px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    }
-    
-    /* 績效資訊區 */
-    .performance-info {
-        margin-top: 20px;
-        padding-top: 20px;
-        border-top: 1px solid #e0e0e0;
-    }
-    
-    .performance-info h4 {
-        font-size: 16px;
-        font-weight: 600;
-        margin-bottom: 15px;
-        color: #333;
-    }
-    
-    /* 篩選面板 */
-    .filter-panel {
-        background: #f8f9fa;
-        padding: 15px;
-        border-radius: 8px;
-        margin-bottom: 15px;
-        display: flex;
-        gap: 10px;
-    }
-    
-    .filter-panel select {
-        flex: 1;
-        padding: 8px;
-        border: 1px solid #e0e0e0;
-        border-radius: 6px;
-    }
-    
-    .filter-btn {
-        background: #f0f0f0;
-        border: 1px solid #e0e0e0;
-        padding: 6px 12px;
-        border-radius: 6px;
-        font-size: 13px;
-        cursor: pointer;
-    }
-    
-    /* 排行榜列表 */
-    .ranking-list {
-        max-height: 600px;
-        overflow-y: auto;
-    }
-    
-    .ranking-item {
-        display: flex;
-        padding: 12px;
-        border-bottom: 1px solid #f0f0f0;
-        align-items: center;
-        cursor: pointer;
-        transition: background 0.2s;
-    }
-    
-    .ranking-item:hover {
-        background: #f8f9fa;
-    }
-    
-    .ranking-number {
-        width: 30px;
-        font-weight: 600;
-        color: #666;
-    }
-    
-    .ranking-info {
-        flex: 1;
-        margin-left: 10px;
-    }
-    
-    .ranking-name {
-        font-weight: 600;
-        color: #333;
-    }
-    
-    .ranking-code {
-        font-size: 12px;
-        color: #666;
-    }
-    
-    .ranking-value {
-        text-align: right;
-        font-weight: 700;
-        font-size: 18px;
-        color: #1a73e8;
-    }
-    
-    /* 研究報告專區樣式 */
-    .industry-tags {
-        padding: 15px 20px;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-    }
-    
-    .tag-item {
-        padding: 8px 16px;
-        background: #f0f0f0;
-        border-radius: 20px;
-        font-size: 14px;
-        cursor: pointer;
-        transition: all 0.2s;
-    }
-    
-    .tag-item:hover {
-        background: #1a73e8;
-        color: white;
-    }
-    
-    .result-container {
-        padding: 0 20px;
-    }
-    
-    .info-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 15px;
-        margin: 20px 0;
-    }
-    
-    .info-item {
-        display: flex;
-        flex-direction: column;
-        gap: 5px;
-    }
-    
-    .info-label {
-        font-size: 13px;
-        color: #666;
-    }
-    
-    .info-value {
-        font-size: 16px;
-        font-weight: 600;
-        color: #333;
-    }
-    
-    .industry-position {
-        background: #f8f9fa;
-        padding: 15px;
-        border-radius: 8px;
-        margin-top: 15px;
-        font-size: 14px;
-        line-height: 1.6;
-    }
-    
-    .concept-list {
-        margin-top: 20px;
-    }
-    
-    .concept-list h4 {
-        font-size: 16px;
-        font-weight: 600;
-        margin-bottom: 15px;
-    }
-    
-    .news-list {
-        padding: 0 20px;
-    }
-    
-    .news-item {
-        background: white;
-        padding: 15px;
-        margin-bottom: 12px;
-        border-radius: 8px;
-        border-left: 4px solid #1a73e8;
-    }
-    
-    .news-date {
-        font-size: 12px;
-        color: #666;
-        margin-bottom: 8px;
-    }
-    
-    .news-title {
-        font-size: 15px;
-        font-weight: 600;
-        margin-bottom: 8px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-    
-    .news-badge {
-        padding: 2px 8px;
-        background: #ea4335;
-        color: white;
-        border-radius: 12px;
-        font-size: 11px;
-    }
-    
-    .news-content {
-        font-size: 14px;
-        line-height: 1.5;
-        color: #555;
-    }
-    
-    .reports-list {
-        padding: 0 20px;
-    }
-    
-    .report-item {
-        background: white;
-        padding: 20px;
-        margin-bottom: 15px;
-        border-radius: 10px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    }
-    
-    .report-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: start;
-        margin-bottom: 15px;
-    }
-    
-    .report-title {
-        font-size: 16px;
-        font-weight: 600;
-    }
-    
-    .report-rating {
-        padding: 4px 12px;
-        border-radius: 15px;
-        font-size: 13px;
-        font-weight: 600;
-    }
-    
-    .rating-buy {
-        background: #e6f4ea;
-        color: #34a853;
-    }
-    
-    .rating-neutral {
-        background: #fef7e0;
-        color: #fbbc04;
-    }
-    
-    .rating-sell {
-        background: #fce8e6;
-        color: #ea4335;
-    }
-    
-    .report-meta {
-        display: flex;
-        gap: 15px;
-        font-size: 13px;
-        color: #666;
-        margin-bottom: 15px;
-    }
-    
-    .report-summary {
-        font-size: 14px;
-        line-height: 1.6;
-        color: #333;
-    }
-    
-    .coming-soon {
-        text-align: center;
-        padding: 80px 20px;
-    }
-    
-    .coming-icon {
-        font-size: 80px;
-        margin-bottom: 20px;
-    }
-    
-    .coming-soon h3 {
-        font-size: 20px;
-        margin-bottom: 10px;
-    }
-    
-    .coming-soon p {
-        color: #666;
-    }
-    
-    /* 頁面內容樣式 */
-    .page-content {
-        min-height: calc(100vh - 55px);
-        background: #f5f7fa;
-    }
-    
-    .page-header {
-        background: white;
-        padding: 20px;
-        border-bottom: 1px solid #e0e0e0;
-    }
-    
-    .page-title {
-        font-size: 20px;
-        font-weight: 600;
-        color: #333;
-        margin-bottom: 5px;
-    }
-    
-    .page-subtitle {
-        font-size: 14px;
-        color: #666;
-    }
-    
-    /* 排行榜樣式 */
-    .ranking-tabs {
-        display: flex;
-        gap: 10px;
-        padding: 15px 20px;
-        background: white;
-        overflow-x: auto;
-    }
-    
-    .ranking-tab {
-        padding: 8px 16px;
-        border: 1px solid #e0e0e0;
-        background: white;
-        border-radius: 20px;
-        font-size: 14px;
-        cursor: pointer;
-        white-space: nowrap;
-    }
-    
-    .ranking-tab.active {
-        background: #1a73e8;
-        color: white;
-        border-color: #1a73e8;
-    }
-    
-    /* CBAS統計卡片 */
-    .cbas-summary {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 15px;
-        padding: 20px;
-    }
-    
-    .summary-card {
-        background: white;
-        padding: 20px;
-        border-radius: 10px;
-        text-align: center;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    }
-    
-    .summary-label {
-        font-size: 13px;
-        color: #666;
-        margin-bottom: 8px;
-    }
-    
-    .summary-value {
-        font-size: 24px;
-        font-weight: 700;
-        color: #1a73e8;
-    }
-    
-    /* 分析控制項 */
-    .analysis-controls {
-        padding: 20px;
-        background: white;
-        display: flex;
-        gap: 15px;
-        flex-wrap: wrap;
-    }
-    
-    .analysis-select {
-        flex: 1;
-        padding: 10px;
-        border: 1px solid #e0e0e0;
-        border-radius: 8px;
-    }
-    
-    .indicator-buttons {
-        display: flex;
-        gap: 8px;
-    }
-    
-    .indicator-btn {
-        padding: 8px 16px;
-        border: 1px solid #e0e0e0;
-        background: white;
-        border-radius: 6px;
-        font-size: 13px;
-        cursor: pointer;
-    }
-    
-    .indicator-btn.active {
-        background: #1a73e8;
-        color: white;
-        border-color: #1a73e8;
-    }
-    
-    /* 比較工具 */
-    .comparison-controls {
-        padding: 20px;
-        background: white;
-    }
-    
-    .add-cb-btn {
-        background: #1a73e8;
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 8px;
-        cursor: pointer;
-        font-weight: 600;
-    }
-    
-    .selected-cbs {
-        display: flex;
-        gap: 10px;
-        margin-top: 15px;
-        flex-wrap: wrap;
-    }
-    
-    /* 篩選器 */
-    .filter-section {
-        background: white;
-        padding: 20px;
-        margin-bottom: 15px;
-    }
-    
-    .filter-title {
-        font-size: 16px;
-        font-weight: 600;
-        margin-bottom: 15px;
-    }
-    
-    .filter-row {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        margin-bottom: 10px;
-    }
-    
-    .filter-row label {
-        min-width: 80px;
-        font-size: 14px;
-    }
-    
-    .filter-row input[type="number"] {
-        width: 80px;
-        padding: 6px;
-        border: 1px solid #e0e0e0;
-        border-radius: 4px;
-    }
-    
-    .filter-btn {
-        background: #1a73e8;
-        color: white;
-        border: none;
-        padding: 12px 30px;
-        border-radius: 8px;
-        font-size: 16px;
-        font-weight: 600;
-        cursor: pointer;
-        display: block;
-        margin: 20px auto;
-    }
-    
-    /* 提醒設定 */
-    .add-alert-btn, .add-position-btn {
-        background: #1a73e8;
-        color: white;
-        border: none;
-        padding: 12px 24px;
-        border-radius: 8px;
-        font-weight: 600;
-        cursor: pointer;
-        margin: 20px;
-        display: block;
-    }
-    
-    /* 匯出選項 */
-    .export-options, .export-format {
-        background: white;
-        padding: 20px;
-        margin-bottom: 15px;
-    }
-    
-    .export-options h3, .export-format h3 {
-        font-size: 16px;
-        font-weight: 600;
-        margin-bottom: 15px;
-    }
-    
-    .export-options label, .export-format label {
-        display: block;
-        margin-bottom: 10px;
-        font-size: 14px;
-    }
-    
-    .export-btn {
-        background: #34a853;
-        color: white;
-        border: none;
-        padding: 12px 30px;
-        border-radius: 8px;
-        font-size: 16px;
-        font-weight: 600;
-        cursor: pointer;
-        display: block;
-        margin: 20px auto;
-    }
-</style>
-```
-
+        
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Microsoft JhengHei', 'Helvetica Neue', sans-serif; 
+            background: #f5f7fa;
+            min-height: 100vh;
+            overflow-x: hidden;
+            color: #333;
+        }
+        
+        /* 頂部導航 - 保持原始風格 */
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 0 15px;
+            height: 55px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .menu-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            padding: 8px;
+            cursor: pointer;
+        }
+        
+        .header-title {
+            font-size: 17px;
+            font-weight: 600;
+        }
+        
+        .header-badge {
+            background: rgba(255,255,255,0.25);
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+        }
+        
+        /* 側邊選單 - 簡潔風格 */
+        .sidebar {
+            position: fixed;
+            left: -300px;
+            top: 0;
+            width: 300px;
+            height: 100vh;
+            background: white;
+            transition: left 0.3s ease;
+            z-index: 2000;
+            overflow-y: auto;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        }
+        
+        .sidebar.active {
+            left: 0;
+        }
+        
+        .sidebar-header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            padding: 25px 20px;
+            color: white;
+        }
+        
+        .sidebar-logo {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        
+        .sidebar-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .sidebar-subtitle {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+        
+        .menu-group {
+            padding: 15px 0;
+        }
+        
+        .menu-group-title {
+            padding: 8px 20px;
+            font-size: 12px;
+            color: #999;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 14px 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #333;
+            text-decoration: none;
+            gap: 15px;
+        }
+        
+        .menu-item:hover {
+            background: #f8f9fa;
+        }
+        
+        .menu-item.active {
+            background: #e8f0fe;
+            color: #1a73e8;
+            border-left: 3px solid #1a73e8;
+            padding-left: 17px;
+        }
+        
+        .menu-icon {
+            font-size: 20px;
+            width: 24px;
+            text-align: center;
+        }
+        
+        .menu-text {
+            font-size: 15px;
+            font-weight: 500;
+        }
+        
+        /* 遮罩層 */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            z-index: 1500;
+        }
+        
+        .overlay.active {
+            display: block;
+        }
+        
+        /* 主內容區 */
+        .main-content {
+            padding-top: 55px;
+            min-height: 100vh;
+        }
+        
+        /* 搜尋區 - 保持原始風格 */
+        .search-container {
+            background: white;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+        
+        .search-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .search-subtitle {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 12px;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.2s;
+            margin-bottom: 15px;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: #1a73e8;
+            box-shadow: 0 0 0 3px rgba(26,115,232,0.1);
+        }
+        
+        .search-btn {
+            width: 100%;
+            padding: 14px;
+            background: #1a73e8;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        
+        .search-hint {
+            font-size: 13px;
+            color: #999;
+            margin-top: 12px;
+        }
+        
+        /* CB資訊卡片 - 原始風格 */
+        .cb-info-card {
+            background: white;
+            margin: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+        
+        .cb-header {
+            padding: 20px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .cb-title-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        
+        .cb-name-info {
+            flex: 1;
+        }
+        
+        .cb-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 4px;
+        }
+        
+        .cb-code {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1a73e8;
+        }
+        
+        .cb-price-info {
+            text-align: right;
+        }
+        
+        .cb-price {
+            font-size: 32px;
+            font-weight: 700;
+            color: #ea4335;
+        }
+        
+        .cb-change {
+            font-size: 14px;
+            color: #666;
+            margin-top: 4px;
+        }
+        
+        /* 資訊列表 */
+        .info-list {
+            padding: 0;
+        }
+        
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 16px 20px;
+            border-bottom: 1px solid #f5f5f5;
+            transition: background 0.2s;
+        }
+        
+        .info-item:active {
+            background: #f8f9fa;
+        }
+        
+        .info-label {
+            color: #666;
+            font-size: 15px;
+        }
+        
+        .info-value {
+            color: #333;
+            font-weight: 600;
+            font-size: 15px;
+        }
+        
+        .info-value.red { color: #ea4335; }
+        .info-value.green { color: #34a853; }
+        
+        /* 底部按鈕組 */
+        .bottom-actions {
+            display: flex;
+            gap: 10px;
+            padding: 15px 20px;
+            background: #f8f9fa;
+        }
+        
+        .action-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            display: block;
+        }
+        
+        .action-btn.primary, label.action-btn.primary {
+            background: #1a73e8;
+            color: white;
+        }
+        
+        .action-btn.secondary {
+            background: white;
+            color: #666;
+            border: 1px solid #e0e0e0;
+        }
+        
+        /* 圖表區域 */
+        .chart-section {
+            background: white;
+            margin: 20px;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .chart-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .time-selector {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .time-btn {
+            padding: 6px 12px;
+            border: 1px solid #e0e0e0;
+            background: white;
+            border-radius: 6px;
+            font-size: 13px;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .time-btn.active {
+            background: #1a73e8;
+            color: white;
+            border-color: #1a73e8;
+        }
+        
+        .chart-container {
+            height: 300px;
+            position: relative;
+        }
+        
+        /* 快速連結 */
+        .quick-links {
+            padding: 20px;
+        }
+        
+        .quick-links-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+        
+        .link-card {
+            background: white;
+            padding: 16px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .link-card:active {
+            transform: scale(0.98);
+        }
+        
+        .link-icon {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+        
+        .link-text {
+            font-size: 14px;
+            color: #333;
+            font-weight: 500;
+        }
+        
+        /* 列表樣式 */
+        .list-section {
+            background: white;
+            margin: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+        
+        .list-header {
+            padding: 16px 20px;
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #333;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .list-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 16px 20px;
+            border-bottom: 1px solid #f5f5f5;
+            transition: background 0.2s;
+            cursor: pointer;
+        }
+        
+        .list-item:active {
+            background: #f8f9fa;
+        }
+        
+        .list-item-left {
+            flex: 1;
+        }
+        
+        .list-item-name {
+            font-size: 15px;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 4px;
+        }
+        
+        .list-item-code {
+            font-size: 13px;
+            color: #666;
+        }
+        
+        .list-item-right {
+            text-align: right;
+        }
+        
+        .list-item-price {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 4px;
+        }
+        
+        .list-item-change {
+            font-size: 13px;
+        }
+        
+        .list-item-change.up { color: #ea4335; }
+        .list-item-change.down { color: #34a853; }
+        
+        /* 載入畫面 */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 3000;
+        }
+        
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid #f0f0f0;
+            border-top: 3px solid #1a73e8;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .loading-text {
+            color: #666;
+            font-size: 15px;
+        }
+        
+        /* 檔案上傳區 */
+        .file-upload {
+            position: relative;
+        }
+        
+        .file-input {
+            display: none;
+        }
+        
+        .file-status {
+            font-size: 12px;
+            margin-top: 8px;
+        }
+        
+        .status-ok { color: #34a853; }
+        .status-error { color: #ea4335; }
+        .status-loading { color: #1a73e8; }
+        
+        /* 文件上傳區 */
+        .file-upload-section {
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        /* 結果卡片 */
+        .result-card {
+            background: white;
+            margin: 20px;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        
+        .result-header h3 {
+            font-size: 20px;
+            font-weight: 600;
+            margin: 0;
+        }
+        
+        .result-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        
+        .result-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .result-label {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .result-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #333;
+        }
+        
+        .result-value.high {
+            color: #ea4335;
+        }
+        
+        .result-value.low {
+            color: #34a853;
+        }
+        
+        .result-value.amplitude {
+            color: #1a73e8;
+        }
+        
+        /* 公司查詢結果 */
+        .company-result {
+            background: white;
+            margin: 20px;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        
+        .company-result h3 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .company-result p {
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        /* 篩選器 */
+        .filter-select {
+            padding: 8px 16px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            margin-right: 10px;
+            font-size: 14px;
+        }
+        
+        /* 狀態標籤 */
+        .status-tabs {
+            display: flex;
+            gap: 10px;
+            padding: 15px 20px;
+            background: white;
+            overflow-x: auto;
+        }
+        
+        .status-tab {
+            padding: 8px 16px;
+            border: 1px solid #e0e0e0;
+            background: white;
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        
+        .status-tab.active {
+            background: #1a73e8;
+            color: white;
+            border-color: #1a73e8;
+        }
+        
+        /* 批次輸入 */
+        .batch-input-section {
+            background: white;
+            padding: 20px;
+            margin: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        
+        .batch-input-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .batch-input {
+            padding: 10px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        
+        .add-input-btn {
+            background: #f0f0f0;
+            border: 1px dashed #999;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-right: 10px;
+        }
+        
+        /* 條件篩選 */
+        .condition-filters {
+            background: white;
+            padding: 20px;
+            margin: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        
+        .filter-group {
+            margin-bottom: 20px;
+        }
+        
+        .filter-group h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        
+        .filter-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        .filter-group select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            margin-bottom: 10px;
+        }
+        
+        /* 分析結果 */
+        .analysis-result, .performance-summary {
+            background: white;
+            margin: 20px;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        
+        /* 績效資訊區 */
+        .performance-info {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+        }
+        
+        .performance-info h4 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        /* 篩選面板 */
+        .filter-panel {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .filter-panel select {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+        }
+        
+        .filter-btn {
+            background: #f0f0f0;
+            border: 1px solid #e0e0e0;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
+        }
+        
+        /* 排行榜列表 */
+        .ranking-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .ranking-item {
+            display: flex;
+            padding: 12px;
+            border-bottom: 1px solid #f0f0f0;
+            align-items: center;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .ranking-item:hover {
+            background: #f8f9fa;
+        }
+        
+        .ranking-number {
+            width: 30px;
+            font-weight: 600;
+            color: #666;
+        }
+        
+        .ranking-info {
+            flex: 1;
+            margin-left: 10px;
+        }
+        
+        .ranking-name {
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .ranking-code {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .ranking-value {
+            text-align: right;
+            font-weight: 700;
+            font-size: 18px;
+            color: #1a73e8;
+        }
+        
+        /* 研究報告專區樣式 */
+        .industry-tags {
+            padding: 15px 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .tag-item {
+            padding: 8px 16px;
+            background: #f0f0f0;
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .tag-item:hover {
+            background: #1a73e8;
+            color: white;
+        }
+        
+        .result-container {
+            padding: 0 20px;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        
+        .info-label {
+            font-size: 13px;
+            color: #666;
+        }
+        
+        .info-value {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .industry-position {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        
+        .concept-list {
+            margin-top: 20px;
+        }
+        
+        .concept-list h4 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        .news-list {
+            padding: 0 20px;
+        }
+        
+        .news-item {
+            background: white;
+            padding: 15px;
+            margin-bottom: 12px;
+            border-radius: 8px;
+            border-left: 4px solid #1a73e8;
+        }
+        
+        .news-date {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .news-title {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .news-badge {
+            padding: 2px 8px;
+            background: #ea4335;
+            color: white;
+            border-radius: 12px;
+            font-size: 11px;
+        }
+        
+        .news-content {
+            font-size: 14px;
+            line-height: 1.5;
+            color: #555;
+        }
+        
+        .reports-list {
+            padding: 0 20px;
+        }
+        
+        .report-item {
+            background: white;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        
+        .report-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 15px;
+        }
+        
+        .report-title {
+            font-size: 16px;
+            font-weight: 600;
+        }
+        
+        .report-rating {
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        
+        .rating-buy {
+            background: #e6f4ea;
+            color: #34a853;
+        }
+        
+        .rating-neutral {
+            background: #fef7e0;
+            color: #fbbc04;
+        }
+        
+        .rating-sell {
+            background: #fce8e6;
+            color: #ea4335;
+        }
+        
+        .report-meta {
+            display: flex;
+            gap: 15px;
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 15px;
+        }
+        
+        .report-summary {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+        .coming-soon {
+            text-align: center;
+            padding: 80px 20px;
+        }
+        
+        .coming-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+        
+        .coming-soon h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        
+        .coming-soon p {
+            color: #666;
+        }
+        
+        /* 概念股項目樣式 */
+        .concept-item {
+            background: #f8f9fa;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border-left: 3px solid #1a73e8;
+        }
+        
+        .concept-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .concept-subtitle {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .concept-desc {
+            font-size: 13px;
+            line-height: 1.5;
+            color: #555;
+        }
+        
+        .news-meta {
+            margin-top: 10px;
+            font-size: 12px;
+            color: #999;
+        }
+        
+        /* 頁面內容樣式 */
+        .page-content {
+            min-height: calc(100vh - 55px);
+            background: #f5f7fa;
+        }
+        
+        .page-header {
+            background: white;
+            padding: 20px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .page-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .page-subtitle {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        /* 排行榜樣式 */
+        .ranking-tabs {
+            display: flex;
+            gap: 10px;
+            padding: 15px 20px;
+            background: white;
+            overflow-x: auto;
+        }
+        
+        .ranking-tab {
+            padding: 8px 16px;
+            border: 1px solid #e0e0e0;
+            background: white;
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        
+        .ranking-tab.active {
+            background: #1a73e8;
+            color: white;
+            border-color: #1a73e8;
+        }
+        
+        /* CBAS統計卡片 */
+        .cbas-summary {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            padding: 20px;
+        }
+        
+        .summary-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        
+        .summary-label {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .summary-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1a73e8;
+        }
+        
+        /* 分析控制項 */
+        .analysis-controls {
+            padding: 20px;
+            background: white;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .analysis-select {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+        }
+        
+        .indicator-buttons {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .indicator-btn {
+            padding: 8px 16px;
+            border: 1px solid #e0e0e0;
+            background: white;
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
+        }
+        
+        .indicator-btn.active {
+            background: #1a73e8;
+            color: white;
+            border-color: #1a73e8;
+        }
+        
+        /* 比較工具 */
+        .comparison-controls {
+            padding: 20px;
+            background: white;
+        }
+        
+        .add-cb-btn {
+            background: #1a73e8;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        
+        .selected-cbs {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+        
+        /* 篩選器 */
+        .filter-section {
+            background: white;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .filter-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        .filter-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .filter-row label {
+            min-width: 80px;
+            font-size: 14px;
+        }
+        
+        .filter-row input[type="number"] {
+            width: 80px;
+            padding: 6px;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+        }
+        
+        .filter-btn {
+            background: #1a73e8;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            display: block;
+            margin: 20px auto;
+        }
+        
+        /* 提醒設定 */
+        .add-alert-btn, .add-position-btn {
+            background: #1a73e8;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 20px;
+            display: block;
+        }
+        
+        /* 匯出選項 */
+        .export-options, .export-format {
+            background: white;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .export-options h3, .export-format h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        .export-options label, .export-format label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        
+        .export-btn {
+            background: #34a853;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            display: block;
+            margin: 20px auto;
+        }
+    </style>
 </head>
 <body>
     <!-- 載入畫面 -->
@@ -1271,582 +1301,592 @@
         <div class="loading-spinner"></div>
         <div class="loading-text">正在初始化系統...</div>
     </div>
-
-```
-<!-- 頂部導航 -->
-<header class="header">
-    <div class="header-left">
-        <button class="menu-btn" onclick="toggleMenu()">☰</button>
-        <div class="header-title">Rex大叔 智能CB戰情室</div>
-    </div>
-    <div class="header-badge" id="dataBadge">資料庫就緒 (共 1969 檔)</div>
-</header>
-
-<!-- 側邊選單 -->
-<div id="sidebar" class="sidebar">
-    <div class="sidebar-header">
-        <div class="sidebar-logo">📈</div>
-        <div class="sidebar-title">Rex大叔168</div>
-        <div class="sidebar-subtitle">專注風險・數據驅動・智能分析</div>
-    </div>
     
-    <div class="menu-group">
-        <div class="menu-group-title">主要功能</div>
-        <a class="menu-item active" onclick="showPage('home', event)">
-            <span class="menu-icon">🏠</span>
-            <span class="menu-text">首頁</span>
-        </a>
-        <a class="menu-item" onclick="showPage('high-low-query', event)">
-            <span class="menu-icon">📊</span>
-            <span class="menu-text">CB掛牌高低查詢</span>
-        </a>
-        <a class="menu-item" onclick="showPage('issue-query', event)">
-            <span class="menu-icon">📋</span>
-            <span class="menu-text">CB發行查詢</span>
-        </a>
-        <a class="menu-item" onclick="showPage('company-query', event)">
-            <span class="menu-icon">🏢</span>
-            <span class="menu-text">CB同公司發行查詢</span>
-        </a>
-    </div>
+    <!-- 頂部導航 -->
+    <header class="header">
+        <div class="header-left">
+            <button class="menu-btn" onclick="toggleMenu()">☰</button>
+            <div class="header-title">Rex大叔 智能CB戰情室</div>
+        </div>
+        <div class="header-badge" id="dataBadge">資料庫就緒 (共 1969 檔)</div>
+    </header>
     
-    <div class="menu-group">
-        <div class="menu-group-title">承銷專區</div>
-        <a class="menu-item" onclick="showPage('board-announcement', event)">
-            <span class="menu-icon">📢</span>
-            <span class="menu-text">董事會公告</span>
-        </a>
-        <a class="menu-item" onclick="showPage('issue-cases', event)">
-            <span class="menu-icon">📄</span>
-            <span class="menu-text">發行案件</span>
-        </a>
-    </div>
-    
-    <div class="menu-group">
-        <div class="menu-group-title">競拍專區</div>
-        <a class="menu-item" onclick="showPage('auction-query', event)">
-            <span class="menu-icon">🔨</span>
-            <span class="menu-text">競拍查詢</span>
-        </a>
-        <a class="menu-item" onclick="showPage('auction-batch', event)">
-            <span class="menu-icon">📑</span>
-            <span class="menu-text">競拍批次查詢</span>
-        </a>
-        <a class="menu-item" onclick="showPage('condition-analysis', event)">
-            <span class="menu-icon">🔍</span>
-            <span class="menu-text">發行組合條件分析</span>
-        </a>
-    </div>
-    
-    <div class="menu-group">
-        <div class="menu-group-title">統計分析</div>
-        <a class="menu-item" onclick="showPage('performance-analysis', event)">
-            <span class="menu-icon">📈</span>
-            <span class="menu-text">組合績效分析</span>
-        </a>
-    </div>
-    
-    <div class="menu-group">
-        <div class="menu-group-title">📚 研究報告專區</div>
-        <a class="menu-item" onclick="showPage('industry-concept', event)">
-            <span class="menu-icon">🏭</span>
-            <span class="menu-text">產業概念股查詢</span>
-        </a>
-        <a class="menu-item" onclick="showPage('foreign-news', event)">
-            <span class="menu-icon">🌐</span>
-            <span class="menu-text">外電報導</span>
-        </a>
-        <a class="menu-item" onclick="showPage('stock-reports', event)">
-            <span class="menu-icon">📈</span>
-            <span class="menu-text">個股研究報告</span>
-        </a>
-        <a class="menu-item" onclick="showPage('industry-reports', event)">
-            <span class="menu-icon">📊</span>
-            <span class="menu-text">產業研究報告</span>
-        </a>
-    </div>
-</div>
-
-<!-- 遮罩層 -->
-<div id="overlay" class="overlay" onclick="closeMenu()"></div>
-
-<!-- 主內容區 -->
-<main class="main-content">
-    <!-- 首頁 -->
-    <div id="page-home" class="page-content active">
-        <!-- 搜尋區 -->
-        <div class="search-container">
-            <div class="search-title">
-                <span>🔍</span>
-                <span>搜尋面板</span>
-            </div>
-            <div class="search-subtitle">輸入代號或名稱：</div>
-            <input type="text" class="search-input" id="searchInput" 
-                   placeholder="請輸入CB代號或名稱" 
-                   value="23836"
-                   inputmode="numeric">
-            <button class="search-btn" onclick="performSearch()">開始查詢</button>
-            <div class="search-hint">※ 請先載入Excel檔案</div>
-            
-            <div class="file-upload-section">
-                <label for="fileInput" class="action-btn primary">選擇Excel檔案</label>
-                <input type="file" class="file-input" id="fileInput" accept=".xlsx,.xls" multiple onchange="handleFiles(event)" style="display:none;">
-                <div id="fileStatus" class="file-status"></div>
-            </div>
+    <!-- 側邊選單 -->
+    <div id="sidebar" class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">📈</div>
+            <div class="sidebar-title">Rex大叔168</div>
+            <div class="sidebar-subtitle">專注風險・數據驅動・智能分析</div>
         </div>
         
-        <!-- 快速功能連結 -->
-        <div class="quick-links">
-            <div class="quick-links-title">
-                <span>⚡</span>
-                <span>快速功能</span>
-            </div>
-            <div class="links-grid">
-                <div class="link-card" onclick="showPage('high-low-query', event)">
-                    <div class="link-icon">📊</div>
-                    <div class="link-text">掛牌高低</div>
+        <div class="menu-group">
+            <div class="menu-group-title">主要功能</div>
+            <a class="menu-item active" onclick="showPage('home', event)">
+                <span class="menu-icon">🏠</span>
+                <span class="menu-text">首頁</span>
+            </a>
+            <a class="menu-item" onclick="showPage('high-low-query', event)">
+                <span class="menu-icon">📊</span>
+                <span class="menu-text">CB掛牌高低查詢</span>
+            </a>
+            <a class="menu-item" onclick="showPage('issue-query', event)">
+                <span class="menu-icon">📋</span>
+                <span class="menu-text">CB發行查詢</span>
+            </a>
+            <a class="menu-item" onclick="showPage('company-query', event)">
+                <span class="menu-icon">🏢</span>
+                <span class="menu-text">CB同公司發行查詢</span>
+            </a>
+        </div>
+        
+        <div class="menu-group">
+            <div class="menu-group-title">承銷專區</div>
+            <a class="menu-item" onclick="showPage('board-announcement', event)">
+                <span class="menu-icon">📢</span>
+                <span class="menu-text">董事會公告</span>
+            </a>
+            <a class="menu-item" onclick="showPage('issue-cases', event)">
+                <span class="menu-icon">📄</span>
+                <span class="menu-text">發行案件</span>
+            </a>
+        </div>
+        
+        <div class="menu-group">
+            <div class="menu-group-title">競拍專區</div>
+            <a class="menu-item" onclick="showPage('auction-query', event)">
+                <span class="menu-icon">🔨</span>
+                <span class="menu-text">競拍查詢</span>
+            </a>
+            <a class="menu-item" onclick="showPage('auction-batch', event)">
+                <span class="menu-icon">📑</span>
+                <span class="menu-text">競拍批次查詢</span>
+            </a>
+            <a class="menu-item" onclick="showPage('condition-analysis', event)">
+                <span class="menu-icon">🔍</span>
+                <span class="menu-text">發行組合條件分析</span>
+            </a>
+        </div>
+        
+        <div class="menu-group">
+            <div class="menu-group-title">統計分析</div>
+            <a class="menu-item" onclick="showPage('performance-analysis', event)">
+                <span class="menu-icon">📈</span>
+                <span class="menu-text">組合績效分析</span>
+            </a>
+        </div>
+        
+        <div class="menu-group">
+            <div class="menu-group-title">📚 研究報告專區</div>
+            <a class="menu-item" onclick="showPage('industry-concept', event)">
+                <span class="menu-icon">🏭</span>
+                <span class="menu-text">產業概念股查詢</span>
+            </a>
+            <a class="menu-item" onclick="showPage('foreign-reports', event)">
+                <span class="menu-icon">🌐</span>
+                <span class="menu-text">外電報導</span>
+            </a>
+            <a class="menu-item" onclick="showPage('stock-research', event)">
+                <span class="menu-icon">📑</span>
+                <span class="menu-text">個股研究報告</span>
+            </a>
+            <a class="menu-item" onclick="showPage('industry-research', event)">
+                <span class="menu-icon">📈</span>
+                <span class="menu-text">產業研究報告</span>
+            </a>
+        </div>
+                <span class="menu-icon">🌐</span>
+                <span class="menu-text">外電報導</span>
+            </a>
+            <a class="menu-item" onclick="showPage('stock-reports', event)">
+                <span class="menu-icon">📈</span>
+                <span class="menu-text">個股研究報告</span>
+            </a>
+            <a class="menu-item" onclick="showPage('industry-reports', event)">
+                <span class="menu-icon">📊</span>
+                <span class="menu-text">產業研究報告</span>
+            </a>
+        </div>
+    </div>
+    
+    <!-- 遮罩層 -->
+    <div id="overlay" class="overlay" onclick="closeMenu()"></div>
+    
+    <!-- 主內容區 -->
+    <main class="main-content">
+        <!-- 首頁 -->
+        <div id="page-home" class="page-content active">
+            <!-- 搜尋區 -->
+            <div class="search-container">
+                <div class="search-title">
+                    <span>🔍</span>
+                    <span>搜尋面板</span>
                 </div>
-                <div class="link-card" onclick="showPage('auction-query', event)">
-                    <div class="link-icon">🔨</div>
-                    <div class="link-text">競拍查詢</div>
-                </div>
-                <div class="link-card" onclick="showPage('company-query', event)">
-                    <div class="link-icon">🏢</div>
-                    <div class="link-text">同公司查詢</div>
-                </div>
-                <div class="link-card" onclick="showPage('condition-analysis', event)">
-                    <div class="link-icon">🔍</div>
-                    <div class="link-text">條件分析</div>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- CB掛牌高低查詢 -->
-    <div id="page-high-low-query" class="page-content" style="display:none;">
-        <div class="page-header">
-            <h2 class="page-title">📊 CB掛牌高低查詢</h2>
-            <p class="page-subtitle">查詢CB的掛牌最高價、最低價及振幅</p>
-        </div>
-        
-        <div class="search-container">
-            <input type="text" class="search-input" id="highLowSearchInput" 
-                   placeholder="輸入CB代號或名稱">
-            <button class="search-btn" onclick="searchHighLow()">查詢</button>
-        </div>
-        
-        <div class="result-card" id="highLowResult" style="display:none;">
-            <div class="result-header">
-                <h3 id="hlResultName">--</h3>
-                <span id="hlResultCode">--</span>
-            </div>
-            <div class="result-grid">
-                <div class="result-item">
-                    <div class="result-label">掛牌最高</div>
-                    <div class="result-value high" id="hlHigh">--</div>
-                </div>
-                <div class="result-item">
-                    <div class="result-label">掛牌最低</div>
-                    <div class="result-value low" id="hlLow">--</div>
-                </div>
-                <div class="result-item">
-                    <div class="result-label">振幅</div>
-                    <div class="result-value amplitude" id="hlAmplitude">--%</div>
-                </div>
-                <div class="result-item">
-                    <div class="result-label">平均得標</div>
-                    <div class="result-value" id="hlAvgBid">--</div>
-                </div>
-            </div>
-            
-            <div class="performance-info">
-                <h4>績效分析</h4>
-                <div class="info-row">
-                    <span class="info-label">最高價績效</span>
-                    <span class="info-value" id="hlHighPerf">--%</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">發行方式</span>
-                    <span class="info-value" id="hlMethod">--</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">擔保情形</span>
-                    <span class="info-value" id="hlSecurity">--</span>
-                </div>
-            </div>
-        </div>
-        
-        <!-- 振幅排行榜 -->
-        <div class="list-section">
-            <div class="list-header">
-                <span>📊 振幅排行榜 TOP 20</span>
-                <button class="filter-btn" onclick="toggleAmplitudeFilter()">篩選條件</button>
-            </div>
-            
-            <div class="filter-panel" id="amplitudeFilter" style="display:none;">
-                <select id="securityFilter" onchange="updateAmplitudeRanking()">
-                    <option value="all">全部</option>
-                    <option value="secured">有擔保</option>
-                    <option value="unsecured">無擔保</option>
-                </select>
-                <select id="methodFilter" onchange="updateAmplitudeRanking()">
-                    <option value="all">全部</option>
-                    <option value="auction">競拍</option>
-                    <option value="book">詢圈</option>
-                </select>
-            </div>
-            
-            <div id="amplitudeRanking" class="ranking-list">
-                <!-- 動態生成排行榜 -->
-            </div>
-        </div>
-    </div>
-    
-    <!-- CB發行查詢 -->
-    <div id="page-issue-query" class="page-content" style="display:none;">
-        <div class="page-header">
-            <h2 class="page-title">📋 CB發行查詢</h2>
-            <p class="page-subtitle">查詢CB的發行基本資料</p>
-        </div>
-        
-        <div class="search-container">
-            <input type="text" class="search-input" id="issueSearchInput" 
-                   placeholder="輸入CB代號或名稱">
-            <button class="search-btn" onclick="searchIssue()">查詢</button>
-        </div>
-        
-        <div class="info-card" id="issueResult" style="display:none;">
-            <div class="card-title" id="issueResultTitle">--</div>
-            <div class="info-list" id="issueInfoList">
-                <!-- 動態生成發行資料 -->
-            </div>
-        </div>
-    </div>
-    
-    <!-- CB同公司發行查詢 -->
-    <div id="page-company-query" class="page-content" style="display:none;">
-        <div class="page-header">
-            <h2 class="page-title">🏢 CB同公司發行查詢</h2>
-            <p class="page-subtitle">查詢同一公司發行的所有CB</p>
-        </div>
-        
-        <div class="search-container">
-            <input type="text" class="search-input" id="companySearchInput" 
-                   placeholder="輸入股票代號或公司名稱 (如: 6290 或 良維)">
-            <button class="search-btn" onclick="searchCompany()">查詢</button>
-        </div>
-        
-        <div class="company-result" id="companyResult" style="display:none;">
-            <h3 id="companyName">--</h3>
-            <p id="companyCount">共發行 0 檔CB</p>
-            
-            <div class="list-section">
-                <div class="list-header">發行記錄</div>
-                <div id="companyCBList"></div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- 董事會公告 -->
-    <div id="page-board-announcement" class="page-content" style="display:none;">
-        <div class="page-header">
-            <h2 class="page-title">📢 董事會公告</h2>
-            <p class="page-subtitle">最新董事會通過發行CB公告</p>
-        </div>
-        
-        <div class="filter-section">
-            <select class="filter-select" id="boardYearFilter">
-                <option value="all">全部年份</option>
-                <option value="2024">2024年</option>
-                <option value="2023">2023年</option>
-            </select>
-            
-            <select class="filter-select" id="boardMonthFilter">
-                <option value="all">全部月份</option>
-                <option value="1">1月</option>
-                <option value="2">2月</option>
-                <!-- 其他月份 -->
-            </select>
-        </div>
-        
-        <div class="announcement-list" id="boardList">
-            <!-- 動態生成公告列表 -->
-        </div>
-    </div>
-    
-    <!-- 發行案件 -->
-    <div id="page-issue-cases" class="page-content" style="display:none;">
-        <div class="page-header">
-            <h2 class="page-title">📄 發行案件</h2>
-            <p class="page-subtitle">CB發行案件進度追蹤</p>
-        </div>
-        
-        <div class="status-tabs">
-            <button class="status-tab active" onclick="filterIssueStatus('all')">全部</button>
-            <button class="status-tab" onclick="filterIssueStatus('pending')">待發行</button>
-            <button class="status-tab" onclick="filterIssueStatus('issued')">已發行</button>
-        </div>
-        
-        <div class="issue-cases-list" id="issueCasesList">
-            <!-- 動態生成案件列表 -->
-        </div>
-    </div>
-    
-    <!-- ====== 研究報告專區 ====== -->
-    <!-- 產業概念股查詢 -->
-    <div id="page-industry-concept" class="page-content" style="display:none;">
-        <div class="page-header">
-            <h2 class="page-title">🏭 產業概念股查詢</h2>
-            <p class="page-subtitle">查詢產業分類及概念股族群</p>
-        </div>
-        
-        <div class="search-container">
-            <input type="text" class="search-input" id="industrySearchInput" 
-                   placeholder="輸入股票代號、公司名稱或產業關鍵字">
-            <button class="search-btn" onclick="searchIndustryConcept()">查詢</button>
-        </div>
-        
-        <!-- 產業分類標籤 -->
-        <div class="industry-tags" id="industryTags">
-            <span class="tag-item" onclick="searchByIndustry('半導體')">半導體</span>
-            <span class="tag-item" onclick="searchByIndustry('電子零組件')">電子零組件</span>
-            <span class="tag-item" onclick="searchByIndustry('光電業')">光電業</span>
-            <span class="tag-item" onclick="searchByIndustry('生技醫療')">生技醫療</span>
-            <span class="tag-item" onclick="searchByIndustry('食品工業')">食品工業</span>
-        </div>
-        
-        <div class="result-container" id="industryConceptResult" style="display:none;">
-            <div class="result-card">
-                <h3 id="icCompanyName">--</h3>
-                <div class="info-grid">
-                    <div class="info-item">
-                        <span class="info-label">股票代號</span>
-                        <span class="info-value" id="icStockCode">--</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">市場</span>
-                        <span class="info-value" id="icMarket">--</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">產業</span>
-                        <span class="info-value" id="icIndustry">--</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">細產業</span>
-                        <span class="info-value" id="icSubIndustry">--</span>
-                    </div>
-                </div>
-                <div class="industry-position" id="icPosition">--</div>
-            </div>
-            
-            <div class="concept-list" id="conceptStockList">
-                <h4>相關概念股</h4>
-                <div id="conceptItems"></div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- 外電報導 -->
-    <div id="page-foreign-news" class="page-content" style="display:none;">
-        <div class="page-header">
-            <h2 class="page-title">🌐 外電報導</h2>
-            <p class="page-subtitle">國際媒體及券商報導追蹤</p>
-        </div>
-        
-        <div class="filter-section">
-            <select class="filter-select" id="newsTypeFilter" onchange="filterForeignNews()">
-                <option value="all">全部類型</option>
-                <option value="重要">重要報導</option>
-                <option value="一般">一般報導</option>
-            </select>
-            
-            <select class="filter-select" id="newsDateFilter" onchange="filterForeignNews()">
-                <option value="all">全部時間</option>
-                <option value="7">最近7天</option>
-                <option value="30">最近30天</option>
-                <option value="90">最近90天</option>
-            </select>
-            
-            <input type="text" class="search-input" id="newsSearchInput" 
-                   placeholder="搜尋公司名稱或關鍵字" onkeyup="searchForeignNews()">
-        </div>
-        
-        <div class="news-list" id="foreignNewsList">
-            <!-- 動態生成新聞列表 -->
-        </div>
-    </div>
-    
-    <!-- 個股研究報告 -->
-    <div id="page-stock-reports" class="page-content" style="display:none;">
-        <div class="page-header">
-            <h2 class="page-title">📈 個股研究報告</h2>
-            <p class="page-subtitle">券商個股研究報告彙整</p>
-        </div>
-        
-        <div class="search-container">
-            <input type="text" class="search-input" id="stockReportSearchInput" 
-                   placeholder="輸入股票代號或公司名稱">
-            <button class="search-btn" onclick="searchStockReport()">查詢</button>
-        </div>
-        
-        <div class="filter-section">
-            <select class="filter-select" id="reportRatingFilter" onchange="filterStockReports()">
-                <option value="all">全部評等</option>
-                <option value="買進">買進</option>
-                <option value="中立">中立</option>
-                <option value="賣出">賣出</option>
-            </select>
-            
-            <select class="filter-select" id="reportImportanceFilter" onchange="filterStockReports()">
-                <option value="all">全部重要性</option>
-                <option value="高">高度重要</option>
-                <option value="中">中度重要</option>
-                <option value="低">一般</option>
-            </select>
-        </div>
-        
-        <div class="reports-list" id="stockReportsList">
-            <!-- 動態生成報告列表 -->
-        </div>
-    </div>
-    
-    <!-- 產業研究報告 -->
-    <div id="page-industry-reports" class="page-content" style="display:none;">
-        <div class="page-header">
-            <h2 class="page-title">📊 產業研究報告</h2>
-            <p class="page-subtitle">產業趨勢深度分析報告</p>
-        </div>
-        
-        <div class="coming-soon">
-            <div class="coming-icon">🚧</div>
-            <h3>功能開發中</h3>
-            <p>產業研究報告功能即將推出，敬請期待！</p>
-        </div>
-    </div>
-    
-    <!-- 競拍查詢 -->
-    <div id="page-auction-query" class="page-content" style="display:none;">
-        <div class="page-header">
-            <h2 class="page-title">🔨 競拍查詢</h2>
-            <p class="page-subtitle">查詢單檔CB競拍詳細資料</p>
-        </div>
-        
-        <div class="search-container">
-            <input type="text" class="search-input" id="auctionSearchInput" 
-                   placeholder="輸入CB代號或名稱">
-            <button class="search-btn" onclick="searchAuction()">查詢</button>
-        </div>
-        
-        <div class="auction-result" id="auctionResult" style="display:none;">
-            <!-- 競拍結果詳情 -->
-        </div>
-    </div>
-    
-    <!-- 競拍批次查詢 -->
-    <div id="page-auction-batch" class="page-content" style="display:none;">
-        <div class="page-header">
-            <h2 class="page-title">📑 競拍批次查詢</h2>
-            <p class="page-subtitle">同時查詢多檔CB競拍資料（最多10檔）</p>
-        </div>
-        
-        <div class="batch-input-section">
-            <div class="batch-input-grid" id="batchInputs">
-                <input type="text" class="batch-input" placeholder="CB代號 1">
-                <input type="text" class="batch-input" placeholder="CB代號 2">
-                <input type="text" class="batch-input" placeholder="CB代號 3">
-                <input type="text" class="batch-input" placeholder="CB代號 4">
-                <input type="text" class="batch-input" placeholder="CB代號 5">
-            </div>
-            <button class="add-input-btn" onclick="addBatchInput()">+ 新增欄位</button>
-            <button class="search-btn" onclick="searchBatch()">批次查詢</button>
-        </div>
-        
-        <div class="batch-result-table" id="batchResult" style="display:none;">
-            <!-- 批次查詢結果表格 -->
-        </div>
-    </div>
-    
-    <!-- 發行組合條件分析 -->
-    <div id="page-condition-analysis" class="page-content" style="display:none;">
-        <div class="page-header">
-            <h2 class="page-title">🔍 發行組合條件分析</h2>
-            <p class="page-subtitle">根據發行條件組合篩選CB</p>
-        </div>
-        
-        <div class="condition-filters">
-            <div class="filter-group">
-                <h3>基本條件</h3>
-                <label>
-                    發行年期：
-                    <select id="yearFilter">
-                        <option value="">不限</option>
-                        <option value="3">3年期</option>
-                        <option value="5">5年期</option>
-                        <option value="7">7年期</option>
-                    </select>
-                </label>
+                <div class="search-subtitle">輸入代號或名稱：</div>
+                <input type="text" class="search-input" id="searchInput" 
+                       placeholder="請輸入CB代號或名稱" 
+                       value="23836"
+                       inputmode="numeric">
+                <button class="search-btn" onclick="performSearch()">開始查詢</button>
+                <div class="search-hint">※ 請先載入Excel檔案</div>
                 
-                <label>
-                    擔保情形：
-                    <select id="securityFilter">
-                        <option value="">不限</option>
+                <div class="file-upload-section">
+                    <label for="fileInput" class="action-btn primary">選擇Excel檔案</label>
+                    <input type="file" class="file-input" id="fileInput" accept=".xlsx,.xls" multiple onchange="handleFiles(event)" style="display:none;">
+                    <div id="fileStatus" class="file-status"></div>
+                </div>
+            </div>
+            
+            <!-- 快速功能連結 -->
+            <div class="quick-links">
+                <div class="quick-links-title">
+                    <span>⚡</span>
+                    <span>快速功能</span>
+                </div>
+                <div class="links-grid">
+                    <div class="link-card" onclick="showPage('high-low-query', event)">
+                        <div class="link-icon">📊</div>
+                        <div class="link-text">掛牌高低</div>
+                    </div>
+                    <div class="link-card" onclick="showPage('auction-query', event)">
+                        <div class="link-icon">🔨</div>
+                        <div class="link-text">競拍查詢</div>
+                    </div>
+                    <div class="link-card" onclick="showPage('company-query', event)">
+                        <div class="link-icon">🏢</div>
+                        <div class="link-text">同公司查詢</div>
+                    </div>
+                    <div class="link-card" onclick="showPage('condition-analysis', event)">
+                        <div class="link-icon">🔍</div>
+                        <div class="link-text">條件分析</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- CB掛牌高低查詢 -->
+        <div id="page-high-low-query" class="page-content" style="display:none;">
+            <div class="page-header">
+                <h2 class="page-title">📊 CB掛牌高低查詢</h2>
+                <p class="page-subtitle">查詢CB的掛牌最高價、最低價及振幅</p>
+            </div>
+            
+            <div class="search-container">
+                <input type="text" class="search-input" id="highLowSearchInput" 
+                       placeholder="輸入CB代號或名稱">
+                <button class="search-btn" onclick="searchHighLow()">查詢</button>
+            </div>
+            
+            <div class="result-card" id="highLowResult" style="display:none;">
+                <div class="result-header">
+                    <h3 id="hlResultName">--</h3>
+                    <span id="hlResultCode">--</span>
+                </div>
+                <div class="result-grid">
+                    <div class="result-item">
+                        <div class="result-label">掛牌最高</div>
+                        <div class="result-value high" id="hlHigh">--</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-label">掛牌最低</div>
+                        <div class="result-value low" id="hlLow">--</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-label">振幅</div>
+                        <div class="result-value amplitude" id="hlAmplitude">--%</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-label">平均得標</div>
+                        <div class="result-value" id="hlAvgBid">--</div>
+                    </div>
+                </div>
+                
+                <div class="performance-info">
+                    <h4>績效分析</h4>
+                    <div class="info-row">
+                        <span class="info-label">最高價績效</span>
+                        <span class="info-value" id="hlHighPerf">--%</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">發行方式</span>
+                        <span class="info-value" id="hlMethod">--</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">擔保情形</span>
+                        <span class="info-value" id="hlSecurity">--</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 振幅排行榜 -->
+            <div class="list-section">
+                <div class="list-header">
+                    <span>📊 振幅排行榜 TOP 20</span>
+                    <button class="filter-btn" onclick="toggleAmplitudeFilter()">篩選條件</button>
+                </div>
+                
+                <div class="filter-panel" id="amplitudeFilter" style="display:none;">
+                    <select id="securityFilter" onchange="updateAmplitudeRanking()">
+                        <option value="all">全部</option>
                         <option value="secured">有擔保</option>
                         <option value="unsecured">無擔保</option>
                     </select>
-                </label>
+                    <select id="methodFilter" onchange="updateAmplitudeRanking()">
+                        <option value="all">全部</option>
+                        <option value="auction">競拍</option>
+                        <option value="book">詢圈</option>
+                    </select>
+                </div>
+                
+                <div id="amplitudeRanking" class="ranking-list">
+                    <!-- 動態生成排行榜 -->
+                </div>
+            </div>
+        </div>
+        
+        <!-- CB發行查詢 -->
+        <div id="page-issue-query" class="page-content" style="display:none;">
+            <div class="page-header">
+                <h2 class="page-title">📋 CB發行查詢</h2>
+                <p class="page-subtitle">查詢CB的發行基本資料</p>
             </div>
             
-            <div class="filter-group">
-                <h3>投標倍數</h3>
-                <label>
-                    <input type="radio" name="bidMultiple" value="all" checked> 全部
-                </label>
-                <label>
-                    <input type="radio" name="bidMultiple" value="<1"> &lt;1倍（極度冷清）
-                </label>
-                <label>
-                    <input type="radio" name="bidMultiple" value="1-1.5"> 1-1.5倍（冷清）
-                </label>
-                <label>
-                    <input type="radio" name="bidMultiple" value="1.5-2.5"> 1.5-2.5倍（普通）
-                </label>
-                <label>
-                    <input type="radio" name="bidMultiple" value="2.5-4"> 2.5-4倍（火熱）
-                </label>
-                <label>
-                    <input type="radio" name="bidMultiple" value=">4"> &gt;4倍（極度火熱）
-                </label>
+            <div class="search-container">
+                <input type="text" class="search-input" id="issueSearchInput" 
+                       placeholder="輸入CB代號或名稱">
+                <button class="search-btn" onclick="searchIssue()">查詢</button>
             </div>
             
-            <button class="filter-btn" onclick="analyzeConditions()">開始分析</button>
+            <div class="info-card" id="issueResult" style="display:none;">
+                <div class="card-title" id="issueResultTitle">--</div>
+                <div class="info-list" id="issueInfoList">
+                    <!-- 動態生成發行資料 -->
+                </div>
+            </div>
         </div>
         
-        <div class="analysis-result" id="analysisResult" style="display:none;">
-            <!-- 分析結果 -->
-        </div>
-    </div>
-    
-    <!-- 組合績效分析 -->
-    <div id="page-performance-analysis" class="page-content" style="display:none;">
-        <div class="page-header">
-            <h2 class="page-title">📈 組合績效分析</h2>
-            <p class="page-subtitle">分析不同條件組合的歷史績效表現</p>
+        <!-- CB同公司發行查詢 -->
+        <div id="page-company-query" class="page-content" style="display:none;">
+            <div class="page-header">
+                <h2 class="page-title">🏢 CB同公司發行查詢</h2>
+                <p class="page-subtitle">查詢同一公司發行的所有CB</p>
+            </div>
+            
+            <div class="search-container">
+                <input type="text" class="search-input" id="companySearchInput" 
+                       placeholder="輸入股票代號或公司名稱 (如: 6290 或 良維)">
+                <button class="search-btn" onclick="searchCompany()">查詢</button>
+            </div>
+            
+            <div class="company-result" id="companyResult" style="display:none;">
+                <h3 id="companyName">--</h3>
+                <p id="companyCount">共發行 0 檔CB</p>
+                
+                <div class="list-section">
+                    <div class="list-header">發行記錄</div>
+                    <div id="companyCBList"></div>
+                </div>
+            </div>
         </div>
         
-        <div class="performance-summary">
-            <!-- 績效統計摘要 -->
+        <!-- 董事會公告 -->
+        <div id="page-board-announcement" class="page-content" style="display:none;">
+            <div class="page-header">
+                <h2 class="page-title">📢 董事會公告</h2>
+                <p class="page-subtitle">最新董事會通過發行CB公告</p>
+            </div>
+            
+            <div class="filter-section">
+                <select class="filter-select" id="boardYearFilter">
+                    <option value="all">全部年份</option>
+                    <option value="2024">2024年</option>
+                    <option value="2023">2023年</option>
+                </select>
+                
+                <select class="filter-select" id="boardMonthFilter">
+                    <option value="all">全部月份</option>
+                    <option value="1">1月</option>
+                    <option value="2">2月</option>
+                    <!-- 其他月份 -->
+                </select>
+            </div>
+            
+            <div class="announcement-list" id="boardList">
+                <!-- 動態生成公告列表 -->
+            </div>
         </div>
         
-        <div class="chart-section">
-            <div class="chart-container" id="performanceChart" style="height: 400px;"></div>
+        <!-- 發行案件 -->
+        <div id="page-issue-cases" class="page-content" style="display:none;">
+            <div class="page-header">
+                <h2 class="page-title">📄 發行案件</h2>
+                <p class="page-subtitle">CB發行案件進度追蹤</p>
+            </div>
+            
+            <div class="status-tabs">
+                <button class="status-tab active" onclick="filterIssueStatus('all')">全部</button>
+                <button class="status-tab" onclick="filterIssueStatus('pending')">待發行</button>
+                <button class="status-tab" onclick="filterIssueStatus('issued')">已發行</button>
+            </div>
+            
+            <div class="issue-cases-list" id="issueCasesList">
+                <!-- 動態生成案件列表 -->
+            </div>
         </div>
         
-        <div class="performance-ranking" id="performanceRanking">
-            <!-- 績效排名列表 -->
+        <!-- ====== 研究報告專區 ====== -->
+        <!-- 產業概念股查詢 -->
+        <div id="page-industry-concept" class="page-content" style="display:none;">
+            <div class="page-header">
+                <h2 class="page-title">🏭 產業概念股查詢</h2>
+                <p class="page-subtitle">查詢產業分類及概念股族群</p>
+            </div>
+            
+            <div class="search-container">
+                <input type="text" class="search-input" id="industrySearchInput" 
+                       placeholder="輸入股票代號、公司名稱或產業關鍵字">
+                <button class="search-btn" onclick="searchIndustryConcept()">查詢</button>
+            </div>
+            
+            <!-- 產業分類標籤 -->
+            <div class="industry-tags" id="industryTags">
+                <span class="tag-item" onclick="searchByIndustry('半導體')">半導體</span>
+                <span class="tag-item" onclick="searchByIndustry('電子零組件')">電子零組件</span>
+                <span class="tag-item" onclick="searchByIndustry('光電業')">光電業</span>
+                <span class="tag-item" onclick="searchByIndustry('生技醫療')">生技醫療</span>
+                <span class="tag-item" onclick="searchByIndustry('食品工業')">食品工業</span>
+            </div>
+            
+            <div class="result-container" id="industryConceptResult" style="display:none;">
+                <div class="result-card">
+                    <h3 id="icCompanyName">--</h3>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <span class="info-label">股票代號</span>
+                            <span class="info-value" id="icStockCode">--</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">市場</span>
+                            <span class="info-value" id="icMarket">--</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">產業</span>
+                            <span class="info-value" id="icIndustry">--</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">細產業</span>
+                            <span class="info-value" id="icSubIndustry">--</span>
+                        </div>
+                    </div>
+                    <div class="industry-position" id="icPosition">--</div>
+                </div>
+                
+                <div class="concept-list" id="conceptStockList">
+                    <h4>相關概念股</h4>
+                    <div id="conceptItems"></div>
+                </div>
+            </div>
         </div>
-    </div>
-</main>
-```
+        
+        <!-- 外電報導 -->
+        <div id="page-foreign-news" class="page-content" style="display:none;">
+            <div class="page-header">
+                <h2 class="page-title">🌐 外電報導</h2>
+                <p class="page-subtitle">國際媒體及券商報導追蹤</p>
+            </div>
+            
+            <div class="filter-section">
+                <select class="filter-select" id="newsTypeFilter" onchange="filterForeignNews()">
+                    <option value="all">全部類型</option>
+                    <option value="重要">重要報導</option>
+                    <option value="一般">一般報導</option>
+                </select>
+                
+                <select class="filter-select" id="newsDateFilter" onchange="filterForeignNews()">
+                    <option value="all">全部時間</option>
+                    <option value="7">最近7天</option>
+                    <option value="30">最近30天</option>
+                    <option value="90">最近90天</option>
+                </select>
+                
+                <input type="text" class="search-input" id="newsSearchInput" 
+                       placeholder="搜尋公司名稱或關鍵字" onkeyup="searchForeignNews()">
+            </div>
+            
+            <div class="news-list" id="foreignNewsList">
+                <!-- 動態生成新聞列表 -->
+            </div>
+        </div>
+        
+        <!-- 個股研究報告 -->
+        <div id="page-stock-reports" class="page-content" style="display:none;">
+            <div class="page-header">
+                <h2 class="page-title">📈 個股研究報告</h2>
+                <p class="page-subtitle">券商個股研究報告彙整</p>
+            </div>
+            
+            <div class="search-container">
+                <input type="text" class="search-input" id="stockReportSearchInput" 
+                       placeholder="輸入股票代號或公司名稱">
+                <button class="search-btn" onclick="searchStockReport()">查詢</button>
+            </div>
+            
+            <div class="filter-section">
+                <select class="filter-select" id="reportRatingFilter" onchange="filterStockReports()">
+                    <option value="all">全部評等</option>
+                    <option value="買進">買進</option>
+                    <option value="中立">中立</option>
+                    <option value="賣出">賣出</option>
+                </select>
+                
+                <select class="filter-select" id="reportImportanceFilter" onchange="filterStockReports()">
+                    <option value="all">全部重要性</option>
+                    <option value="高">高度重要</option>
+                    <option value="中">中度重要</option>
+                    <option value="低">一般</option>
+                </select>
+            </div>
+            
+            <div class="reports-list" id="stockReportsList">
+                <!-- 動態生成報告列表 -->
+            </div>
+        </div>
+        
+        <!-- 產業研究報告 -->
+        <div id="page-industry-reports" class="page-content" style="display:none;">
+            <div class="page-header">
+                <h2 class="page-title">📊 產業研究報告</h2>
+                <p class="page-subtitle">產業趨勢深度分析報告</p>
+            </div>
+            
+            <div class="coming-soon">
+                <div class="coming-icon">🚧</div>
+                <h3>功能開發中</h3>
+                <p>產業研究報告功能即將推出，敬請期待！</p>
+            </div>
+        </div>
+        
+        <!-- 競拍查詢 -->
+        <div id="page-auction-query" class="page-content" style="display:none;">
+            <div class="page-header">
+                <h2 class="page-title">🔨 競拍查詢</h2>
+                <p class="page-subtitle">查詢單檔CB競拍詳細資料</p>
+            </div>
+            
+            <div class="search-container">
+                <input type="text" class="search-input" id="auctionSearchInput" 
+                       placeholder="輸入CB代號或名稱">
+                <button class="search-btn" onclick="searchAuction()">查詢</button>
+            </div>
+            
+            <div class="auction-result" id="auctionResult" style="display:none;">
+                <!-- 競拍結果詳情 -->
+            </div>
+        </div>
+        
+        <!-- 競拍批次查詢 -->
+        <div id="page-auction-batch" class="page-content" style="display:none;">
+            <div class="page-header">
+                <h2 class="page-title">📑 競拍批次查詢</h2>
+                <p class="page-subtitle">同時查詢多檔CB競拍資料（最多10檔）</p>
+            </div>
+            
+            <div class="batch-input-section">
+                <div class="batch-input-grid" id="batchInputs">
+                    <input type="text" class="batch-input" placeholder="CB代號 1">
+                    <input type="text" class="batch-input" placeholder="CB代號 2">
+                    <input type="text" class="batch-input" placeholder="CB代號 3">
+                    <input type="text" class="batch-input" placeholder="CB代號 4">
+                    <input type="text" class="batch-input" placeholder="CB代號 5">
+                </div>
+                <button class="add-input-btn" onclick="addBatchInput()">+ 新增欄位</button>
+                <button class="search-btn" onclick="searchBatch()">批次查詢</button>
+            </div>
+            
+            <div class="batch-result-table" id="batchResult" style="display:none;">
+                <!-- 批次查詢結果表格 -->
+            </div>
+        </div>
+        
+        <!-- 發行組合條件分析 -->
+        <div id="page-condition-analysis" class="page-content" style="display:none;">
+            <div class="page-header">
+                <h2 class="page-title">🔍 發行組合條件分析</h2>
+                <p class="page-subtitle">根據發行條件組合篩選CB</p>
+            </div>
+            
+            <div class="condition-filters">
+                <div class="filter-group">
+                    <h3>基本條件</h3>
+                    <label>
+                        發行年期：
+                        <select id="yearFilter">
+                            <option value="">不限</option>
+                            <option value="3">3年期</option>
+                            <option value="5">5年期</option>
+                            <option value="7">7年期</option>
+                        </select>
+                    </label>
+                    
+                    <label>
+                        擔保情形：
+                        <select id="securityFilter">
+                            <option value="">不限</option>
+                            <option value="secured">有擔保</option>
+                            <option value="unsecured">無擔保</option>
+                        </select>
+                    </label>
+                </div>
+                
+                <div class="filter-group">
+                    <h3>投標倍數</h3>
+                    <label>
+                        <input type="radio" name="bidMultiple" value="all" checked> 全部
+                    </label>
+                    <label>
+                        <input type="radio" name="bidMultiple" value="<1"> &lt;1倍（極度冷清）
+                    </label>
+                    <label>
+                        <input type="radio" name="bidMultiple" value="1-1.5"> 1-1.5倍（冷清）
+                    </label>
+                    <label>
+                        <input type="radio" name="bidMultiple" value="1.5-2.5"> 1.5-2.5倍（普通）
+                    </label>
+                    <label>
+                        <input type="radio" name="bidMultiple" value="2.5-4"> 2.5-4倍（火熱）
+                    </label>
+                    <label>
+                        <input type="radio" name="bidMultiple" value=">4"> &gt;4倍（極度火熱）
+                    </label>
+                </div>
+                
+                <button class="filter-btn" onclick="analyzeConditions()">開始分析</button>
+            </div>
+            
+            <div class="analysis-result" id="analysisResult" style="display:none;">
+                <!-- 分析結果 -->
+            </div>
+        </div>
+        
+        <!-- 組合績效分析 -->
+        <div id="page-performance-analysis" class="page-content" style="display:none;">
+            <div class="page-header">
+                <h2 class="page-title">📈 組合績效分析</h2>
+                <p class="page-subtitle">分析不同條件組合的歷史績效表現</p>
+            </div>
+            
+            <div class="performance-summary">
+                <!-- 績效統計摘要 -->
+            </div>
+            
+            <div class="chart-section">
+                <div class="chart-container" id="performanceChart" style="height: 400px;"></div>
+            </div>
+            
+            <div class="performance-ranking" id="performanceRanking">
+                <!-- 績效排名列表 -->
+            </div>
+        </div>
+    </main>
 
 <script>
 // 全域變數
@@ -3119,19 +3159,152 @@ function handleReportFile(file) {
 }
 
 // 修改原本的handleFiles函數，加入cb168report檔案處理
+// 並更新檔案名稱識別邏輯
 const originalHandleFiles = window.handleFiles;
 window.handleFiles = function(event) {
     const files = event.target.files;
-    if (!files) return;
+    if (!files || files.length === 0) return;
     
-    // 處理原本的CB檔案
-    originalHandleFiles(event);
+    const status = document.getElementById('fileStatus');
+    status.innerHTML = '<span style="color:#1a73e8;">讀取檔案中...</span>';
     
-    // 檢查是否有cb168report檔案
+    let processedFiles = 0;
+    const totalFiles = files.length;
+    
     Array.from(files).forEach(file => {
-        if (file.name.toLowerCase().includes('cb168report')) {
-            handleReportFile(file);
-        }
+        const reader = new FileReader();
+        
+        reader.onload = function(e) {
+            try {
+                const data = new Uint8Array(e.target.result);
+                const workbook = XLSX.read(data, { type: 'array' });
+                const fileName = file.name.toLowerCase();
+                
+                console.log('處理檔案:', fileName, '工作表:', workbook.SheetNames);
+                
+                // 處理00_CB代號名稱檔案
+                if (fileName.includes('00_cb')) {
+                    // 讀取00工作表 - 掛牌高低
+                    if (workbook.SheetNames.includes('00')) {
+                        const sheet = workbook.Sheets['00'];
+                        const jsonData = XLSX.utils.sheet_to_json(sheet);
+                        
+                        jsonData.forEach(row => {
+                            const cbCode = String(row['CB代號'] || row['代號'] || '').trim();
+                            if (cbCode) {
+                                highLowData[cbCode] = {
+                                    name: row['CB名稱'] || row['名稱'] || '',
+                                    high: parseFloat(row['掛牌最高'] || row['最高'] || 0),
+                                    low: parseFloat(row['掛牌最低'] || row['最低'] || 0),
+                                    avgBid: parseFloat(row['平均得標'] || row['得標價'] || 100),
+                                    method: row['發行方式'] || row['方式'] || '',
+                                    security: row['擔保'] || row['擔保情形'] || ''
+                                };
+                            }
+                        });
+                        console.log('載入掛牌高低資料:', Object.keys(highLowData).length);
+                    }
+                    
+                    // 讀取01工作表 - 基本資料
+                    if (workbook.SheetNames.includes('01')) {
+                        const sheet = workbook.Sheets['01'];
+                        const jsonData = XLSX.utils.sheet_to_json(sheet);
+                        
+                        jsonData.forEach(row => {
+                            const cbCode = String(row['CB代號'] || row['代號'] || '').trim();
+                            if (cbCode) {
+                                cbDatabase[cbCode] = row;
+                            }
+                        });
+                        console.log('載入基本資料:', Object.keys(cbDatabase).length);
+                    }
+                    
+                    // 讀取04工作表 - 競拍資料
+                    if (workbook.SheetNames.includes('04')) {
+                        const sheet = workbook.Sheets['04'];
+                        const jsonData = XLSX.utils.sheet_to_json(sheet);
+                        
+                        jsonData.forEach(row => {
+                            const cbCode = String(row['CB代號'] || row['代號'] || '').trim();
+                            if (cbCode) {
+                                auctionData[cbCode] = row;
+                            }
+                        });
+                        console.log('載入競拍資料:', Object.keys(auctionData).length);
+                    }
+                }
+                
+                // 處理01_cb168report檔案
+                else if (fileName.includes('01_cb168report')) {
+                    handleReportFile(file);
+                }
+                
+                // 處理02_CBAS月拆解表檔案
+                else if (fileName.includes('02_cbas')) {
+                    const sheet = workbook.Sheets[workbook.SheetNames[0]];
+                    const jsonData = XLSX.utils.sheet_to_json(sheet);
+                    
+                    jsonData.forEach(row => {
+                        const cbCode = String(row['CB代號'] || row['代號'] || '').trim();
+                        if (cbCode) {
+                            cbasData[cbCode] = row;
+                        }
+                    });
+                    console.log('載入CBAS資料:', Object.keys(cbasData).length);
+                }
+                
+                // 處理04_CB月成交價表檔案
+                else if (fileName.includes('04_cb月成交價表')) {
+                    const sheet = workbook.Sheets[workbook.SheetNames[0]];
+                    const jsonData = XLSX.utils.sheet_to_json(sheet);
+                    
+                    jsonData.forEach(row => {
+                        const cbCode = String(row['CB代號'] || row['代號'] || '').trim();
+                        if (cbCode) {
+                            if (!priceData[cbCode]) priceData[cbCode] = [];
+                            priceData[cbCode].push(row);
+                        }
+                    });
+                    console.log('載入價格資料:', Object.keys(priceData).length + '檔CB');
+                }
+                
+                processedFiles++;
+                if (processedFiles === totalFiles) {
+                    status.innerHTML = '<span style="color:#34a853;">✅ 所有檔案載入成功</span>';
+                    
+                    // 統計載入結果
+                    const stats = [];
+                    if (Object.keys(highLowData).length > 0) {
+                        stats.push(`CB資料: ${Object.keys(highLowData).length}檔`);
+                    }
+                    if (Object.keys(cbasData).length > 0) {
+                        stats.push(`CBAS: ${Object.keys(cbasData).length}檔`);
+                    }
+                    if (Object.keys(industryData).length > 0) {
+                        stats.push(`產業: ${Object.keys(industryData).length}家`);
+                    }
+                    if (foreignNewsData.length > 0) {
+                        stats.push(`新聞: ${foreignNewsData.length}則`);
+                    }
+                    
+                    status.innerHTML += '<br><span style="font-size:12px;color:#666;">' + stats.join(' | ') + '</span>';
+                    
+                    const totalCBs = Object.keys(highLowData).length || Object.keys(cbDatabase).length;
+                    document.getElementById('dataBadge').textContent = `資料庫就緒 (共 ${totalCBs} 檔)`;
+                    
+                    // 更新排行榜
+                    if (typeof updateAmplitudeRanking === 'function') {
+                        updateAmplitudeRanking();
+                    }
+                }
+                
+            } catch (error) {
+                status.innerHTML = '<span style="color:#ea4335;">檔案讀取失敗: ' + error.message + '</span>';
+                console.error('錯誤:', error);
+            }
+        };
+        
+        reader.readAsArrayBuffer(file);
     });
 }
 
@@ -3359,6 +3532,5 @@ document.getElementById('searchInput').addEventListener('keypress', function(e) 
     }
 });
 </script>
-
 </body>
 </html>
