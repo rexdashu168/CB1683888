@@ -847,6 +847,195 @@
         color: #1a73e8;
     }
     
+    /* 研究報告專區樣式 */
+    .industry-tags {
+        padding: 15px 20px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    
+    .tag-item {
+        padding: 8px 16px;
+        background: #f0f0f0;
+        border-radius: 20px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    
+    .tag-item:hover {
+        background: #1a73e8;
+        color: white;
+    }
+    
+    .result-container {
+        padding: 0 20px;
+    }
+    
+    .info-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        margin: 20px 0;
+    }
+    
+    .info-item {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+    
+    .info-label {
+        font-size: 13px;
+        color: #666;
+    }
+    
+    .info-value {
+        font-size: 16px;
+        font-weight: 600;
+        color: #333;
+    }
+    
+    .industry-position {
+        background: #f8f9fa;
+        padding: 15px;
+        border-radius: 8px;
+        margin-top: 15px;
+        font-size: 14px;
+        line-height: 1.6;
+    }
+    
+    .concept-list {
+        margin-top: 20px;
+    }
+    
+    .concept-list h4 {
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 15px;
+    }
+    
+    .news-list {
+        padding: 0 20px;
+    }
+    
+    .news-item {
+        background: white;
+        padding: 15px;
+        margin-bottom: 12px;
+        border-radius: 8px;
+        border-left: 4px solid #1a73e8;
+    }
+    
+    .news-date {
+        font-size: 12px;
+        color: #666;
+        margin-bottom: 8px;
+    }
+    
+    .news-title {
+        font-size: 15px;
+        font-weight: 600;
+        margin-bottom: 8px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .news-badge {
+        padding: 2px 8px;
+        background: #ea4335;
+        color: white;
+        border-radius: 12px;
+        font-size: 11px;
+    }
+    
+    .news-content {
+        font-size: 14px;
+        line-height: 1.5;
+        color: #555;
+    }
+    
+    .reports-list {
+        padding: 0 20px;
+    }
+    
+    .report-item {
+        background: white;
+        padding: 20px;
+        margin-bottom: 15px;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    
+    .report-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: start;
+        margin-bottom: 15px;
+    }
+    
+    .report-title {
+        font-size: 16px;
+        font-weight: 600;
+    }
+    
+    .report-rating {
+        padding: 4px 12px;
+        border-radius: 15px;
+        font-size: 13px;
+        font-weight: 600;
+    }
+    
+    .rating-buy {
+        background: #e6f4ea;
+        color: #34a853;
+    }
+    
+    .rating-neutral {
+        background: #fef7e0;
+        color: #fbbc04;
+    }
+    
+    .rating-sell {
+        background: #fce8e6;
+        color: #ea4335;
+    }
+    
+    .report-meta {
+        display: flex;
+        gap: 15px;
+        font-size: 13px;
+        color: #666;
+        margin-bottom: 15px;
+    }
+    
+    .report-summary {
+        font-size: 14px;
+        line-height: 1.6;
+        color: #333;
+    }
+    
+    .coming-soon {
+        text-align: center;
+        padding: 80px 20px;
+    }
+    
+    .coming-icon {
+        font-size: 80px;
+        margin-bottom: 20px;
+    }
+    
+    .coming-soon h3 {
+        font-size: 20px;
+        margin-bottom: 10px;
+    }
+    
+    .coming-soon p {
+        color: #666;
+    }
+    
     /* 頁面內容樣式 */
     .page-content {
         min-height: calc(100vh - 55px);
@@ -1156,6 +1345,26 @@
             <span class="menu-text">組合績效分析</span>
         </a>
     </div>
+    
+    <div class="menu-group">
+        <div class="menu-group-title">📚 研究報告專區</div>
+        <a class="menu-item" onclick="showPage('industry-concept', event)">
+            <span class="menu-icon">🏭</span>
+            <span class="menu-text">產業概念股查詢</span>
+        </a>
+        <a class="menu-item" onclick="showPage('foreign-news', event)">
+            <span class="menu-icon">🌐</span>
+            <span class="menu-text">外電報導</span>
+        </a>
+        <a class="menu-item" onclick="showPage('stock-reports', event)">
+            <span class="menu-icon">📈</span>
+            <span class="menu-text">個股研究報告</span>
+        </a>
+        <a class="menu-item" onclick="showPage('industry-reports', event)">
+            <span class="menu-icon">📊</span>
+            <span class="menu-text">產業研究報告</span>
+        </a>
+    </div>
 </div>
 
 <!-- 遮罩層 -->
@@ -1383,6 +1592,138 @@
         </div>
     </div>
     
+    <!-- ====== 研究報告專區 ====== -->
+    <!-- 產業概念股查詢 -->
+    <div id="page-industry-concept" class="page-content" style="display:none;">
+        <div class="page-header">
+            <h2 class="page-title">🏭 產業概念股查詢</h2>
+            <p class="page-subtitle">查詢產業分類及概念股族群</p>
+        </div>
+        
+        <div class="search-container">
+            <input type="text" class="search-input" id="industrySearchInput" 
+                   placeholder="輸入股票代號、公司名稱或產業關鍵字">
+            <button class="search-btn" onclick="searchIndustryConcept()">查詢</button>
+        </div>
+        
+        <!-- 產業分類標籤 -->
+        <div class="industry-tags" id="industryTags">
+            <span class="tag-item" onclick="searchByIndustry('半導體')">半導體</span>
+            <span class="tag-item" onclick="searchByIndustry('電子零組件')">電子零組件</span>
+            <span class="tag-item" onclick="searchByIndustry('光電業')">光電業</span>
+            <span class="tag-item" onclick="searchByIndustry('生技醫療')">生技醫療</span>
+            <span class="tag-item" onclick="searchByIndustry('食品工業')">食品工業</span>
+        </div>
+        
+        <div class="result-container" id="industryConceptResult" style="display:none;">
+            <div class="result-card">
+                <h3 id="icCompanyName">--</h3>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="info-label">股票代號</span>
+                        <span class="info-value" id="icStockCode">--</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">市場</span>
+                        <span class="info-value" id="icMarket">--</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">產業</span>
+                        <span class="info-value" id="icIndustry">--</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">細產業</span>
+                        <span class="info-value" id="icSubIndustry">--</span>
+                    </div>
+                </div>
+                <div class="industry-position" id="icPosition">--</div>
+            </div>
+            
+            <div class="concept-list" id="conceptStockList">
+                <h4>相關概念股</h4>
+                <div id="conceptItems"></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 外電報導 -->
+    <div id="page-foreign-news" class="page-content" style="display:none;">
+        <div class="page-header">
+            <h2 class="page-title">🌐 外電報導</h2>
+            <p class="page-subtitle">國際媒體及券商報導追蹤</p>
+        </div>
+        
+        <div class="filter-section">
+            <select class="filter-select" id="newsTypeFilter" onchange="filterForeignNews()">
+                <option value="all">全部類型</option>
+                <option value="重要">重要報導</option>
+                <option value="一般">一般報導</option>
+            </select>
+            
+            <select class="filter-select" id="newsDateFilter" onchange="filterForeignNews()">
+                <option value="all">全部時間</option>
+                <option value="7">最近7天</option>
+                <option value="30">最近30天</option>
+                <option value="90">最近90天</option>
+            </select>
+            
+            <input type="text" class="search-input" id="newsSearchInput" 
+                   placeholder="搜尋公司名稱或關鍵字" onkeyup="searchForeignNews()">
+        </div>
+        
+        <div class="news-list" id="foreignNewsList">
+            <!-- 動態生成新聞列表 -->
+        </div>
+    </div>
+    
+    <!-- 個股研究報告 -->
+    <div id="page-stock-reports" class="page-content" style="display:none;">
+        <div class="page-header">
+            <h2 class="page-title">📈 個股研究報告</h2>
+            <p class="page-subtitle">券商個股研究報告彙整</p>
+        </div>
+        
+        <div class="search-container">
+            <input type="text" class="search-input" id="stockReportSearchInput" 
+                   placeholder="輸入股票代號或公司名稱">
+            <button class="search-btn" onclick="searchStockReport()">查詢</button>
+        </div>
+        
+        <div class="filter-section">
+            <select class="filter-select" id="reportRatingFilter" onchange="filterStockReports()">
+                <option value="all">全部評等</option>
+                <option value="買進">買進</option>
+                <option value="中立">中立</option>
+                <option value="賣出">賣出</option>
+            </select>
+            
+            <select class="filter-select" id="reportImportanceFilter" onchange="filterStockReports()">
+                <option value="all">全部重要性</option>
+                <option value="高">高度重要</option>
+                <option value="中">中度重要</option>
+                <option value="低">一般</option>
+            </select>
+        </div>
+        
+        <div class="reports-list" id="stockReportsList">
+            <!-- 動態生成報告列表 -->
+        </div>
+    </div>
+    
+    <!-- 產業研究報告 -->
+    <div id="page-industry-reports" class="page-content" style="display:none;">
+        <div class="page-header">
+            <h2 class="page-title">📊 產業研究報告</h2>
+            <p class="page-subtitle">產業趨勢深度分析報告</p>
+        </div>
+        
+        <div class="coming-soon">
+            <div class="coming-icon">🚧</div>
+            <h3>功能開發中</h3>
+            <p>產業研究報告功能即將推出，敬請期待！</p>
+        </div>
+    </div>
+    
     <!-- 競拍查詢 -->
     <div id="page-auction-query" class="page-content" style="display:none;">
         <div class="page-header">
@@ -1593,6 +1934,18 @@ function showPage(pageName, event) {
             break;
         case 'performance-analysis':
             initPerformanceAnalysis();
+            break;
+        case 'industry-concept':
+            initIndustryConcept();
+            break;
+        case 'foreign-news':
+            initForeignNews();
+            break;
+        case 'stock-reports':
+            initStockReports();
+            break;
+        case 'industry-reports':
+            initIndustryReports();
             break;
     }
 }
@@ -2674,6 +3027,298 @@ function changeTimeRange(months) {
     event.target.classList.add('active');
     // 重新載入圖表（這裡可以根據months參數調整顯示範圍）
     loadChart();
+}
+
+// ====== 研究報告專區函數 ======
+// 全域變數 - 研究報告資料
+let industryData = {};      // 產業分類資料
+let conceptData = {};       // 概念股資料
+let foreignNewsData = [];   // 外電報導資料
+let stockReportsData = [];  // 個股研究報告資料
+
+// 處理cb168report檔案
+function handleReportFile(file) {
+    const reader = new FileReader();
+    
+    reader.onload = function(e) {
+        try {
+            const data = new Uint8Array(e.target.result);
+            const workbook = XLSX.read(data, { type: 'array' });
+            
+            console.log('研究報告工作表:', workbook.SheetNames);
+            
+            // 讀取產業分類資料
+            if (workbook.SheetNames.includes('產業分類')) {
+                const sheet = workbook.Sheets['產業分類'];
+                const jsonData = XLSX.utils.sheet_to_json(sheet);
+                
+                jsonData.forEach(row => {
+                    const code = String(row['代號'] || '').trim();
+                    if (code) {
+                        industryData[code] = {
+                            name: row['名稱'] || '',
+                            market: row['市場'] || '',
+                            industry: row['產業'] || '',
+                            subIndustry: row['細產業'] || '',
+                            position: row['產業地位'] || ''
+                        };
+                    }
+                });
+                console.log('載入產業分類:', Object.keys(industryData).length);
+            }
+            
+            // 讀取概念股資料
+            if (workbook.SheetNames.includes('概念股族群資料庫')) {
+                const sheet = workbook.Sheets['概念股族群資料庫'];
+                const jsonData = XLSX.utils.sheet_to_json(sheet);
+                
+                conceptData = {};
+                jsonData.forEach(row => {
+                    const code = String(row['股票代號'] || '').trim();
+                    if (code) {
+                        if (!conceptData[code]) {
+                            conceptData[code] = [];
+                        }
+                        conceptData[code].push({
+                            name: row['公司名稱'] || '',
+                            concept: row['概念分類'] || '',
+                            subCategory: row['次分類/業務角色'] || '',
+                            description: row['題材說明'] || ''
+                        });
+                    }
+                });
+                console.log('載入概念股:', Object.keys(conceptData).length);
+            }
+            
+            // 讀取外電報導
+            if (workbook.SheetNames.includes('外電綜合報導')) {
+                const sheet = workbook.Sheets['外電綜合報導'];
+                foreignNewsData = XLSX.utils.sheet_to_json(sheet);
+                console.log('載入外電報導:', foreignNewsData.length);
+            }
+            
+            // 讀取個股研究報告
+            if (workbook.SheetNames.includes('詳細內容庫')) {
+                const sheet = workbook.Sheets['詳細內容庫'];
+                stockReportsData = XLSX.utils.sheet_to_json(sheet);
+                console.log('載入個股報告:', stockReportsData.length);
+            }
+            
+            // 更新狀態
+            const status = document.getElementById('fileStatus');
+            if (status) {
+                status.innerHTML += '<br><span style="color:#34a853;">✅ 研究報告載入成功</span>';
+            }
+            
+        } catch (error) {
+            console.error('研究報告處理錯誤:', error);
+        }
+    };
+    
+    reader.readAsArrayBuffer(file);
+}
+
+// 修改原本的handleFiles函數，加入cb168report檔案處理
+const originalHandleFiles = window.handleFiles;
+window.handleFiles = function(event) {
+    const files = event.target.files;
+    if (!files) return;
+    
+    // 處理原本的CB檔案
+    originalHandleFiles(event);
+    
+    // 檢查是否有cb168report檔案
+    Array.from(files).forEach(file => {
+        if (file.name.toLowerCase().includes('cb168report')) {
+            handleReportFile(file);
+        }
+    });
+}
+
+// 產業概念股查詢
+function initIndustryConcept() {
+    console.log('初始化產業概念股查詢');
+}
+
+function searchIndustryConcept() {
+    const input = document.getElementById('industrySearchInput').value.trim();
+    if (!input) {
+        alert('請輸入查詢條件');
+        return;
+    }
+    
+    // 搜尋產業資料
+    let found = industryData[input];
+    
+    if (!found) {
+        // 用名稱搜尋
+        for (let code in industryData) {
+            if (industryData[code].name.includes(input)) {
+                found = { ...industryData[code], code: code };
+                break;
+            }
+        }
+    } else {
+        found = { ...found, code: input };
+    }
+    
+    if (found) {
+        displayIndustryResult(found);
+    } else {
+        alert('查無資料');
+    }
+}
+
+function displayIndustryResult(data) {
+    document.getElementById('icCompanyName').textContent = data.name;
+    document.getElementById('icStockCode').textContent = data.code;
+    document.getElementById('icMarket').textContent = data.market;
+    document.getElementById('icIndustry').textContent = data.industry;
+    document.getElementById('icSubIndustry').textContent = data.subIndustry;
+    document.getElementById('icPosition').textContent = data.position;
+    
+    // 顯示相關概念股
+    const concepts = conceptData[data.code] || [];
+    let html = '';
+    concepts.forEach(concept => {
+        html += `
+            <div class="concept-item">
+                <div class="concept-title">${concept.concept}</div>
+                <div class="concept-subtitle">${concept.subCategory}</div>
+                <div class="concept-desc">${concept.description}</div>
+            </div>
+        `;
+    });
+    
+    document.getElementById('conceptItems').innerHTML = html || '<p>無相關概念股資料</p>';
+    document.getElementById('industryConceptResult').style.display = 'block';
+}
+
+function searchByIndustry(industry) {
+    document.getElementById('industrySearchInput').value = industry;
+    // 實作產業篩選邏輯
+}
+
+// 外電報導
+function initForeignNews() {
+    loadForeignNews();
+}
+
+function loadForeignNews() {
+    if (foreignNewsData.length === 0) {
+        document.getElementById('foreignNewsList').innerHTML = 
+            '<div style="text-align:center;padding:40px;color:#999;">請先載入cb168report.xlsx檔案</div>';
+        return;
+    }
+    
+    displayForeignNews(foreignNewsData.slice(0, 20)); // 顯示前20筆
+}
+
+function displayForeignNews(newsData) {
+    let html = '';
+    newsData.forEach(news => {
+        const importance = news['重要性'] === '高' ? 'news-badge' : '';
+        html += `
+            <div class="news-item">
+                <div class="news-date">${news['日期'] || ''}</div>
+                <div class="news-title">
+                    <span>${news['公司'] || ''} (${news['股號'] || ''})</span>
+                    ${importance ? '<span class="news-badge">重要</span>' : ''}
+                </div>
+                <div class="news-content">${news['完整報導內容'] || ''}</div>
+                <div class="news-meta">
+                    <span>來源: ${news['券商來源'] || ''}</span>
+                    <span>分類: ${news['報導重點分類'] || ''}</span>
+                </div>
+            </div>
+        `;
+    });
+    
+    document.getElementById('foreignNewsList').innerHTML = html;
+}
+
+function filterForeignNews() {
+    // 實作篩選邏輯
+}
+
+function searchForeignNews() {
+    const keyword = document.getElementById('newsSearchInput').value.trim();
+    if (!keyword) {
+        loadForeignNews();
+        return;
+    }
+    
+    const filtered = foreignNewsData.filter(news => 
+        (news['公司'] && news['公司'].includes(keyword)) ||
+        (news['完整報導內容'] && news['完整報導內容'].includes(keyword))
+    );
+    
+    displayForeignNews(filtered);
+}
+
+// 個股研究報告
+function initStockReports() {
+    loadStockReports();
+}
+
+function loadStockReports() {
+    if (stockReportsData.length === 0) {
+        document.getElementById('stockReportsList').innerHTML = 
+            '<div style="text-align:center;padding:40px;color:#999;">請先載入cb168report.xlsx檔案</div>';
+        return;
+    }
+    
+    displayStockReports(stockReportsData.slice(0, 10)); // 顯示前10筆
+}
+
+function displayStockReports(reports) {
+    let html = '';
+    reports.forEach(report => {
+        const rating = report['投資評等'] || '';
+        const ratingClass = rating.includes('買') ? 'rating-buy' : 
+                           rating.includes('中立') ? 'rating-neutral' : 'rating-sell';
+        
+        html += `
+            <div class="report-item">
+                <div class="report-header">
+                    <div class="report-title">${report['公司'] || ''} (${report['股號'] || ''})</div>
+                    <div class="report-rating ${ratingClass}">${rating}</div>
+                </div>
+                <div class="report-meta">
+                    <span>券商: ${report['券商'] || ''}</span>
+                    <span>日期: ${report['報告日期'] || ''}</span>
+                    <span>目標價: ${report['目標價'] || '--'}</span>
+                </div>
+                <div class="report-summary">${report['精簡重點摘要'] || ''}</div>
+            </div>
+        `;
+    });
+    
+    document.getElementById('stockReportsList').innerHTML = html;
+}
+
+function searchStockReport() {
+    const input = document.getElementById('stockReportSearchInput').value.trim();
+    if (!input) {
+        loadStockReports();
+        return;
+    }
+    
+    const filtered = stockReportsData.filter(report => 
+        (report['公司'] && report['公司'].includes(input)) ||
+        (report['股號'] && report['股號'].includes(input))
+    );
+    
+    displayStockReports(filtered);
+}
+
+function filterStockReports() {
+    // 實作篩選邏輯
+}
+
+// 產業研究報告
+function initIndustryReports() {
+    console.log('產業研究報告功能開發中');
 }
 
 // 初始化
