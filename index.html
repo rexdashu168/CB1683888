@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Rex大叔 智能CB戰情室 (v9.0 原檔名版)</title>
+    <title>Rex大叔 智能CB戰情室 (Auto v10)</title>
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <style>
@@ -11,44 +11,47 @@
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { font-family: -apple-system, BlinkMacSystemFont, "Microsoft JhengHei", sans-serif; background: var(--bg); color: var(--text); padding-top: 60px; overflow-x: hidden; }
         
-        /* 載入畫面 */
-        .loader-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 5000; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.5s; }
+        /* Loader */
+        .loader-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #fff; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.5s; }
         .spinner { width: 50px; height: 50px; border: 4px solid #e2e8f0; border-top: 4px solid var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 20px; }
-        .progress-bar-container { width: 240px; height: 6px; background: #f1f5f9; border-radius: 3px; overflow: hidden; margin-top: 10px; margin-bottom: 20px; }
-        .progress-bar { height: 100%; background: var(--accent); width: 0%; transition: width 0.3s; }
-        .error-box { display: none; background: #fef2f2; border: 1px solid #fca5a5; padding: 20px; border-radius: 12px; max-width: 90%; width: 400px; text-align: center; margin-top: 20px; }
-        .manual-btn { background: var(--primary); color: white; padding: 12px 24px; border-radius: 8px; border: none; font-size: 16px; cursor: pointer; margin-top: 15px; width: 100%; display:block; }
+        .progress-bar { width: 240px; height: 6px; background: #f1f5f9; border-radius: 3px; overflow: hidden; margin-top: 10px; }
+        .progress-fill { height: 100%; background: var(--accent); width: 0%; transition: width 0.3s; }
         
-        /* Header & Sidebar */
+        /* Layout */
         .header { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; height: 60px; display: flex; align-items: center; justify-content: space-between; padding: 0 15px; position: fixed; top: 0; width: 100%; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
         .menu-btn { background: none; border: none; color: white; font-size: 24px; cursor: pointer; }
-        .sidebar { position: fixed; left: calc(var(--sidebar-w) * -1); top: 0; width: var(--sidebar-w); height: 100vh; background: white; transition: left 0.3s ease; z-index: 2000; overflow-y: auto; box-shadow: 4px 0 15px rgba(0,0,0,0.1); }
+        .header-title { font-size: 18px; font-weight: 700; margin-left: 10px; }
+        
+        .sidebar { position: fixed; left: calc(var(--sidebar-w) * -1); top: 0; width: var(--sidebar-w); height: 100vh; background: white; transition: left 0.3s ease; z-index: 2000; box-shadow: 4px 0 15px rgba(0,0,0,0.1); overflow-y: auto; }
         .sidebar.active { left: 0; }
         .sidebar-header { background: linear-gradient(135deg, var(--primary), var(--secondary)); padding: 30px 20px; color: white; }
         .menu-group { padding: 10px 0; border-bottom: 1px solid #f0f0f0; }
-        .menu-item { display: flex; align-items: center; padding: 14px 20px; cursor: pointer; color: #333; gap: 12px; text-decoration: none; font-weight: 500; transition: 0.2s; }
-        .menu-item:hover { background: #f8f9fa; color: var(--accent); }
+        .menu-item { display: flex; align-items: center; padding: 14px 20px; cursor: pointer; color: #333; text-decoration: none; font-weight: 500; transition: 0.2s; }
+        .menu-item:hover { background: #f0f9ff; color: var(--accent); }
         .menu-item.active { background: #e0f2fe; color: var(--primary); border-left: 4px solid var(--primary); }
         .overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); display: none; z-index: 1500; }
         .overlay.active { display: block; }
 
-        /* Content & Search */
+        /* Content */
         .page-content { display: none; padding: 20px; max-width: 1200px; margin: 0 auto; animation: fadeIn 0.4s; }
         .page-content.active { display: block; }
-        .search-container { background: white; padding: 20px; border-radius: 16px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); margin-bottom: 20px; }
-        .input-group { display: flex; gap: 10px; margin-top: 10px; }
+        
+        /* Search */
+        .search-container { background: white; padding: 25px; border-radius: 16px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); margin-bottom: 25px; }
+        .input-group { display: flex; gap: 10px; margin-top: 15px; }
         .search-input { flex: 1; padding: 12px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 16px; outline: none; }
-        .search-btn { padding: 0 24px; background: var(--accent); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
+        .search-input:focus { border-color: var(--accent); }
+        .search-btn { padding: 0 24px; background: var(--accent); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
 
         /* Cards */
-        .card { background: white; border-radius: 12px; padding: 16px; margin-bottom: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); cursor: pointer; transition: 0.2s; border: 1px solid transparent; }
+        .card { background: white; border-radius: 12px; padding: 16px; margin-bottom: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); border: 1px solid transparent; cursor: pointer; transition: 0.2s; }
         .card:hover { transform: translateY(-2px); border-color: var(--accent); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
         .card-header { display: flex; justify-content: space-between; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #f1f5f9; }
-        .cb-name { font-size: 18px; font-weight: 700; color: var(--text); }
+        .cb-name { font-size: 18px; font-weight: 700; }
         .data-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
-        .data-item { background: #f8fafc; padding: 8px; border-radius: 6px; text-align: center; border: 1px solid #e2e8f0; }
+        .data-item { background: #f8fafc; padding: 8px; border-radius: 6px; text-align: center; }
         .data-label { font-size: 12px; color: #64748b; }
-        .data-value { font-size: 16px; font-weight: 600; color: var(--text); }
+        .data-value { font-size: 16px; font-weight: 600; }
         .red { color: #ef4444; } .green { color: #10b981; } .blue { color: #3b82f6; }
 
         /* Modal */
@@ -56,7 +59,7 @@
         .modal.active { display: flex; justify-content: center; align-items: flex-start; }
         .modal-content { background: white; width: 95%; max-width: 900px; border-radius: 16px; padding: 25px; position: relative; margin-bottom: 50px; animation: slideUp 0.3s; }
         .chart-box { height: 320px; width: 100%; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px; margin-top: 15px; }
-        
+
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
@@ -65,29 +68,25 @@
 <body>
 
     <div id="loader" class="loader-screen">
-        <div class="spinner" id="spinner"></div>
-        <h3 style="color: var(--primary);">Rex大叔戰情室</h3>
-        <div id="loadStatus" style="font-size:13px; color:#64748b; margin-top:5px;">正在載入資料庫...</div>
-        <div class="progress-bar-container"><div id="progressFill" class="progress-bar"></div></div>
-        
-        <div id="errorBox" class="error-box">
-            <h4 style="color:#ef4444; margin-bottom:10px;">⚠️ 自動載入失敗</h4>
-            <p style="font-size:13px; color:#666;">可能是 GitHub 檔名不符，請手動選取以下 4 個檔案：<br>
-            00_CB, 01_Report, 02_CBAS, 04_Price</p>
-            <label class="manual-btn">
-                📂 選取 Excel 檔案 (可多選)
-                <input type="file" id="fileInput" multiple accept=".xlsx" style="display:none" onchange="handleManualUpload(event)">
-            </label>
-        </div>
+        <div class="spinner"></div>
+        <h3 style="color: var(--primary);">Rex大叔 戰情室</h3>
+        <div id="loadStatus" style="font-size:13px; color:#64748b; margin-top:5px;">正在自動連結資料庫...</div>
+        <div class="progress-bar"><div id="progressFill" class="progress-fill"></div></div>
     </div>
 
     <header class="header">
-        <div class="header-left"><button class="menu-btn" onclick="toggleMenu()">☰</button><span class="header-title">Rex大叔 智能CB戰情室</span></div>
-        <div id="dbBadge" style="font-size:12px; background:rgba(255,255,255,0.2); padding:4px 12px; border-radius:15px;">DB: 連線中</div>
+        <div class="header-left">
+            <button class="menu-btn" onclick="toggleMenu()">☰</button>
+            <span class="header-title">Rex大叔 智能CB戰情室</span>
+        </div>
+        <div id="dbBadge" style="font-size:12px; background:rgba(255,255,255,0.2); padding:4px 12px; border-radius:15px;">連線中...</div>
     </header>
 
     <div id="sidebar" class="sidebar">
-        <div class="sidebar-header"><div style="font-size:20px; font-weight:800;">Rex大叔168</div><div>Flagship v9.0</div></div>
+        <div class="sidebar-header">
+            <div style="font-size:20px; font-weight:800;">Rex大叔168</div>
+            <div style="font-size:12px; opacity:0.8; margin-top:5px;">全自動數據整合系統</div>
+        </div>
         <div class="menu-group">
             <a class="menu-item active" onclick="showPage('home')">🏠 戰情室首頁</a>
             <a class="menu-item" onclick="showPage('basic')">📋 CB 基本資料</a>
@@ -106,11 +105,19 @@
         <div class="search-container">
             <h3>🔍 智能搜尋</h3>
             <div class="input-group">
-                <input type="text" class="search-input" id="mainSearch" placeholder="輸入代號、名稱或概念..." onkeyup="if(event.key==='Enter') doSearch()">
-                <button class="search-btn" onclick="doSearch()">查詢</button>
+                <input type="text" class="search-input" id="mainSearch" placeholder="輸入代號 (68732)、名稱或概念股..." onkeyup="if(event.key==='Enter') doSearch()">
+                <button class="search-btn" onclick="doSearch()">GO</button>
+            </div>
+            <div style="margin-top:10px; font-size:12px; color:#64748b;">
+                已整合：掛牌高低、CBAS歷史、競拍、個股報告、產業地位
             </div>
         </div>
-        <div id="homeResults"><div style="text-align:center; padding:60px; color:#cbd5e1;">請輸入關鍵字開始分析</div></div>
+        <div id="homeResults">
+            <div style="text-align:center; padding:60px; color:#cbd5e1;">
+                <div style="font-size:48px; margin-bottom:15px;">🚀</div>
+                等待指令中...
+            </div>
+        </div>
     </div>
 
     <div id="page-basic" class="page-content"><h2>📋 CB 基本資料</h2><div id="basicList"></div></div>
@@ -128,121 +135,92 @@
     </div>
 
 <script>
-// 1. 資料庫
+// 1. 資料庫結構
 const DB = { basic:{}, highlow:{}, auction:{}, industry:{}, concepts:{}, reports:{}, news:[], cbas_latest:{}, cbas_history:{}, prices:{} };
 
-// *** 關鍵修正：使用您原始上傳的檔名 ***
+// *** 關鍵：這裡設定了您的正確檔名 ***
 const FILES = [
-    { id: '00', name: '00_CB代號名稱(1).xlsx', desc: '基本資料' },
+    { id: '00', name: '00_CB代號名稱.xlsx', desc: '基本資料' },
     { id: '01', name: '01_cb168report.xlsx', desc: '研究報告' },
-    { id: '02', name: '02_CBAS月拆解表(2).xlsx', desc: 'CBAS數據' },
-    { id: '04', name: '04_CB月成交價表(2).xlsx', desc: '歷史股價' }
+    { id: '02', name: '02_CBAS月拆解表.xlsx', desc: 'CBAS數據' },
+    { id: '04', name: '04_CB月成交價表.xlsx', desc: '歷史股價' }
 ];
 
-// 2. 啟動
+// 2. 系統啟動
 window.onload = async function() {
-    try { await loadAllFiles(); } catch(e) { showManualUpload(); }
+    await loadAllFiles();
 };
 
 async function loadAllFiles() {
     const statusEl = document.getElementById('loadStatus');
     const fillEl = document.getElementById('progressFill');
     let loaded = 0;
-    let hasError = false;
 
     for (let file of FILES) {
         try {
-            statusEl.innerText = `下載中: ${file.desc}...`;
+            statusEl.innerText = `讀取中: ${file.desc}...`;
             const res = await fetch(file.name);
-            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            if (!res.ok) throw new Error(`找不到檔案 ${file.name}`);
+            
             const ab = await res.arrayBuffer();
             const wb = XLSX.read(ab, { type: 'array' });
             parseWorkbook(file.id, wb);
+            
             loaded++;
             fillEl.style.width = `${(loaded / FILES.length) * 100}%`;
         } catch (err) {
-            console.warn(`自動載入失敗: ${file.name}`);
-            hasError = true;
+            console.error(err);
+            statusEl.innerHTML += `<br><span style="color:red">❌ 讀取失敗: ${file.name} (請確認 GitHub 檔名是否一致)</span>`;
         }
     }
     
-    if (loaded === 0) showManualUpload();
-    else setTimeout(initUI, 500);
+    if (loaded > 0) {
+        setTimeout(() => {
+            document.getElementById('loader').style.display = 'none';
+            updateDbStatus();
+            renderList('highlow');
+        }, 800);
+    }
 }
 
-function showManualUpload() {
-    document.getElementById('spinner').style.display = 'none';
-    document.getElementById('loadStatus').style.display = 'none';
-    document.getElementById('errorBox').style.display = 'block';
-}
-
-function handleManualUpload(event) {
-    const files = event.target.files;
-    if (!files.length) return;
-    document.getElementById('errorBox').style.display = 'none';
-    document.getElementById('spinner').style.display = 'block';
-    
-    let processed = 0;
-    Array.from(files).forEach(file => {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            const wb = XLSX.read(e.target.result, {type: 'array'});
-            // 簡單判斷檔案類型
-            let typeId = '00';
-            if (file.name.includes('01') || file.name.includes('report')) typeId = '01';
-            else if (file.name.includes('02') || file.name.includes('CBAS')) typeId = '02';
-            else if (file.name.includes('04') || file.name.includes('成交')) typeId = '04';
-            parseWorkbook(typeId, wb);
-            processed++;
-            if (processed === files.length) initUI();
-        };
-        reader.readAsArrayBuffer(file);
-    });
-}
-
-function initUI() {
-    document.getElementById('loader').style.display = 'none';
-    updateDbStatus();
-    renderList('highlow'); // 預設載入一個列表
-}
-
-// 3. 解析邏輯 (包含所有工作表關鍵字)
 function parseWorkbook(id, wb) {
     const sheetNames = wb.SheetNames;
 
     if (id === '00') {
+        // 00_CB代號名稱
         processSheet(wb, ['基本資料'], row => {
             const code = getField(row, ['CB代號','代號']);
             if(code) DB.basic[code] = row;
         });
-        processSheet(workbook, ['掛牌高低'], row => {
+        processSheet(wb, ['掛牌高低'], row => {
             const code = getField(row, ['CB代號','代號']);
             if(code) DB.highlow[code] = row;
         });
-        processSheet(workbook, ['競拍'], row => {
+        processSheet(wb, ['競拍'], row => {
             const code = getField(row, ['CB代號']);
             if(code) DB.auction[code] = row;
         });
-        processSheet(workbook, ['產業分類'], row => {
+        processSheet(wb, ['產業分類'], row => {
             const stock = getField(row, ['股票代號','代號']);
             if(stock) DB.industry[stock] = row;
         });
     }
     else if (id === '01') {
+        // 01_cb168report
         processSheet(wb, ['概念股'], row => {
             const stock = getField(row, ['股票代號']);
             if(stock) { if(!DB.concepts[stock]) DB.concepts[stock]=[]; DB.concepts[stock].push(row); }
         });
         processSheet(wb, ['詳細內容'], row => {
-            const stock = getField(row, ['股號']);
+            const stock = getField(row, ['股號','股票代號']);
             if(stock) { if(!DB.reports[stock]) DB.reports[stock]=[]; DB.reports[stock].push(row); }
         });
         processSheet(wb, ['外電'], row => { if(row['公司']) DB.news.push(row); });
     }
     else if (id === '02') {
-        // 02_CBAS: 遍歷所有數字工作表 (10004 ~ 11409)
+        // 02_CBAS月拆解表 (日期工作表)
         sheetNames.forEach(name => {
-            if(name.match(/^\d+/)) {
+            if(name.match(/^\d+/)) { // 10004, 11409
                 const data = XLSX.utils.sheet_to_json(wb.Sheets[name]);
                 const dateStr = parseTwDate(name);
                 data.forEach(row => {
@@ -255,17 +233,17 @@ function parseWorkbook(id, wb) {
                         
                         DB.cbas_history[code].push({ date: dateStr, vol, minPrice: minP });
                         
-                        // 更新最新
                         const curr = DB.cbas_latest[code];
                         if(!curr || dateStr > curr.date) DB.cbas_latest[code] = { ...row, date: dateStr, vol, minPrice: minP };
                     }
                 });
             }
         });
+        // 排序
         for(let c in DB.cbas_history) DB.cbas_history[c].sort((a,b)=>a.date.localeCompare(b.date));
     }
     else if (id === '04') {
-        // 04_Price
+        // 04_CB月成交價表
         sheetNames.forEach(name => {
             if(name.match(/^\d+/)) {
                 const data = XLSX.utils.sheet_to_json(wb.Sheets[name]);
@@ -293,28 +271,27 @@ function parseTwDate(name) {
     const month = name.slice(-2);
     return `${year}-${month}`;
 }
-
 function processSheet(wb, keys, cb) {
     const name = wb.SheetNames.find(n => keys.some(k => n.includes(k)));
     if(name) XLSX.utils.sheet_to_json(wb.Sheets[name]).forEach(cb);
 }
-
 function getField(row, keys) {
     for(let k of keys) if(row[k]!==undefined) return String(row[k]).trim();
     return null;
 }
-
 function updateDbStatus() {
-    document.getElementById('dbBadge').innerText = `DB: ${Object.keys(DB.basic).length} 檔`;
+    document.getElementById('dbBadge').innerText = `DB: ${Object.keys(DB.basic).length} 檔 (Ready)`;
 }
 
-// 4. UI 互動
+// UI Logic
 function toggleMenu() { document.getElementById('sidebar').classList.toggle('active'); document.getElementById('overlay').classList.toggle('active'); }
 function closeMenu() { document.getElementById('sidebar').classList.remove('active'); document.getElementById('overlay').classList.remove('active'); }
 function showPage(id) {
     closeMenu();
     document.querySelectorAll('.page-content').forEach(e => e.classList.remove('active'));
     document.getElementById(`page-${id}`).classList.add('active');
+    document.querySelectorAll('.menu-item').forEach(e => e.classList.remove('active'));
+    event.currentTarget.classList.add('active');
     if(id !== 'home') renderList(id);
 }
 
@@ -325,13 +302,16 @@ function doSearch() {
     resDiv.innerHTML = '';
     
     const results = new Set();
+    // 1. 搜基本資料
     for (let code in DB.basic) {
         const b = DB.basic[code];
         if (code.includes(val) || b['名稱'].includes(val) || (b['股票代號'] && b['股票代號'].includes(val))) results.add(code);
     }
-    for(let s in DB.concepts) {
-        if(DB.concepts[s].some(c => c['概念分類']?.includes(val) || c['題材說明']?.includes(val))) {
-            for(let c in DB.basic) if(DB.basic[c]['股票代號']==s) results.add(c);
+    // 2. 搜概念股
+    for(let stock in DB.concepts) {
+        const list = DB.concepts[stock];
+        if(list.some(c => c['概念分類']?.includes(val) || c['題材說明']?.includes(val))) {
+            for(let c in DB.basic) if(DB.basic[c]['股票代號']==stock) results.add(c);
         }
     }
 
@@ -352,6 +332,7 @@ function doSearch() {
                 <div class="data-item"><div class="data-label">發行規模</div><div>${b['發行規模']||'--'}億</div></div>
                 <div class="data-item"><div class="data-label">轉換價格</div><div>${b['轉換價格']||'--'}</div></div>
                 <div class="data-item"><div class="data-label">拆解張數</div><div>${cbas.volume||'--'}</div></div>
+                <div class="data-item"><div class="data-label">到期日</div><div>${getField(b,['到期日期','到期日'])||'--'}</div></div>
             </div>
         `;
         resDiv.appendChild(div);
@@ -371,10 +352,11 @@ function renderList(id) {
         const code = getField(src[c],['CB代號','代號']) || c;
         const realCode = DB.basic[code] ? code : Object.keys(DB.basic).find(k=>k.includes(code));
         if(realCode && DB.basic[realCode]) {
+            const b = DB.basic[realCode];
             const el = document.createElement('div');
             el.className = 'card';
             el.onclick = () => showDetail(realCode);
-            el.innerHTML = `<div class="card-header"><b>${DB.basic[realCode]['名稱']}</b> (${realCode})</div>`;
+            el.innerHTML = `<div class="card-header"><b>${b['名稱']}</b> <span style="color:#999;font-size:12px">${realCode}</span></div>`;
             div.appendChild(el);
         }
     }
@@ -393,13 +375,13 @@ function showDetail(code) {
     const reps = DB.reports[stock]||[];
 
     const modalBody = document.getElementById('modalBody');
-    const tags = conc.map(c=>`<span class="tag tag-green">${c['概念分類']}</span>`).join('');
+    const tagHtml = conc.map(c=>`<span class="tag tag-green">${c['概念分類']}</span>`).join('');
 
     modalBody.innerHTML = `
         <h2 style="margin-bottom:5px">${b['名稱']} <span style="color:#666;font-size:16px">${code}</span></h2>
-        <div style="margin-bottom:15px">${tags} <span class="tag tag-blue">${ind['細分產業']||''}</span></div>
+        <div style="margin-bottom:15px">${tagHtml} <span class="tag tag-blue">${ind['細分產業']||''}</span></div>
         
-        <div class="data-grid" style="margin-bottom:15px">
+        <div class="data-grid" style="margin-bottom:20px">
             <div class="data-item"><div class="data-label">權利金</div><div class="data-value red">${cbas.minPrice||'--'}</div></div>
             <div class="data-item"><div class="data-label">拆解張數</div><div class="data-value blue">${cbas.volume||'--'}</div></div>
             <div class="data-item"><div class="data-label">掛牌最高</div><div class="red">${hl['掛牌最高']||'--'}</div></div>
@@ -408,7 +390,7 @@ function showDetail(code) {
 
         <div class="chart-box" id="chart"></div>
 
-        <h3 style="font-size:16px; margin:20px 0 10px; border-left:4px solid var(--accent); padding-left:8px;">法人報告觀點</h3>
+        <h3 style="font-size:16px; margin:20px 0 10px; border-left:4px solid var(--accent); padding-left:8px;">法人報告 & 觀點</h3>
         <div style="background:#fff; border:1px solid #eee; padding:10px; border-radius:8px; max-height:200px; overflow-y:auto;">
             ${reps.length ? reps.map(r=>`<div style="border-bottom:1px dashed #eee; padding:5px 0; font-size:13px;"><b>${r['券商']}</b>: ${r['精簡重點摘要']||''}</div>`).join('') : '<div style="text-align:center;color:#999">無報告</div>'}
         </div>
@@ -419,10 +401,7 @@ function showDetail(code) {
     setTimeout(() => {
         if(pHist.length > 0 || cHist.length > 0) {
             const chart = echarts.init(document.getElementById('chart'));
-            // 合併日期軸
             const dates = Array.from(new Set([...pHist.map(x=>x.date), ...cHist.map(x=>x.date)])).sort();
-            
-            // 對齊數據
             const pData = dates.map(d => (pHist.find(x=>x.date===d) || {}).price);
             const cData = dates.map(d => (cHist.find(x=>x.date===d) || {}).minPrice);
 
