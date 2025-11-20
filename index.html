@@ -1510,6 +1510,8 @@
 <script>
 // 全域變數
 let cbDatabase = {};        // CB基本資料
+let highLowData = {};      // CB掛牌高低資料（從00工作表讀取）
+let auctionData = {};      // CB競拍資料（從04工作表讀取）
 let cbasData = {};         // CBAS資料
 let priceData = {};        // 價格資料
 let currentCB = '23836';
@@ -1729,13 +1731,22 @@ function initExport() { console.log('初始化報表匯出'); }
 
 // CB掛牌高低查詢
 function initHighLowQuery() {
-    loadAmplitudeRanking();
+    // 初始化時檢查是否已有資料
+    if (typeof highLowData !== 'undefined' && Object.keys(highLowData).length > 0) {
+        updateAmplitudeRanking();
+    }
 }
 
 function searchHighLow() {
     const input = document.getElementById('highLowSearchInput').value.trim();
     if (!input) {
         alert('請輸入CB代號或名稱');
+        return;
+    }
+    
+    // 檢查資料是否已載入
+    if (typeof highLowData === 'undefined' || Object.keys(highLowData).length === 0) {
+        alert('請先載入Excel檔案（00檔案）');
         return;
     }
     
@@ -1797,11 +1808,17 @@ function toggleAmplitudeFilter() {
     filter.style.display = filter.style.display === 'none' ? 'block' : 'none';
 }
 
-function loadAmplitudeRanking() {
-    updateAmplitudeRanking();
-}
-
 function updateAmplitudeRanking() {
+    // 檢查元素是否存在
+    const rankingDiv = document.getElementById('amplitudeRanking');
+    if (!rankingDiv) return;
+    
+    // 檢查資料是否已載入
+    if (!highLowData || Object.keys(highLowData).length === 0) {
+        rankingDiv.innerHTML = '<div style="text-align:center;padding:20px;color:#999;">請先載入Excel檔案</div>';
+        return;
+    }
+    
     const securityFilter = document.getElementById('securityFilter')?.value || 'all';
     const methodFilter = document.getElementById('methodFilter')?.value || 'all';
     
@@ -1855,7 +1872,6 @@ function updateAmplitudeRanking() {
         `;
     });
     
-    const rankingDiv = document.getElementById('amplitudeRanking');
     if (rankingDiv) {
         rankingDiv.innerHTML = html || '<div style="text-align:center;padding:20px;color:#999;">無符合條件的資料</div>';
     }
@@ -1865,18 +1881,6 @@ function quickSearchHighLow(code) {
     document.getElementById('highLowSearchInput').value = code;
     searchHighLow();
 }
-
-// 模擬資料（實際應從Excel讀取）
-const highLowData = {
-    '47633': { name: '材料KY三', high: 601.0, low: 100.0, avgBid: 102.73, method: '競拍', security: '無擔保' },
-    '89276': { name: '北基六', high: 272.0, low: 98.2, avgBid: 103.04, method: '競拍', security: '無擔保' },
-    '84732': { name: '山林水二', high: 162.0, low: 92.95, avgBid: 103.24, method: '競拍', security: '無擔保' },
-    '61906': { name: '萬泰科六', high: 166.0, low: 96.1, avgBid: 101.89, method: '競拍', security: '無擔保' },
-    '44163': { name: '三圓三', high: 144.8, low: 99.05, avgBid: 102.31, method: '競拍', security: '有擔保' },
-    '45554': { name: '氣立四', high: 123.5, low: 100.0, avgBid: 103.28, method: '競拍', security: '有擔保' },
-    '13166': { name: '上曜六', high: 125.5, low: 102.8, avgBid: 102.07, method: '競拍', security: '有擔保' },
-    '11011': { name: '台泥一永', high: 103.5, low: 98.2, avgBid: 100.0, method: '詢圈', security: '無擔保' }
-};
 
 // CB發行查詢
 function initIssueQuery() {
@@ -2072,6 +2076,177 @@ function initPerformanceAnalysis() {
     }, 100);
 }
 
+// 處理檔案上傳
+function handleFiles(event) {
+    const files = event.target.files;
+    if (!files || files.length === 0) return;
+    
+    document.getElementById('fileStatus').innerHTML = '<span style="color:#1a73e8;">讀取檔案中...</span>';
+    
+    let processedFiles = 0;
+    const totalFiles = files.length;
+    
+    Array.from(files).forEach(file => {
+        const reader = new FileReader();
+        
+        reader.onload = function(e) {
+            try {
+                const data = new Uint8Array(e.target.result);
+                const workbook = XLSX.read(data, { type: 'array' });
+                
+                // 根據檔案名稱判斷類型
+                const fileName = file.name.toLowerCase();
+                console.log('載入檔案:', fileName);
+                console.log('工作表:', workbook.SheetNames);
+                
+                // 處理00檔案（主要資料檔）
+                if (fileName.includes('00') || fileName.includes('主檔') || fileName.includes('cb資料')) {
+                    process00File(workbook);
+                }
+                // 處理01檔案（CBAS資料）
+                else if (fileName.includes('01') || fileName.includes('cbas')) {
+                    processCBASFile(workbook);
+                }
+                // 處理02檔案（價格資料）
+                else if (fileName.includes('02') || fileName.includes('價格') || fileName.includes('price')) {
+                    processPriceFile(workbook);
+                }
+                
+                processedFiles++;
+                if (processedFiles === totalFiles) {
+                    document.getElementById('fileStatus').innerHTML = 
+                        '<span style="color:#34a853;">✅ 檔案載入成功</span>';
+                    
+                    // 更新資料庫數量顯示
+                    const totalCBs = Object.keys(highLowData).length || Object.keys(cbDatabase).length;
+                    document.getElementById('dataBadge').textContent = 
+                        `資料庫就緒 (共 ${totalCBs} 檔)`;
+                    
+                    // 重新載入當前頁面的資料
+                    const activePage = document.querySelector('.page-content.active');
+                    if (activePage && activePage.id === 'page-high-low-query') {
+                        updateAmplitudeRanking();
+                    }
+                }
+                
+            } catch (error) {
+                console.error('檔案處理錯誤:', error);
+                document.getElementById('fileStatus').innerHTML = 
+                    '<span style="color:#ea4335;">檔案讀取失敗: ' + error.message + '</span>';
+            }
+        };
+        
+        reader.readAsArrayBuffer(file);
+    });
+}
+
+// 處理00檔案（包含多個工作表）
+function process00File(workbook) {
+    // 處理00工作表 - 掛牌高低資料
+    if (workbook.SheetNames.includes('00')) {
+        const sheet = workbook.Sheets['00'];
+        const data = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+        
+        // 從第2行開始（跳過標題）
+        for (let i = 1; i < data.length; i++) {
+            const row = data[i];
+            if (row[0]) { // CB代號
+                highLowData[String(row[0])] = {
+                    name: row[1] || '',         // CB名稱
+                    high: parseFloat(row[2]) || 0,    // 掛牌最高
+                    low: parseFloat(row[3]) || 0,     // 掛牌最低
+                    avgBid: parseFloat(row[4]) || 0,  // 平均得標
+                    method: row[5] || '',             // 發行方式
+                    security: row[6] || ''            // 擔保情形
+                };
+            }
+        }
+        console.log('載入掛牌高低資料:', Object.keys(highLowData).length, '筆');
+    }
+    
+    // 處理01工作表 - CB基本資料
+    if (workbook.SheetNames.includes('01')) {
+        const sheet = workbook.Sheets['01'];
+        const data = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+        
+        for (let i = 1; i < data.length; i++) {
+            const row = data[i];
+            if (row[0]) {
+                cbDatabase[String(row[0])] = {
+                    cb_code: row[0],
+                    stock_code: row[1],
+                    name: row[2],
+                    issue_amount: row[3],
+                    conversion_price: row[4],
+                    issue_years: row[5],
+                    method: row[6],
+                    underwriter: row[7],
+                    industry: row[8],
+                    stock_capital: row[9]
+                };
+            }
+        }
+        console.log('載入CB基本資料:', Object.keys(cbDatabase).length, '筆');
+    }
+    
+    // 處理04工作表 - 競拍資料
+    if (workbook.SheetNames.includes('04')) {
+        const sheet = workbook.Sheets['04'];
+        const data = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+        
+        for (let i = 1; i < data.length; i++) {
+            const row = data[i];
+            if (row[0]) {
+                auctionData[String(row[0])] = {
+                    cb_code: row[0],
+                    name: row[1],
+                    theoretical_price: parseFloat(row[2]) || 0,
+                    min_bid: parseFloat(row[3]) || 0,
+                    avg_bid: parseFloat(row[4]) || 0,
+                    bid_multiple: parseFloat(row[5]) || 0,
+                    valid_bids: parseInt(row[6]) || 0,
+                    total_bids: parseInt(row[7]) || 0,
+                    security: row[8] || ''
+                };
+            }
+        }
+        console.log('載入競拍資料:', Object.keys(auctionData).length, '筆');
+    }
+    
+    filesLoaded.cb = true;
+}
+
+// 處理CBAS檔案
+function processCBASFile(workbook) {
+    const sheet = workbook.Sheets[workbook.SheetNames[0]];
+    const data = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+    
+    for (let i = 1; i < data.length; i++) {
+        const row = data[i];
+        if (row[0]) {
+            cbasData[String(row[0])] = {
+                cb_code: row[0],
+                name: row[1],
+                latest_price: parseFloat(row[2]) || 0,
+                change: parseFloat(row[3]) || 0,
+                volume: parseInt(row[4]) || 0
+            };
+        }
+    }
+    console.log('載入CBAS資料:', Object.keys(cbasData).length, '筆');
+    filesLoaded.cbas = true;
+}
+
+// 處理價格檔案
+function processPriceFile(workbook) {
+    const sheet = workbook.Sheets[workbook.SheetNames[0]];
+    const data = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+    
+    // 價格資料格式可能需要根據實際檔案調整
+    console.log('載入價格資料');
+    filesLoaded.price = true;
+}
+
 // 輔助函數：搜尋CB
 function searchCB(input) {
     // 從資料庫中搜尋CB
@@ -2088,6 +2263,100 @@ function searchCB(input) {
     }
     
     return null;
+}
+
+// ===== 初始化全域變數 =====
+// 全域資料變數
+let highLowData = {};
+let cbDatabase = {};
+let auctionData = {};
+let cbasData = {};
+let priceData = {};
+
+// ===== 修正檔案處理函數 =====
+window.handleFiles = function(event) {
+    const files = event.target.files;
+    if (!files || files.length === 0) return;
+    
+    const status = document.getElementById('fileStatus');
+    status.textContent = '讀取檔案中...';
+    status.style.color = '#1a73e8';
+    
+    let processedFiles = 0;
+    const totalFiles = files.length;
+    
+    Array.from(files).forEach(file => {
+        const reader = new FileReader();
+        
+        reader.onload = function(e) {
+            try {
+                const data = new Uint8Array(e.target.result);
+                const workbook = XLSX.read(data, { type: 'array' });
+                const fileName = file.name.toLowerCase();
+                
+                console.log('處理檔案:', fileName, '工作表:', workbook.SheetNames);
+                
+                // 處理00檔案 (包含多個工作表)
+                if (fileName.includes('00') || fileName.includes('基本')) {
+                    // 讀取00工作表 - 掛牌高低
+                    if (workbook.SheetNames.includes('00')) {
+                        const sheet = workbook.Sheets['00'];
+                        const jsonData = XLSX.utils.sheet_to_json(sheet);
+                        
+                        jsonData.forEach(row => {
+                            const cbCode = String(row['CB代號'] || row['代號'] || '').trim();
+                            if (cbCode) {
+                                highLowData[cbCode] = {
+                                    name: row['CB名稱'] || row['名稱'] || '',
+                                    high: parseFloat(row['掛牌最高'] || row['最高'] || 0),
+                                    low: parseFloat(row['掛牌最低'] || row['最低'] || 0),
+                                    avgBid: parseFloat(row['平均得標'] || row['得標價'] || 100),
+                                    method: row['發行方式'] || row['方式'] || '',
+                                    security: row['擔保'] || row['擔保情形'] || ''
+                                };
+                            }
+                        });
+                        
+                        console.log('載入掛牌高低資料:', Object.keys(highLowData).length);
+                    }
+                    
+                    // 讀取01工作表 - 基本資料
+                    if (workbook.SheetNames.includes('01')) {
+                        const sheet = workbook.Sheets['01'];
+                        const jsonData = XLSX.utils.sheet_to_json(sheet);
+                        
+                        jsonData.forEach(row => {
+                            const cbCode = String(row['CB代號'] || row['代號'] || '').trim();
+                            if (cbCode) {
+                                cbDatabase[cbCode] = row;
+                            }
+                        });
+                        console.log('載入基本資料:', Object.keys(cbDatabase).length);
+                    }
+                }
+                
+                processedFiles++;
+                if (processedFiles === totalFiles) {
+                    status.textContent = '✅ 檔案載入成功';
+                    status.style.color = '#34a853';
+                    
+                    // 更新資料統計
+                    const totalCBs = Object.keys(highLowData).length;
+                    document.getElementById('dataBadge').textContent = `資料庫就緒 (共 ${totalCBs} 檔)`;
+                    
+                    // 更新排行榜
+                    updateAmplitudeRanking();
+                }
+                
+            } catch (error) {
+                status.textContent = '檔案讀取失敗: ' + error.message;
+                status.style.color = '#ea4335';
+                console.error('錯誤:', error);
+            }
+        };
+        
+        reader.readAsArrayBuffer(file);
+    });
 }
 
 // 處理檔案上傳
@@ -2417,6 +2686,17 @@ function changeTimeRange(months) {
 
 // 初始化
 window.addEventListener('DOMContentLoaded', function() {
+    // 確保全域變數已初始化
+    if (typeof highLowData === 'undefined') {
+        window.highLowData = {};
+    }
+    if (typeof cbDatabase === 'undefined') {
+        window.cbDatabase = {};
+    }
+    if (typeof auctionData === 'undefined') {
+        window.auctionData = {};
+    }
+    
     // 隱藏載入畫面
     setTimeout(() => {
         document.getElementById('loadingScreen').style.display = 'none';
